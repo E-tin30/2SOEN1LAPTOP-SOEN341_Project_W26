@@ -22,9 +22,9 @@ Prevent duplicates for the same week
 
 
 Team Members: 
-Ethan Elkaim
-Chris Alejandro
-Kepler Paul-Emile
-Paul-Philippe Ehui
-Marc Urbano
+Ethan Elkaim,
+Chris Alejandro,
+Kepler Paul-Emile,
+Paul-Philippe Ehui,
+Marc Urbano and
 Martin Miskovski
