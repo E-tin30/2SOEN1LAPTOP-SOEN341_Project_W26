@@ -23,7 +23,7 @@ Prevent duplicates for the same week
 
 Team Members: 
 Ethan Elkaim,
-Chris Alejandro,
+Chrisjan Alejandro,
 Kepler Paul-Emile,
 Paul-Philippe Ehui,
 Marc Urbano and
