@@ -1,0 +1,12 @@
+<nav>
+    <ul id="navebar">
+        <li class="<%= currentPage === 'home' ? 'current' : '' %>"><a href="/">Home</a></li>
+        <li class="<%= currentPage === 'create' ? 'current' : '' %>"><a href="/login">Login</a></li>
+        <li class="<%= currentPage === 'find' ? 'current' : '' %>"><a href="/register">Register</a></li>
+        <!-- <% if (username) { %>
+            <li><a href="/Logout">Logout</a></li>
+        <% } else { %>
+            <li class="<%= currentPage === 'login' ? 'current' : '' %>"><a href="/GiveAwayPet">Login</a></li>
+        <% } %> -->
+    </ul>
+</nav>

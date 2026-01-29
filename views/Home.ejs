@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Home</title>
+  <meta charset="UTF-8" />
+  <title>MealMajor | Home</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-    
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar.ejs'); %>
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1>Welcome to MealMajor</h1>
+
+    <p>
+      This is your dashboard. From here, you can manage your profile
+      and update your dietary preferences.
+    </p>
+
+    <section class="cards">
+      <div class="card">
+        <h2>Profile Management</h2>
+        <p>
+          Update your dietary preferences and allergies.
+        </p>
+        <a href="/profile" class="btn">Go to Profile</a>
+      </div>
+    </section>
+  </main>
+
 </body>
 </html>
