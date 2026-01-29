@@ -7,17 +7,12 @@ const session = require('express-session');
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public'))); // set the path where to look for pages
-
 app.use(session({
     secret: 'mySecretKey',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 })); // using session to check if user is logged in or not
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
 // Set view engine
 app.set("view engine", "ejs");
@@ -32,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render('Login', { title: 'Login', currentPage: 'home', username: req.session.username });
+  res.render('Login', { title: 'Login', currentPage: 'login', username: req.session.username });
 });
 
 app.get("/register", (req, res) => {
