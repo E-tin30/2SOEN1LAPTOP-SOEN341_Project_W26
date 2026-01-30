@@ -1,12 +1,19 @@
-<nav>
-    <ul id="navebar">
-        <li class="<%= currentPage === 'home' ? 'current' : '' %>"><a href="/">Home</a></li>
-        <li class="<%= currentPage === 'create' ? 'current' : '' %>"><a href="/login">Login</a></li>
-        <li class="<%= currentPage === 'find' ? 'current' : '' %>"><a href="/register">Register</a></li>
-        <!-- <% if (username) { %>
-            <li><a href="/Logout">Logout</a></li>
-        <% } else { %>
-            <li class="<%= currentPage === 'login' ? 'current' : '' %>"><a href="/GiveAwayPet">Login</a></li>
-        <% } %> -->
+<nav class="sidebar">
+    
+    <h2 class="logo">MealMajor</h2>
+
+    <ul class="nav-links">
+        <li class="<%= currentPage === 'home' ? 'active' : '' %>">
+            <a href="/">Dashboard</a>
+        </li>
+
+        <li class="<%= currentPage === 'profile' ? 'active' : '' %>">
+            <a href="/profile">Profile</a>
+        </li>
+
+        <li>
+            <a href="/logout">Logout</a>
+        </li>
     </ul>
+
 </nav>
