@@ -1,0 +1,13 @@
+
+
+
+.title{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 32;
+}
+
+
+.Wrapper{
+    display: flex;
+    justify-content: center;
+}
