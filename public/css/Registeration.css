@@ -1,4 +1,26 @@
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppings' , sans-serif;
+}
+
+
+/*
+    Displays the form in the middle of the page
+*/
+html , body {
+    display: grid;
+    height: 100%;
+    place-items: center;
+}
+html{
+    background-color: gray;
+}
+
+
+
 
 
 .title{
@@ -7,7 +29,79 @@
 }
 
 
+/*
+    Wrapper controlling the container that holds the form
+    Box shadown light coming from top
+*/
 .Wrapper{
-    display: flex;
-    justify-content: center;
+    width: 400px;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0px 15px 20pc ;
+}
+
+/* Title details */
+
+.Wrapper .title {
+    color: #fff;
+    line-height: 100px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+    font-style: #fff;
+    border-radius: 15px 15px 0 0;
+    background: linear-gradient(135deg, #6461ff, red);
+}
+
+
+.Wrapper form{
+    
+    padding: 15px 30px 45px 30px;
+}
+
+/*
+    Form height of each input 
+*/
+.Wrapper form .field{
+    position: relative;
+    height: 50px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.Wrapper form .field input{
+    height: 100%;   /*     Takes the height of the field (parent)     */
+    width: 100%;
+    padding-left: 12px;
+    border-radius: 15px;
+    border: 1px solid lightgrey;
+    outline: none;
+}
+
+.Wrapper form .field input:focus{
+    border-color: black;
+}
+
+/*      Align the label inside the input     */
+.Wrapper form .field label{
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    font-size: 20px;
+    color: #999;
+    transform: translateY(-50%);
+    pointer-events: none;       /*      Makes sure we can press the input and type        */
+    transition: all 0.3s ease;
+}
+
+
+
+/*           Removes the Label when user presses the input           */
+.Wrapper form .field input:focus ~ label,
+.Wrapper form .field input:valid ~ label{
+    top: 0%;
+    font-size: 15px;
+    color: #5148937f;
+    background: #ffffff;
+    transform: translateY(-50%);
 }
