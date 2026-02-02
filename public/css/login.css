@@ -10,7 +10,7 @@ body{
     align-items: center;
     min-height: 100vh;
     background: url(../images/FoodTest.jpg) no-repeat;
-    background-image: cover;
+    background-size: cover;
     background-position: center;
 }
 .wrapper{
@@ -60,6 +60,10 @@ body{
     font-size: 14.5px;
     margin: -15px 0 15px;
 }
+.remember-forgot label {
+    display: flex;
+    align-items: center;
+}
 .remember-forgot label input{
     accent-color: #fff;
     margin-right: 3px;
@@ -78,7 +82,7 @@ body{
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rbga(0, 0, 0, .1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
     color: #333;
