@@ -7,27 +7,30 @@
 <body>
     <button>HI</button>
     <button> Add preferences</button>
-    <button>Remove preference</button>
-    <div>
-    <p>paragraph of text</p>
-    
-     <button>
-        More buttons
-     </button>   
-    </div>
-   
-    <div id="Allergy-Section">
-      <label for="Allergies">
 
+   
+    <div id="dietary-preferences">
+      <label for="select-dietary-preferences">
+       Select Dietary Prefences: 
       </label>
-      <select id="Allergies">
-        <option></option>
-        <option></option>
-        <option></option>
-        <option></option>
-        <option></option>
-        <option></option>
+      <select id="select-dietary-preferences">
+        <option value="keto">Keto</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="protein+">Protein+</option>
+        <option value="spicy">Spicy</option>
+        <option value="liquid">Liquid</option>
+        <option value="heart-health">Heart health</option>
+        <option value="halal">Halal</option>
+        <option value="lactose-free">Lactose-free</option>
       </select>  
+      <label for="chosen-preference">Chosen Preference:</p>
+        <p id ="chosen-preference">You chose: </p>
+        <p id="show-preference"> preference</p>
+    </div>
+
+    <div id="Allergy-Section">
+      <h2>Allergies</h2>
+      <input type="text" id="allergy-input" name="allergy" placeholder="Enter your allergies here">
     </div>
     
 </body>
