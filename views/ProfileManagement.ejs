@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8" />
     <title>Profile Management</title>
+    <link rel="stylesheet" href="/css/layout.css" />
 </head>
 <body>
-    <button>HI</button>
+
+    <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <%- include('partials/navbar.ejs') %>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <section>
+        <div>
+          <h1>Profile Management</h1>
+          <p>
+            Update your dietary preferences and allergies.
+          </p>
+        </div>
+        <button>HI</button>
     <button> Add preferences</button>
 
    
@@ -32,6 +47,10 @@
       <h2>Allergies</h2>
       <input type="text" id="allergy-input" name="allergy" placeholder="Enter your allergies here">
     </div>
-    
+        
+      </section>
+    </main>
+  </div>
+
 </body>
 </html>
