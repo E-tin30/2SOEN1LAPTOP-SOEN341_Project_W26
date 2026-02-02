@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/css/Registeration.css" />
     <title>Register</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <%- include('partials/navbar.ejs'); %>
@@ -12,22 +13,25 @@
     <div class = "title"> Sign Up Form </div>
         <form action="#">
         <div class="field">
-            <input type="email" required>
+            <input type="email" required placeholder=" ">
             <label>
                  Email Address 
             </label>
+            <i class='bx bx-user-circle'></i>
         </div>
     <div class="field">
-        <input type="password" required> 
+        <input type="password" required placeholder=" "> 
         <label>
             Password
         </label> 
+        <i class='bx bx-lock' ></i>
     </div>
 <div class="field">
-    <input type="password" required>
+    <input type="password" required placeholder=" ">
     <label>
         Confirm Password
     </label> 
+    <i class='bx bx-lock' ></i>
 </div>
 <div class="field">
     <input type="submit" value="Sign up">
