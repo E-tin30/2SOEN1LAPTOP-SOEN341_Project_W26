@@ -7,20 +7,14 @@
     <title>Register</title>
 </head>
 <body>
-    
+    <%- include('partials/navbar.ejs'); %>
 <div class="Wrapper">
-    <div class = "title"> Sign Up </div>
+    <div class = "title"> Sign Up Form </div>
         <form action="#">
         <div class="field">
-            <input type="text" required>
+            <input type="email" required>
             <label>
                  Email Address 
-            </label>
-        </div>
-        <div class="field">
-            <input type="text" required>
-            <label>
-                Confirm Email address
             </label>
         </div>
     <div class="field">
@@ -40,8 +34,5 @@
 </div>
 </form>
     </div>
-
-
-
 </body>
 </html>

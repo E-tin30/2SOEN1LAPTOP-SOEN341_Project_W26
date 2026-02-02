@@ -16,7 +16,7 @@ html , body {
     place-items: center;
 }
 html{
-    background-color: gray;
+    background-color: #f2f2f2;
 }
 
 
@@ -76,9 +76,12 @@ html{
     border-radius: 15px;
     border: 1px solid lightgrey;
     outline: none;
+    transition: all 0.3s ease;
 }
 
-.Wrapper form .field input:focus{
+/*     Border Color change when input is pressed      */
+.Wrapper form .field input:focus,
+.Wrapper form .field input:valid{
     border-color: black;
 }
 
@@ -88,6 +91,7 @@ html{
     top: 50%;
     left: 12px;
     font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
     color: #999;
     transform: translateY(-50%);
     pointer-events: none;       /*      Makes sure we can press the input and type        */
@@ -104,4 +108,23 @@ html{
     color: #5148937f;
     background: #ffffff;
     transform: translateY(-50%);
+}
+
+/*        Wrapper sign up buttom style          */
+
+.Wrapper form .field input[type="submit"]{
+    color: #fff;
+    background: linear-gradient(135deg, #6461ff, red);
+    font-size: 18px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    padding-left: 0px;
+    transition: all 0.3s ease;
+}
+
+/*     Making the signup button smaller when active     */
+
+.Wrapper form .field input[type="submit"]:active{
+    transform: scale(0.95);
 }
