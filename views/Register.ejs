@@ -6,28 +6,28 @@
     <link rel="stylesheet" href="/css/Registeration.css" />
     <title>Register</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="/scripts/register.js"></script>
 </head>
 <body>
-    <%- include('partials/navbar.ejs'); %>
 <div class="Wrapper">
     <div class = "title"> Sign Up Form </div>
-        <form action="#">
+        <form action="/register" method="post" onsubmit="validateForm(event)">
         <div class="field">
-            <input type="email" required placeholder=" ">
+            <input type="email" name="username" placeholder=" " required>
             <label>
                  Email Address 
             </label>
             <i class='bx bx-user-circle'></i>
         </div>
     <div class="field">
-        <input type="password" required placeholder=" "> 
+        <input type="password" name="password" placeholder=" " required> 
         <label>
             Password
         </label> 
         <i class='bx bx-lock' ></i>
     </div>
 <div class="field">
-    <input type="password" required placeholder=" ">
+    <input type="password" name="confirmPassword" placeholder=" " required>
     <label>
         Confirm Password
     </label> 
