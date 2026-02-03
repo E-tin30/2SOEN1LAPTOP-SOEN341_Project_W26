@@ -6,6 +6,7 @@ const PORT = 3000;
 const session = require('express-session');
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(session({
   secret: 'mySecretKey',
@@ -23,11 +24,57 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.get("/", (req, res) => {
+  if (!req.session.username) {
+    return res.redirect("/login");
+  }
   res.render('Home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
+app.post("/logout", (req, res) => {
+
+  req.session.destroy(err => {
+    if (err) {
+      
+      return res.redirect('/?logout_error=1');
+    }
+    // Redirect to login page after successful logout
+    res.redirect('/login');
+  });
+});
+
+
 app.get("/login", (req, res) => {
-  res.render('Login', { title: 'Login', currentPage: 'login', username: req.session.username });
+  const error = req.query.error;
+  const errorMessage = error === 'invalid' ? 'Invalid creditentials.' : error === 'server' ? 'Server error. Please try again.' : null;
+  res.render('Login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
+});
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  
+  const usersPath = path.join(__dirname, 'data', 'users.json');
+
+  try {
+    const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+    const user = usersData.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      req.session.username = username;
+      res.redirect('/');
+    } else {
+      res.redirect('/login?error=invalid');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    res.redirect('/login?error=server');
+  }
+});
+
+app.get("/", (req, res) => {
+  if (!req.session.username) {
+    return res.redirect("/login");
+  }
+  res.render('Home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
 app.get("/register", (req, res) => {
@@ -70,7 +117,7 @@ app.post("/register", (req, res) => {
 
     registerUser(users, username, password, (err) => {
       if (err) return res.status(500).send("Server Error");
-      res.redirect("/login");
+      res.redirect("/Login");
     });
   })
 });
