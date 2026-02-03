@@ -20,8 +20,8 @@
             Update your dietary preferences and allergies.
           </p>
         </div>
-        <button>HI</button>
-    <button> Add preferences</button>
+        
+    
 
    
     <div id="dietary-preferences">
@@ -43,9 +43,21 @@
         <p id="show-preference"> preference</p>
     </div>
 
-    <div id="Allergy-Section">
+    <div id="allergy-section">
       <h2>Allergies</h2>
       <input type="text" id="allergy-input" name="allergy" placeholder="Enter your allergies here">
+      <button id="add-allergy-button">Add Allergy</button>
+    </div>
+
+    <div id="allergy-list">
+      <h3>Your Allergies:</h3>
+    <!--Allergies show up here-->
+    <!--We have two columns of allergies all of them are of the class"CurrentAllergy"-->
+    <!--A button is appended to their right side to delete them-->
+    <p class="current-allergy">Sample Allergy1</p>
+    <button class="current-allergy-button">Delete</button>
+    <p class="current-allergy">Sample Allergy2</p>
+    <button class="current-allergy-button">Delete</button>
     </div>
         
       </section>
