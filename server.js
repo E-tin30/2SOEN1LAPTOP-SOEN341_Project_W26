@@ -43,9 +43,9 @@ app.listen(PORT, () => {
 });
 
 app.post("/register", (req, res) => {
-  const {username, password} = req.body;
+  const {username, password, confirmPassword} = req.body;
 
-  const error = validateCredentials(username, password);
+  const error = validateCredentials(username, password, confirmPassword);
   if (error) { // if null then if doesn't run
     return res.status(400).send(`
       <script>
@@ -75,19 +75,23 @@ app.post("/register", (req, res) => {
   })
 });
 
-function validateCredentials(username, password) {
-  const usernameRegex = /^[a-zA-Z0-9]+$/;
+function validateCredentials(username, password, confirmPassword) {
+  // const usernameRegex = /^[a-zA-Z0-9]+$/;
   const validChars = /^[a-zA-Z0-9]{5,}$/;
   const hasLetter = /[a-zA-Z]/;
   const hasDigit = /\d/;
 
-  if (!username || !password) {
+  if (!username || !password || !confirmPassword) {
     return "All fields are required.";
   }
 
-  if (!usernameRegex.test(username)) {
-    return "Username can only contain letters and digits.";
+  if(password !== confirmPassword){
+    return "Passwords do not match.";
   }
+
+  // if (!usernameRegex.test(username)) {
+  //   return "Username can only contain letters and digits.";
+  // }
 
   if (!validChars.test(password) || !hasLetter.test(password) || !hasDigit.test(password)) {
     return "Password rules were not followed.";
