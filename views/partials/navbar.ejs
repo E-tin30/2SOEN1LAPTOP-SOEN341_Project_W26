@@ -12,7 +12,21 @@
         </li>
 
         <li>
-            <a href="/logout">Logout</a>
+            <form id="logoutForm" action="/logout" method="POST" style="display: inline;">
+                <button type="submit" class="logout-btn" style="background: none; border: none; padding: 0; color: inherit; cursor: pointer;">Logout</button>
+            </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var logoutForm = document.getElementById('logoutForm');
+                    if(logoutForm) {
+                        logoutForm.addEventListener('submit', function(e) {
+                            if (!confirm('Are you sure you want to logout?')) {
+                                e.preventDefault();
+                            }
+                        });
+                    }
+                });
+            </script>
         </li>
     </ul>
 
