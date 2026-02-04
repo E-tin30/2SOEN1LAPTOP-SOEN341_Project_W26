@@ -63,6 +63,11 @@
       </section>
     </main>
   </div>
+<script>
+        // This takes the data sent from server.js and stores it in the browser
+        window.serverData = <%- JSON.stringify(userData) %>;
+    </script>
 
+    <script src="/scripts/profile_management.js"></script>
 </body>
 </html>

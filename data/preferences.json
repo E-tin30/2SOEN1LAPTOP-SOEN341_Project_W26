@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "username": "chris123@gmail.com",
+    "preference": "vegetarian",
+    "allergies": [
+      "apples",
+      "bananas",
+      "peanuts"
+    ]
+  }
+]
