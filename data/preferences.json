@@ -7,5 +7,12 @@
       "bananas",
       "peanuts"
     ]
+  },
+  {
+    "username": "test@gmail.com",
+    "preference": "Liquid",
+    "allergies": [
+      "Penuts"
+    ]
   }
 ]

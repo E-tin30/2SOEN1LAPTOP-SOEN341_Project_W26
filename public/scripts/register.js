@@ -14,20 +14,11 @@ function  validateForm(event){
         alert('Passwords do not match.');
         return;
     }
-    
-    // // Username can only have letter and digits
-    // const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     // Passwords must be at least 5 characters, have at least 1 letter and have at least 1 digit
     const validChars = /^[a-zA-Z0-9]{5,}$/;
     const hasLetter = /[a-zA-Z]/;
     const hasDigit = /\d/;
-
-    // if (!usernameRegex.test(username)){
-    //     event.preventDefault();
-    //     alert('Username can only contain letters and digits. Try again.');
-    //     return;
-    // }
 
     if (!validChars.test(password) || !hasLetter.test(password) || !hasDigit.test(password)){
         event.preventDefault();
