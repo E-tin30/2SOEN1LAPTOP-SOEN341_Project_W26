@@ -13,7 +13,7 @@ html, body {
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
+  width: 250px;
   padding: 20px;
   box-sizing: border-box;
 
@@ -33,16 +33,27 @@ html, body {
 .nav-links {
   list-style: none;
   padding: 0;
+  font-size: 1rem;
 }
 
 .nav-links li {
   margin-bottom: 15px;
 }
 
-.nav-links a {
+.nav-links a, .nav-links button {
   color: white;
   text-decoration: none;
 }
+
+.nav-links button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 
 .nav-links .active a {
   font-weight: bold;
@@ -50,7 +61,7 @@ html, body {
 
 /* Main content */
 .page-content {
-  margin-left: 220px;
+  margin-left: 250px;
   padding: 24px;
   min-height: 100vh;
   background-color: #f5f7fa;
