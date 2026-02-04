@@ -1,74 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Profile Management</title>
-    <link rel="stylesheet" href="/css/layout.css" />
+  <meta charset="UTF-8" />
+  <title>Profile Management</title>
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
 </head>
 <body>
 
-    <div class="app-layout">
-    <!-- Sidebar Navigation -->
+  <div class="app-layout">
+    <!-- Sidebar -->
     <%- include('partials/navbar.ejs') %>
 
     <!-- Main Content -->
     <main class="page-content">
       <section>
-        <div>
-          <h1>Profile Management</h1>
-          <p>
-            Update your dietary preferences and allergies.
-          </p>
+        <h1>Profile Management</h1>
+        <p>Update your dietary preferences and allergies.</p>
+
+        <!-- Dietary Preference -->
+        <div class="select-wrapper">
+          <label for="select-dietary-preferences">Select Dietary Preferences:</label>
+          <select id="select-dietary-preferences">
+            <option value="None">None</option>
+            <option value="Keto">Keto</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Protein+">Protein+</option>
+            <option value="Spicy">Spicy</option>
+            <option value="Liquid">Liquid</option>
+            <option value="Heart-health">Heart health</option>
+            <option value="Halal">Halal</option>
+            <option value="Lactose-free">Lactose-free</option>
+          </select>
         </div>
-        
-    
 
-   
-    <div id="dietary-preferences">
-      <label for="select-dietary-preferences">
-       Select Dietary Preferences: 
-      </label>
-      <select id="select-dietary-preferences">
-        <option value="None">None</option>
-        <option value="Keto">Keto</option>
-        <option value="Vegetarian">Vegetarian</option>
-        <option value="Protein+">Protein+</option>
-        <option value="Spicy">Spicy</option>
-        <option value="Liquid">Liquid</option>
-        <option value="Heart-health">Heart health</option>
-        <option value="Halal">Halal</option>
-        <option value="Lactose-free">Lactose-free</option>
-      </select>  
-      <label for="chosen-preference">Chosen Preference:</p>
-        <p id ="chosen-preference">You chose: </p>
-        <p id="show-preference"> preference</p>
-    </div>
+        <p class="chosen-label">Your chosen dietary preference:</p>
+        <p id="show-preference"></p>
 
-    <div id="allergy-section">
-      <h2>Allergies</h2>
-      <input type="text" id="allergy-input" name="allergy" placeholder="Enter your allergies here">
-      <button id="add-allergy-button">Add Allergy</button>
-    </div>
+        <!-- Allergies -->
+        <h2>Allergies</h2>
 
-    <div id="allergy-list">
-      <h3>Your Allergies:</h3>
-    <!--Allergies show up here-->
-    <!--We have two columns of allergies all of them are of the class"CurrentAllergy"-->
-    <!--A button is appended to their right side to delete them-->
-    <p class="current-allergy">Sample Allergy1</p>
-    <button class="current-allergy-button">Delete</button>
-    <p class="current-allergy">Sample Allergy2</p>
-    <button class="current-allergy-button">Delete</button>
-    </div>
-        
+        <div class="add-allergy-row">
+          <input
+            type="text"
+            id="allergy-input"
+            placeholder="Enter your allergies here"
+          />
+          <button id="add-allergy-button">Add</button>
+        </div>
+
+        <div id="allergy-list">
+          <h3>Your Allergies:</h3>
+        </div>
+
+        <!-- Actions -->
+        <div class="profile-actions">
+          <button id="save-profile-button">Save Changes</button>
+          <span id="save-status"></span>
+        </div>
+
       </section>
     </main>
   </div>
-<script>
-        // This takes the data sent from server.js and stores it in the browser
-        window.serverData = <%- JSON.stringify(userData) %>;
-    </script>
 
-    <script src="/scripts/profile_management.js"></script>
+  <script>
+    window.serverData = <%- JSON.stringify(userData) %>;
+  </script>
+  <script src="/scripts/profile_management.js"></script>
 </body>
 </html>

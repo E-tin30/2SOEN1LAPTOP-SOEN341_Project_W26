@@ -127,7 +127,6 @@ app.post("/register", (req, res) => {
 });
 
 function validateCredentials(username, password, confirmPassword) {
-  // const usernameRegex = /^[a-zA-Z0-9]+$/;
   const validChars = /^[a-zA-Z0-9]{5,}$/;
   const hasLetter = /[a-zA-Z]/;
   const hasDigit = /\d/;
@@ -139,10 +138,6 @@ function validateCredentials(username, password, confirmPassword) {
   if(password !== confirmPassword){
     return "Passwords do not match.";
   }
-
-  // if (!usernameRegex.test(username)) {
-  //   return "Username can only contain letters and digits.";
-  // }
 
   if (!validChars.test(password) || !hasLetter.test(password) || !hasDigit.test(password)) {
     return "Password rules were not followed.";

@@ -1,0 +1,146 @@
+/* Page Layout */
+.page-content section {
+  max-width: 900px;
+  background: transparent;
+}
+
+/* Headings & Text */
+h1 {
+  margin-bottom: 6px;
+}
+
+/* h2 {
+  margin-top: 40px;
+  margin-bottom: 12px;
+} */
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+}
+
+.chosen-label {
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+/* Form Elements */
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Add Allergy Row */
+.add-allergy-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: stretch;
+}
+
+#allergy-input {
+  flex: 1;
+  height: 42px;
+}
+
+#add-allergy-button {
+  height: 42px;
+  padding: 0 16px;
+  background: #2d7ff9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#add-allergy-button:hover {
+  background: #1f66d1;
+}
+
+/* Allergy List */
+#allergy-list {
+  margin-top: 10px;
+}
+
+.allergy-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.current-allergy-button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.current-allergy-button:hover {
+  background: #dc2626;
+}
+
+/* Save Section */
+.profile-actions {
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#save-profile-button {
+  background: #2d7ff9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+#save-profile-button:hover {
+  background: #1f66d1;
+}
+
+#save-profile-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+#save-status {
+  color: #2e7d32;
+  font-size: 14px;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  padding-right: 36px; /* space for arrow */
+  box-sizing: border-box;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  appearance: auto;
+  box-sizing: border-box;
+}
