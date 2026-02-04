@@ -81,9 +81,13 @@ app.get("/register", (req, res) => {
   res.render('Register', { title: 'Register', currentPage: 'register', username: req.session.username });
 });
 
+/*
+Old code for profile management page
+
 app.get("/profile", (req, res) => {
   res.render('ProfileManagement', { title: 'Profile', currentPage: 'profile', username: req.session.username });
 });
+*/
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
@@ -158,3 +162,63 @@ function registerUser(users, username, password, callback){
   users.push({username, password});
   fs.writeFile("data/users.json", JSON.stringify(users, null, 2), (err) => callback(err));
 }
+
+
+
+// API FOR PROFILE MANAGEMENT 
+const PREFERENCES_FILE = path.join(__dirname, 'data', 'preferences.json');
+
+
+function getPreferences() {
+    if (!fs.existsSync(PREFERENCES_FILE)) return [];
+    try { return JSON.parse(fs.readFileSync(PREFERENCES_FILE, 'utf8')) || []; } // read data
+    catch (err) { return []; }
+}
+
+
+function savePreferences(data) {
+    fs.writeFileSync(PREFERENCES_FILE, JSON.stringify(data, null, 2)); // save data
+}
+
+// Renders the page with the user's saved data
+app.get("/profile", (req, res) => {
+    if (!req.session.username) return res.redirect('/login');
+
+    const allPrefs = getPreferences();
+    const userPref = allPrefs.find(p => p.username === req.session.username);
+
+    res.render('ProfileManagement', {
+        title: 'Profile Management',  // Fixes title error
+        currentPage: 'profile',       // Fixes the page crash
+        username: req.session.username,
+        userData: userPref || { preference: 'none', allergies: [] } // <--- Fixes the "nothing happens" button bug
+    });
+
+});
+
+// JS file sends data here to save it
+app.post("/api/save-profile", (req, res) => {
+
+
+// Check if logged in
+    if (!req.session.username) return res.status(401).send("Not logged in");
+
+    const { preference, allergies } = req.body; 
+    
+    
+    console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
+
+    let allPrefs = getPreferences();
+    
+    // Find and update the user
+    const existingIndex = allPrefs.findIndex(p => p.username === req.session.username);
+    if (existingIndex !== -1) {
+        allPrefs[existingIndex].preference = preference;
+        allPrefs[existingIndex].allergies = allergies;
+    } else {
+        allPrefs.push({ username: req.session.username, preference, allergies });
+    }
+
+    savePreferences(allPrefs);
+    res.json({ status: "success" });
+});
