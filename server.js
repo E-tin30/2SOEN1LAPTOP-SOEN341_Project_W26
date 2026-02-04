@@ -188,8 +188,8 @@ app.get("/profile", (req, res) => {
     const userPref = allPrefs.find(p => p.username === req.session.username);
 
     res.render('ProfileManagement', {
-        title: 'Profile Management',  // <--- Fixes the "title" error
-        currentPage: 'profile',       // <--- Fixes the "currentPage is not defined" crash
+        title: 'Profile Management',  // Fixes title error
+        currentPage: 'profile',       // Fixes the page crash
         username: req.session.username,
         userData: userPref || { preference: 'none', allergies: [] } // <--- Fixes the "nothing happens" button bug
     });
@@ -205,8 +205,8 @@ app.post("/api/save-profile", (req, res) => {
 
     const { preference, allergies } = req.body; 
     
-    // Debug Logs: Watch your terminal to see if this prints!
-    console.log(`Saving for ${req.session.username}:`, { preference, allergies });
+    
+    console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
 
     let allPrefs = getPreferences();
     

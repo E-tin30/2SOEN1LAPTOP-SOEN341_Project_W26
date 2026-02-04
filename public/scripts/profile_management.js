@@ -1,4 +1,4 @@
- let currentData = window.serverData || { preference: 'none', allergies: [] }; // Get the saved data that the server passed to us (define 'serverData' in the EJS file)
+let currentData = window.serverData || { preference: 'none', allergies: [] }; // Get the saved data that the server passed
 
 // Select DOM Elements
 const dietSelect = document.getElementById('select-dietary-preferences');
@@ -9,20 +9,18 @@ const allergyList = document.getElementById('allergy-list');
 
 // Load the saved data onto the screen
 function init() {
-    // Set the dropdown to the saved value
-    dietSelect.value = currentData.preference;
+    dietSelect.value = currentData.preference;// Set the dropdown to the saved value
     chosenText.textContent = currentData.preference;
-
-    // Build the allergy list
-    renderAllergies();
+   
+    renderAllergies(); // Build the allergy list
 }
 
 // Draw the list of allergies
 function renderAllergies() {
 
-    // Clear the current list (except the header)
+    
     const header = allergyList.querySelector('h3');
-    allergyList.innerHTML = ''; // Clear everything
+    allergyList.innerHTML = ''; 
     if (header) allergyList.appendChild(header); // Put the header back exactly as it was
 
     currentData.allergies.forEach((allergy, index) => {
@@ -31,19 +29,15 @@ function renderAllergies() {
         container.style.alignItems = "center";
         container.style.marginBottom = "5px";
 
-        // The text
         const text = document.createElement('p');
-        text.className = 'current-allergy'; // Matches teammate's class
+        text.className = 'current-allergy'; 
         text.textContent = allergy;
         text.style.marginRight = "10px";
-
-        // The Delete Button
-        const delBtn = document.createElement('button');
+       
+        const delBtn = document.createElement('button'); // The Delete Button
         delBtn.textContent = "Delete";
         
-        // --- CRITICAL FIX: MATCHING TEAMMATE'S CLASS ---
         delBtn.className = 'current-allergy-button'; 
-        // -----------------------------------------------
         
         delBtn.onclick = () => {
             currentData.allergies.splice(index, 1); 
@@ -67,25 +61,22 @@ function saveData() {
 }
 
 
-// --- EVENT LISTENERS ---
-
 // Handle Dropdown Change
 dietSelect.addEventListener('change', (e) => {
     currentData.preference = e.target.value;
     chosenText.textContent = e.target.value; // Update text immediately
-    saveData(); // Save to JSON
+    saveData(); 
 });
 
 // Handle Add Allergy Button
 addAllergyBtn.addEventListener('click', () => {
     const val = allergyInput.value.trim();
     if (val) {
-        currentData.allergies.push(val); // Add to array
-        allergyInput.value = ""; // Clear input
-        renderAllergies(); // Re-draw list
-        saveData(); // Save to JSON
+        currentData.allergies.push(val); 
+        allergyInput.value = ""; 
+        renderAllergies(); 
+        saveData(); 
     }
 });
 
-// Start the engine
 init();
