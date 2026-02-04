@@ -1,0 +1,28 @@
+Team Meeting 2:
+
+Date: February 28th, 2026 at 13: 00
+
+Participants:
+Chrisjan Alejandro
+Ethan Elkaim
+Martin Miskovski
+Mark Urbano
+Paul-Phillipe Kadio Ehui
+Kepler Paul-Émile
+
+Topics:
+
+Talked about the excel acceptance flow
+
+Excel work log description
+
+Testing the whole main branch on the local host
+
+Improving the logic of password rules: Passwords must be at least 5 characters, have at least 1 letter and have at least 1 digit
+
+Fixing the return button towards the login during registration if an account was already registered
+
+Fixing the remember me button, which was not needed previously since it was set to remember me (cookies logic).
+
+
+#1 hour/ 60 minutes
