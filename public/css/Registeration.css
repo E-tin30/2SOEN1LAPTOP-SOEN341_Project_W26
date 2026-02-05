@@ -140,3 +140,34 @@ html{
     transform: translate(-50%);
     font-size: 20px;
 }
+
+
+
+     /*     Error Messages outputs         */
+.ErrorMessageStyle{
+    
+    color: red;
+    font-size: 15px;
+    font-family: Verdana, Arial, Tahoma, sans-serif;
+    display: block;  
+    margin-top: 5px;
+}
+
+.LoginLink {
+    margin-top: 15px;       
+    font-size: 14px;
+    font-family: Verdana, Arial, sans-serif;
+    color: #fff;
+}
+
+.LoginLink a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.LoginLink a:hover {
+    color: darkblue;        
+}
+    
+
+
