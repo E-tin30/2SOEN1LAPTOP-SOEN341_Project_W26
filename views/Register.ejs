@@ -30,7 +30,11 @@
                 <i class="bx bx-lock auth-icon"></i>
             </div>
 
-            <span id="ErrorMessage" class="auth-error"></span>
+            <span id="ErrorMessage" class="auth-error <%= errorMessage ? 'show' : '' %>">
+                <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                    <%= errorMessage %>
+                <% } %>
+            </span>
 
             <button type="submit" class="auth-button">Sign up</button>
 

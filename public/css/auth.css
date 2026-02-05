@@ -207,7 +207,7 @@ body {
 }
 
 .auth-error:not(:empty) {
-    display: block;
+    display: none;
     color: #ff3b3b;
     text-align: center;
     margin-top: -15px;
@@ -217,4 +217,8 @@ body {
     padding: 10px 14px;
     border-radius: 10px;
     backdrop-filter: blur(2px); 
+}
+
+.auth-error.show {
+    display: block;
 }

@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(session({
   secret: 'mySecretKey',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false }
 })); // using session to check if user is logged in or not
 
@@ -44,8 +44,11 @@ app.post("/logout", (req, res) => {
 
 
 app.get("/login", (req, res) => {
-  const error = req.query.error;
-  const errorMessage = error === 'invalid' ? 'Invalid creditentials.' : error === 'server' ? 'Server error. Please try again.' : null;
+  const errorMessage = req.session.loginError || null;
+
+  // clear it so refresh doesn't show it again
+  req.session.loginError = null;
+
   res.render('Login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
 });
 
@@ -62,23 +65,23 @@ app.post("/login", (req, res) => {
       req.session.username = username;
       res.redirect('/');
     } else {
-      res.redirect('/login?error=invalid');
+      req.session.loginError = 'Invalid credentials.';
+      res.redirect('/login');
     }
   } catch (err) {
     console.error('Login error:', err);
-    res.redirect('/login?error=server');
+    req.session.loginError = 'Server error. Please try again.';
+    res.redirect('/login');
   }
-});
-
-app.get("/", (req, res) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
-  res.render('Home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
 app.get("/register", (req, res) => {
-  res.render('Register', { title: 'Register', currentPage: 'register', username: req.session.username });
+  const errorMessage = req.session.registerError || null;
+
+  // clear after reading
+  req.session.registerError = null;
+
+  res.render('Register', { title: 'Register', currentPage: 'register', username: req.session.username, errorMessage });
 });
 
 /*
@@ -98,12 +101,8 @@ app.post("/register", (req, res) => {
 
   const error = validateCredentials(username, password, confirmPassword);
   if (error) { // if null then if doesn't run
-    return res.status(400).send(`
-      <script>
-        alert("${error}");
-        window.location.href = '/register';
-      </script>
-    `); // print the error message and return them to the register page
+    req.session.registerError = error;
+    return res.redirect('/register'); // print the error message and return them to the register page
   }
   const data = fs.readFile("data/users.json", "utf8", (err, data) => {
     if (err) return res.status(500).send("Server Error");
@@ -111,17 +110,13 @@ app.post("/register", (req, res) => {
     const users = JSON.parse(data || "[]");
 
     if(isDuplicate(users, username)){
-      return res.status(400).send(`
-        <script>
-          alert("Username already exists. Try again.");
-          window.location.href = '/register';
-        </script>
-      `);
+      req.session.registerError = "Username already exists. Try again.";
+      return res.redirect('/register');
     }
 
     registerUser(users, username, password, (err) => {
       if (err) return res.status(500).send("Server Error");
-      res.redirect("/Login");
+      res.redirect("/login");
     });
   })
 });
