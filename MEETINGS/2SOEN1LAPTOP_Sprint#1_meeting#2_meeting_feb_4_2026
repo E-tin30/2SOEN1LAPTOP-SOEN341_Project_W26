@@ -1,6 +1,6 @@
 Team Meeting 2:
 
-Date: February 28th, 2026 at 13: 00
+Date: February 4th, 2026 at 13: 00
 
 Participants:
 Chrisjan Alejandro
@@ -24,5 +24,12 @@ Fixing the return button towards the login during registration if an account was
 
 Fixing the remember me button, which was not needed previously since it was set to remember me (cookies logic).
 
+Forgot Password will be implemented in the next sprint
 
-#1 hour/ 60 minutes
+Make the css of login UI and register UI the same
+
+Update sprint 1 backlog sheet with completed tasks
+
+All tasks have been completed, now we focus more on the css
+
+#1 hour / 60 minutes
