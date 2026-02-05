@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../images/FoodTest.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* LOGIN */
+.wrapper {
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 40px;
+}
+
+/* REGISTER ALIAS */
+.auth-wrapper,
+.Wrapper {
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 40px;
+}
+
+/* LOGIN */
+.wrapper h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+/* REGISTER */
+.auth-title,
+.Wrapper h2 {
+    font-size: 36px;
+    text-align: center;
+    color: #fff;
+}
+
+/* LOGIN */
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+/* REGISTER */
+.auth-field {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+/* LOGIN */
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+/* REGISTER */
+.auth-input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder,
+.auth-input::placeholder {
+    color: #fff;
+}
+
+.input-box i,
+.auth-icon {
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    transform: translate(-50%);
+    font-size: 20px;
+    color: #fff;
+}
+
+.wrapper .remember-forgot,
+.auth-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+}
+
+.remember-forgot label,
+.auth-meta label {
+    display: flex;
+    align-items: center;
+}
+
+.remember-forgot label input,
+.auth-meta label input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
+
+.remember-forgot a,
+.auth-meta a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover,
+.auth-meta a:hover {
+    text-decoration: underline;
+}
+
+/* LOGIN */
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* REGISTER */
+.auth-button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* LOGIN */
+.wrapper .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+/* REGISTER */
+.auth-footer {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.auth-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.auth-error:not(:empty) {
+    display: none;
+    color: #ff3b3b;
+    text-align: center;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 10px 14px;
+    border-radius: 10px;
+    backdrop-filter: blur(2px); 
+}
+
+.auth-error.show {
+    display: block;
+}
