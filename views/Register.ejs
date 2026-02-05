@@ -1,49 +1,47 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/css/Registeration.css" />
+    <link rel="stylesheet" href="/css/auth.css" />
     <title>Register</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="Wrapper">
-    <div class = "title"> Sign Up Form </div>
-        <form action="/register" method="post" onsubmit="validateForm(event)" novalidate>
-        <div class="field">
-            <input  id="username" type="email" name="username" placeholder=" " required>
-            <label>
-                 Email Address 
-            </label>       
-            <i class='bx bx-user-circle'></i>
-        </div>
-    <div class="field">
-        <input id="password" type="password" name="password" placeholder=" " required> 
-        <label>
-            Password
-        </label> 
-        
-        <i class='bx bx-lock' ></i>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+
+        <h2 class="auth-title">Register</h2>
+
+        <form class="auth-form" action="/register" method="post" onsubmit="validateForm(event)" novalidate>
+
+            <div class="auth-field">
+                <input id="username" class="auth-input" type="email" name="username" placeholder="Email Address" required>
+                <i class="bx bx-user-circle auth-icon"></i>
+            </div>
+
+            <div class="auth-field">
+                <input id="password" class="auth-input" type="password" name="password" placeholder="Password" required>
+                <i class="bx bx-lock auth-icon"></i>
+            </div>
+
+            <div class="auth-field">
+                <input id="confirmPassword" class="auth-input" type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                <i class="bx bx-lock auth-icon"></i>
+            </div>
+
+            <span id="ErrorMessage" class="auth-error"></span>
+
+            <button type="submit" class="auth-button">Sign up</button>
+
+            <div class="auth-footer">
+                Already have an account? <a class="auth-link" href="/login">Log in</a>
+            </div>
+
+        </form>
     </div>
-<div class="field">
-    <input id="confirmPassword" type="password" name="confirmPassword" placeholder=" " required>
-    <label>
-        Confirm Password
-    </label> 
-    <i class='bx bx-lock' ></i>
 </div>
-<span id="ErrorMessage" class="ErrorMessageStyle"></span>
-<div class="field">
-    <input type="submit" value="Sign up">
-</div>
-<div class="LoginLink">
-    Already have an account? <a href="/login"> Login Here!</a>
-</div>
-</form>
-    </div>
-</body>
 
 <script src="/scripts/register.js"></script>
+</body>
 </html>

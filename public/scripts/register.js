@@ -34,7 +34,7 @@ function  validateForm(event){
 
     if (!validChars.test(password) || !hasLetter.test(password) || !hasDigit.test(password)){
         event.preventDefault();
-        ErrorMessage.textContent = "Passwords must be at least 5 characters, have at least 1 letter and have at least 1 digit!"
+        ErrorMessage.textContent = "Password must be at least 5 characters long and contain only letters and digits, with at least one letter and one digit."
         return;
     }
 }

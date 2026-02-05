@@ -1,35 +1,52 @@
 <!DOCTYPE html>
-<html lang ="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name ="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/css/login.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="wrapper">
-        <form id="loginForm" action="/login" method="post">
-            <h1>Login</h1>
-            <div class="input-box">
-                <input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required>
-                <i class='bx bx-user-circle'></i>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+
+        <h1 class="auth-title">Login</h1>
+
+        <form class="auth-form" id="loginForm" action="/login" method="post">
+
+            <div class="auth-field">
+                <input class="auth-input" type="text" id="username" name="username" placeholder="Username" autocomplete="username" required>
+                <i class="bx bx-user-circle auth-icon"></i>
             </div>
-            <div class="input-box">
-                <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
-                <i class='bx bx-lock' ></i>
+
+            <div class="auth-field">
+                <input class="auth-input" type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
+                <i class="bx bx-lock auth-icon"></i>
             </div>
-            <div class="remember-forgot">
-                <label><input type="checkbox">Remember Me</label>
-                <a href="#">Forgot Password?</a>
+
+            <div class="auth-meta">
+                <label><input type="checkbox"> Remember Me</label>
+                <a class="auth-link" href="#">Forgot Password?</a>
             </div>
-            <button type="submit" class="btn">Login</button>
-        <div id="response" style="color: red; margin-top: 10px; min-height: 1.5em;"><% if (typeof errorMessage !== 'undefined' && errorMessage) { %><%- errorMessage %><% } %></div>
-            <div class="register-link">
-                <p>Don't have an account? <a href="/register">Register</a></p>
+
+            <button type="submit" class="auth-button">Login</button>
+
+            <div id="response" class="auth-error">
+                <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                    <%- errorMessage %>
+                <% } %>
             </div>
+
+            <div class="auth-footer">
+                Don't have an account? <a class="auth-link" href="/register">Register</a>
+            </div>
+
         </form>
     </div>
-    <script src="/scripts/login.js"></script>
+</div>
+
+<script src="/scripts/login.js"></script>
 </body>
 </html>
