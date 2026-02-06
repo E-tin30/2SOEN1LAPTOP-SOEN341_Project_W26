@@ -14,5 +14,13 @@
     "allergies": [
       "Penuts"
     ]
+  },
+  {
+    "username": "test1@gmail.com",
+    "preference": "Liquid",
+    "allergies": [
+      "Penuts",
+      "Eggs"
+    ]
   }
 ]
