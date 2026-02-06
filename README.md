@@ -28,9 +28,9 @@ Baseline features:
 
 
 Team Members: 
-Ethan Elkaim - Scrum Master
-Chrisjan Alejandro - Backend Developper
-Kepler Paul-Emile - Frontend Developper
-Paul-Philippe Ehui - Quality Assurance
-Marc Urbano - Tester
-Martin Miskovski - Project Manager
+- Ethan Elkaim - Scrum Master
+- Chrisjan Alejandro - Backend Developper
+- Kepler Paul-Emile - Frontend Developper
+- Paul-Philippe Ehui - Quality Assurance
+- Marc Urbano - Tester
+- Martin Miskovski - Project Manager
