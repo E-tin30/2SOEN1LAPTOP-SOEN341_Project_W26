@@ -11,6 +11,10 @@
             <a href="/profile">Profile Management</a>
         </li>
 
+        <li class="<%= currentPage === 'profile' ? 'active' : '' %>">
+            <a href="/recipes">Recipes</a>
+        </li>
+
         <li>
             <form id="logoutForm" action="/logout" method="POST" style="display: inline;">
                 <button type="submit" class="logout-btn">Logout</button>

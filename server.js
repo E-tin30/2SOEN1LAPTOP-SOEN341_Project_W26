@@ -22,12 +22,11 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
 app.get("/", (req, res) => {
   if (!req.session.username) {
     return res.redirect("/login");
   }
-  res.render('Home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
+  res.render('home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
 app.post("/logout", (req, res) => {
@@ -49,7 +48,7 @@ app.get("/login", (req, res) => {
   // clear it so refresh doesn't show it again
   req.session.loginError = null;
 
-  res.render('Login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
+  res.render('login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
 });
 
 app.post("/login", (req, res) => {
@@ -81,19 +80,7 @@ app.get("/register", (req, res) => {
   // clear after reading
   req.session.registerError = null;
 
-  res.render('Register', { title: 'Register', currentPage: 'register', username: req.session.username, errorMessage });
-});
-
-/*
-Old code for profile management page
-
-app.get("/profile", (req, res) => {
-  res.render('ProfileManagement', { title: 'Profile', currentPage: 'profile', username: req.session.username });
-});
-*/
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  res.render('register', { title: 'Register', currentPage: 'register', username: req.session.username, errorMessage });
 });
 
 app.post("/register", (req, res) => {
@@ -153,18 +140,14 @@ function registerUser(users, username, password, callback){
   fs.writeFile("data/users.json", JSON.stringify(users, null, 2), (err) => callback(err));
 }
 
-
-
 // API FOR PROFILE MANAGEMENT 
 const PREFERENCES_FILE = path.join(__dirname, 'data', 'preferences.json');
-
 
 function getPreferences() {
     if (!fs.existsSync(PREFERENCES_FILE)) return [];
     try { return JSON.parse(fs.readFileSync(PREFERENCES_FILE, 'utf8')) || []; } // read data
     catch (err) { return []; }
 }
-
 
 function savePreferences(data) {
     fs.writeFileSync(PREFERENCES_FILE, JSON.stringify(data, null, 2)); // save data
@@ -177,18 +160,16 @@ app.get("/profile", (req, res) => {
     const allPrefs = getPreferences();
     const userPref = allPrefs.find(p => p.username === req.session.username);
 
-    res.render('ProfileManagement', {
-        title: 'Profile Management',  // Fixes title error
-        currentPage: 'profile',       // Fixes the page crash
+    res.render('profile-management', {
+        title: 'Profile Management',
+        currentPage: 'profile',
         username: req.session.username,
-        userData: userPref || { preference: 'none', allergies: [] } // <--- Fixes the "nothing happens" button bug
+        userData: userPref || { preference: 'none', allergies: [] }
     });
-
 });
 
 // JS file sends data here to save it
 app.post("/api/save-profile", (req, res) => {
-
 
 // Check if logged in
     if (!req.session.username) return res.status(401).send("Not logged in");
@@ -211,4 +192,46 @@ app.post("/api/save-profile", (req, res) => {
 
     savePreferences(allPrefs);
     res.json({ status: "success" });
+});
+
+// Show all recipes
+app.get('/recipes', requireAuth, (req, res) => {
+    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username });
+});
+
+// Show create form
+app.get('/recipes/create', requireAuth, (req, res) => {
+    res.render('create-recipe', { title: 'Create Recipes', currentPage: 'create-recipe', username: req.session.username });
+});
+
+// Handle create
+app.post('/recipes/create', requireAuth, (req, res) => {
+    // save recipe logic
+});
+
+// Show edit form
+app.get('/recipes/:id/edit', requireAuth, (req, res) => {
+    // load recipe
+    res.render('edit-recipe', { title: 'Edit Recipes', currentPage: 'edit-recipe', username: req.session.username }); // add id later when implemented
+});
+
+// Handle update
+app.post('/recipes/:id/edit', requireAuth, (req, res) => {
+    // update logic
+});
+
+// Handle delete
+app.post('/recipes/:id/delete', requireAuth, (req, res) => {
+    // delete logic
+});
+
+function requireAuth(req, res, next) {
+    if (!req.session.username) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
