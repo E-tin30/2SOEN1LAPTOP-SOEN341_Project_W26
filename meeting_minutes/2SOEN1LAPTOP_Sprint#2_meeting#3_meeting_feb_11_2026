@@ -1,0 +1,29 @@
+Team Meeting 3:
+
+Date: February 11th, 2026 at 13:00
+
+Participants:
+Chrisjan Alejandro
+Ethan Elkaim
+Martin Miskovski
+Mark Urbano
+Paul-Phillipe Kadio Ehui
+Kepler Paul-Émile
+
+Topics:
+
+UI:
+- Page Flow: Recipe title, then create/add recipe button, then Your Recipe section with recipes as cards
+- Your recipe section -> Ethan Elkaim
+- Recipes Page (Including Search Bar (Martin Miskovski), Filters (Martin Miskovski), Create recipe (Ethan Elkaim), Edit + Delete button for each recipe)
+- Create Recipe pop up or separate page -> Martin Miskovski
+- Recipes are cards with edit and delete button or three dots we'll see which is easier to implement (Ethan Elkaim)
+
+Backend:
+- Logic to add recipes -> Chrisjan Alejandro
+- Logic to delete recipes -> Mark Urbano
+- Logic to edit recipes -> Paul-Phillipe Kadio Ehui 
+- Logic to search for recipes -> Mark Urbano
+- Logic to filter for recipes -> Kepler Paul-Émile
+
+#1 hour / 60 minutes
