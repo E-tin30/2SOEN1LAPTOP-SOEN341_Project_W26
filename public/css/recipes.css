@@ -1,9 +1,11 @@
+.page-content {
+    width: 100%;
+}
 .recipe-list {
     display: flex;
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
-    margin: 20px;
 }
 
 .recipe-card {
@@ -80,13 +82,13 @@ button:focus {
     border-radius: 6px;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 20px;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .addRecipeBtn:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
+    align-content: end;
 }
 
 .addRecipeBtn:active {
@@ -103,6 +105,7 @@ button:focus {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .recipe-card ul {
