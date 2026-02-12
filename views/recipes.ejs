@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
     <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/recipes.css">
 </head>
 <body>
     <div class="app-layout">
@@ -13,7 +14,48 @@
 
     <!-- Main Content -->
     <main class="page-content">
-      <h1>Recipes</h1>
+        <h1>Recipes</h1>
+
+        <hr>
+        <div class="recipe-header">
+            <h2>Your Recipes</h2>
+            <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
+        </div>
+        
+        <div class="content">
+            <section class="recipe-list">
+                <% if (recipes.length > 0) { %>
+                    <% recipes.forEach(recipe => { %>
+                        <div class="recipe-card">
+                            <!-- <img src="/images/<%= recipe.id %>.jpg" alt="<%= recipe.name %>" width="200"> -->
+                            <!-- We'll see if we include an image ideally we do -->
+                            <h2><%= recipe.name %></h2>
+                            <p><strong>Ingredients:</strong></p>
+                            <ul>
+                                <% recipe.ingredients.forEach(ingredient => { %>
+                                    <li><%= ingredient %></li>
+                                <% }) %>
+                            </ul>
+                            <p><strong>Prep. time:</strong> <%= recipe.prepTime %></p>
+                            <p><strong>Prep. steps:</strong> <%= recipe.prepSteps %></p>
+                            <p><strong>Cost:</strong> <%= recipe.cost %></p>
+                            
+                            <div class="card-actions">
+                                <form action="/recipes/<%= recipe.id %>/edit" method="GET">
+                                    <button type="submit" class="editBtn">Edit</button>
+                                </form>
+
+                                <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
+                                    <button type="submit" class="deleteBtn">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No recipes yet. Add a recipe to see it here.</p>
+                <% } %>
+            </section>
+      </div>
     </main>
   </div>
 </body>
