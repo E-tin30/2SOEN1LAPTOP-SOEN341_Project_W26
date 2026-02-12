@@ -9,7 +9,8 @@
 }
 
 .recipe-card {
-    background-color: bisque;
+    background-color: white;
+    color: black;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -27,7 +28,7 @@
 }
 
 .editBtn {
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px;
@@ -37,7 +38,7 @@
 }
 
 .editBtn:hover {
-    background-color: darkgreen;
+    background-color: #0056b3;
 }
 
 .deleteBtn {
@@ -75,7 +76,7 @@ button:focus {
 
 .addRecipeBtn {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #28a745;
     color: white;
     text-decoration: none;
     padding: 10px 18px;
@@ -86,7 +87,7 @@ button:focus {
 }
 
 .addRecipeBtn:hover {
-    background-color: #0056b3;
+    background-color: darkgreen;
     transform: translateY(-2px);
     align-content: end;
 }
@@ -109,8 +110,8 @@ button:focus {
 }
 
 .recipe-card ul {
-    list-style: disc;
-    padding-left: 20px;
+    display: inline-block;
     text-align: left;
-    margin-top: 5px;
+    padding-left: 20px;
+    margin: auto;
 }
