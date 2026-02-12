@@ -1,0 +1,117 @@
+.page-content {
+    width: 100%;
+}
+.recipe-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.recipe-card {
+    background-color: white;
+    color: black;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.2s ease;
+    width: 100%;
+    max-width: 250px;
+}
+
+.recipe-card img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 125px;
+    height: 125px;
+}
+
+.editBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.editBtn:hover {
+    background-color: #0056b3;
+}
+
+.deleteBtn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.deleteBtn:hover {
+    background-color: darkred;
+}
+
+.editBtn,
+.deleteBtn {
+    margin-top: 8px;
+    width: 100%;
+}
+
+button:focus {
+    outline: 2px solid #333;
+}
+
+.recipe-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.addRecipeBtn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.addRecipeBtn:hover {
+    background-color: darkgreen;
+    transform: translateY(-2px);
+    align-content: end;
+}
+
+.addRecipeBtn:active {
+    transform: translateY(0);
+}
+
+.addRecipeBtn:focus {
+    outline: 2px solid #333;
+    outline-offset: 2px;
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.recipe-card ul {
+    display: inline-block;
+    text-align: left;
+    padding-left: 20px;
+    margin: auto;
+}

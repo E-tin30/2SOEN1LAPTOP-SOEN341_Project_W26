@@ -4,9 +4,11 @@ const path = require('path');
 const fs = require('fs');
 const PORT = 3000;
 const session = require('express-session');
+const methodOverride = require('method-override');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method'));
 
 app.use(session({
   secret: 'mySecretKey',
@@ -194,9 +196,25 @@ app.post("/api/save-profile", (req, res) => {
     res.json({ status: "success" });
 });
 
+const RECIPES_FILE = path.join(__dirname, 'data', 'recipes.json');
+
+function getRecipes() {
+    if (!fs.existsSync(RECIPES_FILE)) return [];
+    return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
+}
+
+function requireAuth(req, res, next) {
+    if (!req.session.username) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
-    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username });
+    const allRecipes = getRecipes(); // returns all recipes
+    const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
+    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes });
 });
 
 // Show create form
@@ -216,21 +234,16 @@ app.get('/recipes/:id/edit', requireAuth, (req, res) => {
 });
 
 // Handle update
-app.post('/recipes/:id/edit', requireAuth, (req, res) => {
+app.put('/recipes/:id', requireAuth, (req, res) => {
     // update logic
 });
 
 // Handle delete
-app.post('/recipes/:id/delete', requireAuth, (req, res) => {
-    // delete logic
+app.delete('/recipes/:id', requireAuth, (req, res) => {
+    const id = req.params.id;
+    // delete recipe from database
+    res.redirect('/recipes');
 });
-
-function requireAuth(req, res, next) {
-    if (!req.session.username) {
-        return res.redirect('/login');
-    }
-    next();
-}
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
