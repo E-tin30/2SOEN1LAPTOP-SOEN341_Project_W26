@@ -1,0 +1,29 @@
+{
+  "name": "2soen1laptop-soen341_project_w26",
+  "version": "1.0.0",
+  "description": "Description MealMajor is a web app for students to plan meals, track groceries, and propose easy recipes.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/E-tin30/2SOEN1LAPTOP-SOEN341_Project_W26.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/E-tin30/2SOEN1LAPTOP-SOEN341_Project_W26/issues"
+  },
+  "homepage": "https://github.com/E-tin30/2SOEN1LAPTOP-SOEN341_Project_W26#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "method-override": "^3.0.0"
+  }
+}
