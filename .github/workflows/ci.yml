@@ -3,28 +3,28 @@ name: SOEN341 CI
 on:
   push:
     branches:
-      - '**'
+      - '**' # run CI on all branch pushes
   pull_request:
     branches:
-      - main
+      - main # run CI when a PR targets main
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # run on ubuntu (linux) environment 
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # get all the code in repo
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4 # installs node.js version 18
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm install # install all dependencies needed defined in package-lock.json
 
       - name: Start server to verify it runs
-        run: |
+        run: | # Run the server and wait 5 seconds to verify that it runs to give it time to start
           node server.js &
           sleep 5
