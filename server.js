@@ -198,9 +198,14 @@ app.post("/api/save-profile", (req, res) => {
 
 const RECIPES_FILE = path.join(__dirname, 'data', 'recipes.json');
 
+// helper functions
 function getRecipes() {
     if (!fs.existsSync(RECIPES_FILE)) return [];
     return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
+}
+
+function saveRecipes(data) {
+    fs.writeFileSync(RECIPES_FILE, JSON.stringify(data, null, 2));
 }
 
 function requireAuth(req, res, next) {
@@ -239,9 +244,16 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
 });
 
 // Handle delete
-app.delete('/recipes/:id', requireAuth, (req, res) => {
+app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from database
     const id = req.params.id;
-    // delete recipe from database
+    const username = req.session.username;
+
+    let allRecipes = getRecipes();
+
+    const filteredRecipes = allRecipes.filter(recipe => {
+      return (recipe.id === id && recipe.username === username)
+    })
+
     res.redirect('/recipes');
 });
 
