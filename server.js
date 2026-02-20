@@ -198,9 +198,14 @@ app.post("/api/save-profile", (req, res) => {
 
 const RECIPES_FILE = path.join(__dirname, 'data', 'recipes.json');
 
+// helper functions
 function getRecipes() {
     if (!fs.existsSync(RECIPES_FILE)) return [];
     return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
+}
+
+function saveRecipes(data) {
+    fs.writeFileSync(RECIPES_FILE, JSON.stringify(data, null, 2));
 }
 
 function requireAuth(req, res, next) {
@@ -212,9 +217,12 @@ function requireAuth(req, res, next) {
 
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
+    const flashMessage = req.session.flashMessage;
+    delete req.session.flashMessage;
+
     const allRecipes = getRecipes(); // returns all recipes
     const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
-    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes });
+    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes, flashMessage });
 });
 
 // Show create form
@@ -239,9 +247,23 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
 });
 
 // Handle delete
-app.delete('/recipes/:id', requireAuth, (req, res) => {
+app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from database
     const id = req.params.id;
-    // delete recipe from database
+    const username = req.session.username;
+
+    let allRecipes = getRecipes();
+    const originalLength = allRecipes.length;
+
+    const filteredRecipes = allRecipes.filter(recipe => {
+      return !(recipe.id === id && recipe.username === username);
+    });
+
+    if (filteredRecipes.length < originalLength) {
+      req.session.flashMessage = "Recipe deleted successfully!";
+    }
+
+    saveRecipes(filteredRecipes);
+
     res.redirect('/recipes');
 });
 

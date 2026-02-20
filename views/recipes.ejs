@@ -6,6 +6,8 @@
     <title>Recipes</title>
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
+    <!-- Only load script after DOM has loaded to prevent errors when getting delete button -->
+    <script src="/scripts/delete-recipe.js" defer></script> 
 </head>
 <body>
     <div class="app-layout">
@@ -22,6 +24,13 @@
             <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
         </div>
         
+        <% if (flashMessage) { %>
+            <div class="flash-message">
+                <%= flashMessage %>
+            </div>
+        <% } %>
+
+
         <div class="content">
             <section class="recipe-list">
                 <% if (recipes.length > 0) { %>
