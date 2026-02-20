@@ -217,9 +217,12 @@ function requireAuth(req, res, next) {
 
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
+    const flashMessage = req.session.flashMessage;
+    delete req.session.flashMessage;
+
     const allRecipes = getRecipes(); // returns all recipes
     const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
-    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes });
+    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes, flashMessage });
 });
 
 // Show create form
@@ -249,10 +252,17 @@ app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from da
     const username = req.session.username;
 
     let allRecipes = getRecipes();
+    const originalLength = allRecipes.length;
 
     const filteredRecipes = allRecipes.filter(recipe => {
-      return (recipe.id === id && recipe.username === username)
-    })
+      return !(recipe.id === id && recipe.username === username);
+    });
+
+    if (filteredRecipes.length < originalLength) {
+      req.session.flashMessage = "Recipe deleted successfully!";
+    }
+
+    saveRecipes(filteredRecipes);
 
     res.redirect('/recipes');
 });
