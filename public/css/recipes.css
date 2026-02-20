@@ -115,3 +115,12 @@ button:focus {
     padding-left: 20px;
     margin: auto;
 }
+
+.flash-message {
+    background-color: #e6ffed;
+    color: #1a7f37;
+    padding: 12px;
+    border: 1px solid #1a7f37;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}

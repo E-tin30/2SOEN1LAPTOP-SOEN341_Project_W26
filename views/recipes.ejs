@@ -25,10 +25,11 @@
         </div>
         
         <% if (flashMessage) { %>
-            <script>
-                alert("<%= flashMessage %>");
-            </script>
+            <div class="flash-message">
+                <%= flashMessage %>
+            </div>
         <% } %>
+
 
         <div class="content">
             <section class="recipe-list">
