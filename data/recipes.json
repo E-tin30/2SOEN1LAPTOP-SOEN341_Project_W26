@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "id": "1001",
+    "username": "test@gmail.com",
+    "name": "Creamy Garlic Chicken Pasta",
+    "ingredients": [
+      "Penne pasta",
+      "Chicken breast",
+      "Garlic",
+      "Heavy cream",
+      "Parmesan cheese",
+      "Olive oil",
+      "Salt",
+      "Black pepper"
+    ],
+    "prepTime": "30 minutes",
+    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
+    "cost": "$12",
+    "tag": "Protein+"
+  }
+]
