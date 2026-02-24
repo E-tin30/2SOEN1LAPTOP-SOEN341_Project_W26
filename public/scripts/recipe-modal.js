@@ -5,7 +5,17 @@ const closeBtn = document.getElementById('closeModal');
 cards.forEach(card => {
     card.addEventListener('click', () => {
         document.getElementById('modalName').textContent = card.dataset.name;
-        document.getElementById('modalTag').textContent = card.dataset.tag || '';
+        
+        const tag = card.dataset.tag;
+        const modalTag = document.getElementById('modalTag');
+
+        if (tag) {
+            modalTag.textContent = tag;
+            modalTag.style.display = "inline-block";
+        } else {
+            modalTag.style.display = "none";
+        }
+
         document.getElementById('modalPrepTime').textContent = card.dataset.preptime;
         document.getElementById('modalSteps').textContent = card.dataset.steps;
         document.getElementById('modalCost').textContent = card.dataset.cost;

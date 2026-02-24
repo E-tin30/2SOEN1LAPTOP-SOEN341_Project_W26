@@ -2,15 +2,15 @@
     width: 100%;
 }
 
+/* Header */
 .recipe-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    width: 100%;
 }
 
-/* Recipe Grid */
+/* Grid */
 .recipe-list {
     display: flex;
     justify-content: flex-start;
@@ -18,11 +18,11 @@
     flex-wrap: wrap;
 }
 
-/* Compact Card */
+/* Card */
 .recipe-card {
     position: relative;
     background: white;
-    padding: 30px 20px 20px 20px;
+    padding: 40px 20px 20px 20px;
     border-radius: 12px;
     width: 220px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.15);
@@ -31,15 +31,17 @@
     text-align: center;
 }
 
-.recipe-card h3 {
-    margin: 35px 0;
+.recipe-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* Tag */
+.recipe-card h3 {
+    margin: 30px 0;
+}
+
+/* TAG BASE STYLE */
 .recipe-tag {
-    position: absolute;
-    top: 12px;
-    left: 12px;
     background: #e9f5ff;
     color: #0d6efd;
     padding: 4px 12px;
@@ -48,12 +50,21 @@
     font-weight: 600;
 }
 
-.recipe-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+/* Card tag position */
+.recipe-card .recipe-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
 }
 
-/* Top Icons */
+/* Modal tag override */
+.modal-tag {
+    position: static;
+    display: inline-block;
+    /* margin: 10px 0 20px 0; */
+}
+
+/* Edit/Delete */
 .card-top-actions {
     position: absolute;
     top: 8px;
@@ -79,7 +90,6 @@
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-    margin-top: 10px;
 }
 
 /* Add Button */
@@ -101,7 +111,6 @@
     background-color: #e6ffed;
     color: #1a7f37;
     padding: 12px;
-    border: 1px solid #1a7f37;
     border-radius: 6px;
     margin-bottom: 15px;
 }
@@ -127,12 +136,15 @@
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
+    position: relative;
 }
 
 .close-btn {
-    float: right;
+    position: absolute;
+    top: 15px;
+    right: 20px;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 40px;
 }
 
 .empty-message {
