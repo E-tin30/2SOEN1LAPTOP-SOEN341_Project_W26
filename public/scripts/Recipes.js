@@ -1,25 +1,29 @@
-
-
 /* This script handles the opening and closing of the filter overlay on the recipes page. */
-const FilterOverlay = document.getElementById("FilterOverlay");
-const btn = document.getElementById("OpenFilter");
-const close = document.querySelector(".CloseBtn");
+function toggleFilterOverlay(action) {
+    const FilterOverlay = document.getElementById("FilterOverlay");
 
-// Open FilterOverlay
-btn.onclick = () => {
-    FilterOverlay.style.display = "flex";
-}
-
-// Close FilterOverlay
-close.onclick = () => {
-    FilterOverlay.style.display = "none";
-}
-
-// Close if click outside FilterOverlay content
-window.onclick = (e) => {
-    if (e.target === FilterOverlay) {
+    if (action === "open") {
+        FilterOverlay.style.display = "flex";
+    } else if (action === "close") {
         FilterOverlay.style.display = "none";
     }
+}
+
+    const btn = document.getElementById("OpenFilter");
+    const close = document.querySelector(".CloseBtn");
+
+    // Open FilterOverlay
+    btn.onclick = () => toggleFilterOverlay("open");
+
+    // Close FilterOverlay
+    close.onclick = () => toggleFilterOverlay("close");
+
+    // Close if click outside FilterOverlay content
+    window.onclick = (e) => {
+        const FilterOverlay = document.getElementById("FilterOverlay");
+        if (e.target === FilterOverlay) {
+            toggleFilterOverlay("close");
+        }
 }
 
 
@@ -35,6 +39,21 @@ function CloseRecipeCreationUI()
     document.getElementById("RecipeCreationUIPopUp").classList.remove("active");
 }
 
+function toggleRecipeCreationOverlay(action) {
+    const RecipeCreationOverlay = document.getElementById("RecipeCreationUIPopUp");
+
+    if (action === "open") {
+        RecipeCreationOverlay.style.display = "flex";
+    } else if (action === "close") {
+        RecipeCreationOverlay.style.display = "none";
+    }
+}
+const openBtn = document.getElementById("OpenRecipeCreation");
+const closeRecipeCreationBtn = document.querySelector(".CloseBtnRecipeCreation");
+
+// Close RecipeCreationOverlay
+openBtn.onclick = () => toggleRecipeCreationOverlay("open");
+closeRecipeCreationBtn.onclick = () => toggleRecipeCreationOverlay("close");
 
 
 
@@ -65,11 +84,14 @@ function updateIngredientList()
 
     Ingredients.forEach((Ingredient, index) =>
     {
-        const NewList = document.createElement("NewList");
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "X";
+        removeBtn.className = "RemoveIngredientBtn"; // add a class
+        removeBtn.onclick = () => removeIngredient(index);
 
-        NewList.innerHTML =
-        Ingredient +
-        ' <button onclick="removeIngredient(' + index + ')">X</button>';
+        const NewList = document.createElement("li");
+        NewList.textContent = Ingredient + " "; // add a space before button
+        NewList.appendChild(removeBtn);
 
         List.appendChild(NewList);
     });
@@ -102,23 +124,32 @@ function ShowStep(index)
 
 function NextStep()
 {
-    const Inputs = Steps[CurrentStep].querySelectorAll("input, textarea");
+    const steps = document.querySelectorAll(".Step");
+    const currentStepIndex = Array.from(steps).findIndex(step => step.classList.contains("active"));
+    const step = steps[currentStepIndex];
 
-    for (let input of Inputs)
-    {
-        if (!input.value.trim())
-        {
-            alert("Please fill this field");
-            return;
+    let valid = true;
+
+    // Validate inputs in current step
+    const inputs = step.querySelectorAll("input, textarea");
+    inputs.forEach(input => {
+        // each input must have a unique ID and corresponding error div
+        const errorDiv = step.querySelector(`#${input.id}Error`);
+        if (!input.value.trim()) {
+            if (errorDiv) errorDiv.textContent = "This field is required";
+            valid = false;
+        } else {
+            if (errorDiv) errorDiv.textContent = "";
         }
+    });
+
+    if (!valid) return; // stop if invalid
+
+    // Move to next step
+    step.classList.remove("active");
+    if (currentStepIndex + 1 < steps.length) {
+        steps[currentStepIndex + 1].classList.add("active");
     }
-
-    CurrentStep++;
-
-    if (CurrentStep >= Steps.length)
-        CurrentStep = Steps.length - 1;
-
-    ShowStep(CurrentStep);
 }
 
 function PrevStep()
