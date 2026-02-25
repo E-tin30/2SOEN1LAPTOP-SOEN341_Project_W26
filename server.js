@@ -55,7 +55,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, rememberMe } = req.body;
   
   const usersPath = path.join(__dirname, 'data', 'users.json');
 
@@ -72,6 +72,9 @@ app.post("/login", async (req, res) => {
 
     if (match) {
       req.session.username = username;
+      if (rememberMe){
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30; // 30 days
+      }
       return res.redirect('/');
     } else {
       req.session.loginError = 'Invalid credentials.';
@@ -102,7 +105,7 @@ app.post("/register", (req, res) => {
     req.session.registerError = error;
     return res.redirect('/register'); // print the error message and return them to the register page
   }
-  
+
   const data = fs.readFile("data/users.json", "utf8", async (err, data) => {
     if (err) return res.status(500).send("Server Error");
 
