@@ -5,6 +5,7 @@ const fs = require('fs');
 const PORT = 3000;
 const session = require('express-session');
 const methodOverride = require('method-override');
+const bcrypt = require('bcrypt');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -53,22 +54,30 @@ app.get("/login", (req, res) => {
   res.render('login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   
   const usersPath = path.join(__dirname, 'data', 'users.json');
 
   try {
     const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
-    const user = usersData.find(u => u.username === username && u.password === password);
+    const user = usersData.find(u => u.username === username);
 
-    if (user) {
+    if (!user) {
+      req.session.loginError = 'Invalid credentials.';
+      return res.redirect('/login');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
       req.session.username = username;
-      res.redirect('/');
+      return res.redirect('/');
     } else {
       req.session.loginError = 'Invalid credentials.';
-      res.redirect('/login');
+      return res.redirect('/login');
     }
+
   } catch (err) {
     console.error('Login error:', err);
     req.session.loginError = 'Server error. Please try again.';
@@ -93,7 +102,8 @@ app.post("/register", (req, res) => {
     req.session.registerError = error;
     return res.redirect('/register'); // print the error message and return them to the register page
   }
-  const data = fs.readFile("data/users.json", "utf8", (err, data) => {
+  
+  const data = fs.readFile("data/users.json", "utf8", async (err, data) => {
     if (err) return res.status(500).send("Server Error");
 
     const users = JSON.parse(data || "[]");
@@ -103,10 +113,12 @@ app.post("/register", (req, res) => {
       return res.redirect('/register');
     }
 
-    registerUser(users, username, password, (err) => {
-      if (err) return res.status(500).send("Server Error");
+    try {
+      await registerUser(users, username, password);
       res.redirect("/login");
-    });
+    } catch (err) {
+      res.status(500).send("Server Error");
+    }
   })
 });
 
@@ -137,9 +149,13 @@ function isDuplicate(users, username){
   return exists; // returns true is duplicate, false if not
 }
 
-function registerUser(users, username, password, callback){
-  users.push({username, password});
-  fs.writeFile("data/users.json", JSON.stringify(users, null, 2), (err) => callback(err));
+async function registerUser(users, username, password){
+  const saltRounds = 10;
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  users.push({username, password: hashedPassword});
+  await fs.promises.writeFile("data/users.json", JSON.stringify(users, null, 2));
 }
 
 // API FOR PROFILE MANAGEMENT 

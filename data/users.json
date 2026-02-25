@@ -1,14 +1,6 @@
 [
   {
     "username": "test@gmail.com",
-    "password": "test12345"
-  },
-  {
-    "username": "chris123@gmail.com",
-    "password": "chris123456"
-  },
-  {
-    "username": "test1@gmail.com",
-    "password": "test12345"
+    "password": "$2b$10$jaU3Bz4qGkcWteekPyJS7uQfLsjsfYCzDtOZ3erlm.e5QRXRymnCa"
   }
 ]
