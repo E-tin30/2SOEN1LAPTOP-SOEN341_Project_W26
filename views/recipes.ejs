@@ -81,23 +81,18 @@
         </div>
 
         <div class = "RecipeCreationUI" id="RecipeCreationUIPopUp">
-
-
-
+            
             <div class = "RecipeCreationOverlay">
-
-
-
-                    <h2 class="RecipeCreationTitle">Create a New Recipe</h2>
-
-
-
+                    <h2 >Create a New Recipe</h2>
+                    <span class="CloseBtn">&times;</span>
                     <form id="RecipeForm" class = "RecipeCreationForm" action="/recipes" method="POST">
 
-                        <div class = "Step Active">
+                        <div class = "Step active">
                             <label for="name">Recipe Name:</label>
                             <input type="text" id="name" name="name" required>
+                            <div class="StepButtons">
                             <button type="submit" onclick="NextStep()">Next</button>
+                            </div>
                         </div>
 
                         <div class = "Step">
@@ -107,41 +102,48 @@
                                 <button type="button" onclick="addIngredient()">Add</button>
                             </div>
                             <ul id="IngredientList"></ul>
-                            <input type="hidden" name="ingredients" id="ingredientsHidden">
-                            <button type="button" onclick="prevStep()">Back</button>
-                            <button type="button" onclick="nextStep()">Next</button>
-                        
+                            <input type="hidden" name="ingredients" id="IngredientsHidden">
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()">Back</button>
+                                <button type="button" onclick="NextStep()">Next</button>
+                            </div>
                         </div>
 
                         <!-- Step 3 -->
                         <div class="Step">
                             <label>Enter preparation steps</label>
                             <textarea name="Steps" required></textarea>
-                            <button type="button" onclick="prevStep()">Back</button>
-                            <button type="button" onclick="nextStep()">Next</button>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()">Back</button>
+                                <button type="button" onclick="NextStep()">Next</button>
+                            </div>
                         </div>
 
                         <!-- Step 4 -->
                         <div class="Step">
                             <label>Preparation time</label>
                             <input type="text" name="time" required>
-                            <button type="button" onclick="prevStep()">Back</button>
-                            <button type="button" onclick="nextStep()">Next</button>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()">Back</button>
+                                <button type="button" onclick="NextStep()">Next</button>
+                            </div>
                         </div>
 
                         <!-- Step 5 -->
                         <div class="Step">
                             <label>Cost</label>
                             <input type="text" name="cost" required>
-                            <button type="button" onclick="prevStep()">Back</button>
-                            <button type="button" onclick="nextStep()">Next</button>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()">Back</button>
+                                <button type="button" onclick="NextStep()">Next</button>
+                            </div>
                         </div>
 
                         <!-- Step 6 -->
                         <div class="Step">
                             <label>Dietary tags</label>
                             <input type="text" name="tags" placeholder="vegan, gluten-free...">
-                            <button type="button" onclick="prevStep()">Back</button>
+                            <button type="button" onclick="PrevStep()">Back</button>
                             <button type="submit">Submit Recipe</button>
                         </div>
                     </form>

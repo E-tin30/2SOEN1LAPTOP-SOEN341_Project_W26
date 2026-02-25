@@ -45,7 +45,7 @@ function addIngredient()
 {
     const Input = document.getElementById("IngredientInput");
 
-    const Value = Input.Value.trim();
+    const Value = Input.value.trim();
 
     if(Value === "")
         return;
@@ -69,7 +69,7 @@ function updateIngredientList()
 
         NewList.innerHTML =
         Ingredient +
-        ' <button onclick="removeIngredient(' + index + ')">Remove</button>';
+        ' <button onclick="removeIngredient(' + index + ')">X</button>';
 
         List.appendChild(NewList);
     });
@@ -94,13 +94,13 @@ let CurrentStep = 0;
 
 const Steps = document.querySelectorAll(".Step");
 
-function showStep(index)
+function ShowStep(index)
 {
-    Steps.forEach(step => Step.classList.remove("active"));
+    Steps.forEach(Step => Step.classList.remove("active"));
     Steps[index].classList.add("active");
 }
 
-function nextStep()
+function NextStep()
 {
     const Inputs = Steps[CurrentStep].querySelectorAll("input, textarea");
 
@@ -118,16 +118,16 @@ function nextStep()
     if (CurrentStep >= Steps.length)
         CurrentStep = Steps.length - 1;
 
-    showStep(CurrentStep);
+    ShowStep(CurrentStep);
 }
 
-function prevStep()
+function PrevStep()
 {
     CurrentStep--;
 
     if (CurrentStep < 0)
         CurrentStep = 0;
 
-    showStep(CurrentStep);
+    ShowStep(CurrentStep);
 }
 

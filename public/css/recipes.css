@@ -327,3 +327,33 @@ button:focus {
 .RecipeCreationUI.active {
     display: flex;
 }
+
+.RecipeCreationOverlay
+{
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+.Step
+{
+    display: none;
+    flex-direction: column;
+
+    height: 100%;
+}
+
+.Step.active
+{
+    display: flex;
+}
+
+.StepButtons
+{
+    margin-top: auto;   /* pushes buttons to bottom */
+    display: flex;
+    justify-content: flex-end; /* pushes to right */
+    gap: 10px;
+}
+
