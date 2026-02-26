@@ -19,41 +19,53 @@
     "tag": "Protein+"
   },
   {
-    "id": "1002",
+    "id": "1710000000001",
     "username": "testmaky@gmail.com",
-    "name": "Creamy Garlic Chicken Pasta",
-    "ingredients": [
-      "Penne pasta",
-      "Chicken breast",
-      "Garlic",
-      "Heavy cream",
-      "Parmesan cheese",
-      "Olive oil",
-      "Salt",
-      "Black pepper"
-    ],
-    "prepTime": "30 minutes",
-    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
-    "cost": "$12",
-    "tag": "Protein+"
+    "name": "Garlic Butter Pasta",
+    "ingredients": ["Pasta", "Butter", "Garlic", "Parmesan", "Parsley"],
+    "prepSteps": "Boil pasta. Sauté garlic in butter. Toss together with cheese.",
+    "prepTime": "15 mins",
+    "cost": "$",
+    "tag": "Dinner"
   },
   {
-    "id": "1003",
+    "id": "1710000000002",
     "username": "testmaky@gmail.com",
-    "name": "Pizza",
-    "ingredients": [
-      "Penne pasta",
-      "Chicken breast",
-      "Garlic",
-      "Heavy cream",
-      "Parmesan cheese",
-      "Olive oil",
-      "Salt",
-      "Black pepper"
-    ],
-    "prepTime": "30 minutes",
-    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
-    "cost": "$12",
-    "tag": "Protein+"
+    "name": "Chicken Stir Fry",
+    "ingredients": ["Chicken Breast", "Soy Sauce", "Ginger", "Garlic", "Broccoli", "Carrots"],
+    "prepSteps": "Slice chicken and veggies. Fry chicken, then add veggies and sauce.",
+    "prepTime": "20 mins",
+    "cost": "$$",
+    "tag": "Healthy"
+  },
+  {
+    "id": "1710000000003",
+    "username": "testmaky@gmail.com",
+    "name": "Spicy Tomato Soup",
+    "ingredients": ["Tomatoes", "Onion", "Chili Flakes", "Vegetable Broth", "Cream"],
+    "prepSteps": "Sauté onions. Add tomatoes and broth. Simmer and blend.",
+    "prepTime": "30 mins",
+    "cost": "$",
+    "tag": "Lunch"
+  },
+  {
+    "id": "1710000000004",
+    "username": "testmaky@gmail.com",
+    "name": "Beef Tacos",
+    "ingredients": ["Ground Beef", "Taco Shells", "Lettuce", "Cheese", "Tomato", "Cumin"],
+    "prepSteps": "Brown the beef with cumin. Assemble in shells with toppings.",
+    "prepTime": "15 mins",
+    "cost": "$$",
+    "tag": "Dinner"
+  },
+  {
+    "id": "1710000000005",
+    "username": "testmaky@gmail.com",
+    "name": "Banana Pancakes",
+    "ingredients": ["Banana", "Eggs", "Flour", "Milk", "Baking Powder"],
+    "prepSteps": "Mash bananas. Mix with other ingredients. Fry on a pan.",
+    "prepTime": "10 mins",
+    "cost": "$",
+    "tag": "Breakfast"
   }
 ]
