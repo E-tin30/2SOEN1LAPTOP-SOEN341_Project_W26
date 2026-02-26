@@ -26,11 +26,11 @@
                 <i class="bx bx-lock auth-icon"></i>
             </div>
 
-            <!-- Maybe in later sprint -->
-            <!-- <div class="auth-meta">
-                <label><input type="checkbox"> Remember Me</label>
-                <a class="auth-link" href="#">Forgot Password?</a>
-            </div> -->
+            <!-- Remember Me -->
+            <div class="auth-meta">
+                <label><input type="checkbox" name="rememberMe"> Remember Me</label>
+                <!-- <a class="auth-link" href="#">Forgot Password?</a> -->
+            </div>
 
             <div id="response" class="auth-error <%= errorMessage ? 'show' : '' %>" style="margin-top: 0;">
                 <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>

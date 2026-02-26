@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/E-tin30/2SOEN1LAPTOP-SOEN341_Project_W26#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
     "ejs": "^4.0.1",
     "express": "^5.2.1",

@@ -15,6 +15,7 @@
     ],
     "prepTime": "30 minutes",
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
-    "cost": "$12"
+    "cost": "$12",
+    "tag": "Protein+"
   }
 ]
