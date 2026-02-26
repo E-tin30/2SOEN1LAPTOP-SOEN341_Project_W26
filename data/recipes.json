@@ -19,81 +19,53 @@
     "tag": "Protein+"
   },
   {
-    "id": "3982",
-    "username": "chris123@gmail.com",
-    "name": "Lemon Herb Chicken & Veggies",
-    "ingredients": [
-      "chicken breasts",
-      "broccoli",
-      "olive oil",
-      "dried oregano",
-      "garlic powder",
-      "lemon",
-      "salt",
-      "pepper"
-    ],
-    "prepTime": "30 mins",
-    "prepSteps": "Place chicken and broccoli on the baking sheet. Drizzle with olive oil, lemon juice, garlic powder, oregano, salt, and pepper. Toss directly on the pan until everything is evenly coated. Bake until the chicken is cooked through and broccoli is tender.",
-    "cost": "$8",
-    "tag": "Gluten-Free, Low-Carb, Healthy"
-  },
-  {
-    "id": "4152",
-    "username": "chris123@gmail.com",
-    "name": "Egg Omelette",
-    "ingredients": [
-      "eggs",
-      "milk",
-      "oil",
-      "salt"
-    ],
-    "prepTime": "10 minutes",
-    "prepSteps": "Whisk eggs with liquid and seasoning until frothy. Melt butter/oil in a pan over medium-low heat. Add eggs. Lift edges to let uncooked egg flow under. Fill and fold when mostly set.",
-    "cost": "$5",
-    "tag": "High-Protein, Low-Carb/Keto"
-  },
-  {
-    "id": "1002",
-    "username": "chris123@gmail.com",
-    "name": "Creamy Garlic Chicken Pasta",
-    "ingredients": [
-      "Penne pasta",
-      "Chicken breast",
-      "Garlic",
-      "Heavy cream",
-      "Parmesan cheese",
-      "Olive oil",
-      "Salt",
-      "Black pepper"
-    ],
-    "prepTime": "30 mins",
-    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
-    "cost": "$15",
+    "id": "1710000000001",
+    "username": "testmaky@gmail.com",
+    "name": "Garlic Butter Pasta",
+    "ingredients": ["Pasta", "Butter", "Garlic", "Parmesan", "Parsley"],
+    "prepSteps": "Boil pasta. Sauté garlic in butter. Toss together with cheese.",
+    "prepTime": "15 mins",
+    "cost": "$",
     "tag": "Dinner"
   },
   {
-    "id": "1958",
-    "username": "chris123@gmail.com",
-    "name": "Apple Slices",
-    "ingredients": [
-      "apple"
-    ],
-    "prepTime": "1 minute",
-    "prepSteps": "Slice Apple",
-    "cost": "$2",
-    "tag": "vegan"
+    "id": "1710000000002",
+    "username": "testmaky@gmail.com",
+    "name": "Chicken Stir Fry",
+    "ingredients": ["Chicken Breast", "Soy Sauce", "Ginger", "Garlic", "Broccoli", "Carrots"],
+    "prepSteps": "Slice chicken and veggies. Fry chicken, then add veggies and sauce.",
+    "prepTime": "20 mins",
+    "cost": "$$",
+    "tag": "Healthy"
   },
   {
-    "id": "7124",
-    "username": "test@gmail.com",
-    "name": "test",
-    "ingredients": [
-      "test",
-      "test2"
-    ],
-    "prepTime": "test",
-    "prepSteps": "test",
-    "cost": "$50",
-    "tag": "vegan"
+    "id": "1710000000003",
+    "username": "testmaky@gmail.com",
+    "name": "Spicy Tomato Soup",
+    "ingredients": ["Tomatoes", "Onion", "Chili Flakes", "Vegetable Broth", "Cream"],
+    "prepSteps": "Sauté onions. Add tomatoes and broth. Simmer and blend.",
+    "prepTime": "30 mins",
+    "cost": "$",
+    "tag": "Lunch"
+  },
+  {
+    "id": "1710000000004",
+    "username": "testmaky@gmail.com",
+    "name": "Beef Tacos",
+    "ingredients": ["Ground Beef", "Taco Shells", "Lettuce", "Cheese", "Tomato", "Cumin"],
+    "prepSteps": "Brown the beef with cumin. Assemble in shells with toppings.",
+    "prepTime": "15 mins",
+    "cost": "$$",
+    "tag": "Dinner"
+  },
+  {
+    "id": "1710000000005",
+    "username": "testmaky@gmail.com",
+    "name": "Banana Pancakes",
+    "ingredients": ["Banana", "Eggs", "Flour", "Milk", "Baking Powder"],
+    "prepSteps": "Mash bananas. Mix with other ingredients. Fry on a pan.",
+    "prepTime": "10 mins",
+    "cost": "$",
+    "tag": "Breakfast"
   }
 ]
