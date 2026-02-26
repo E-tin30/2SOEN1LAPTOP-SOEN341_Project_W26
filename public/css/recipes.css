@@ -189,6 +189,7 @@
     float: right;
     font-size: 22px;
     cursor: pointer;
+    color: red;
 }
 
 
@@ -243,6 +244,80 @@
     flex-direction: column;
     gap: 15px;
     align-items: center;
+}
+
+/* Search Bar Design */
+
+.SearchWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.SearchInput{
+    padding: 10px 14px;
+    border-radius: 25px;
+    border: none;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    justify-content: center;
+    
+}
+
+
+.SearchWrapper input {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 20px 120px 20px 50px;
+}
+.SearchWrapper i,
+.SearchWrapper .SearchButton {
+    position: relative;
+}
+
+.SearchWrapper i{
+    left: 40px;
+    font-size: 20px;
+    color: #707070;
+}
+
+.SearchWrapper .SearchButton {
+    right: 100px;
+    background-color: #4070f4;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.SearchWrapper .SearchButton:hover {
+    background-color: #3058c9;
+}
+
+.SearchButton:focus{
+    outline: none;
+}
+
+.SearchButton:active {
+    transform: scale(0.95); /* Slightly shrink the button */
+    background-color: #0056b3; /* Change the background color */
+}
 .hidden {
     display: none;
 }

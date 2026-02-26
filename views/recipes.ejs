@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <script src="/scripts/delete-recipe.js" defer></script>
@@ -25,7 +27,14 @@
             <button class="FilterBtn" id= "OpenFilter"> 
             <i class="fa-solid fa-filter"> </i> 
             Filter
-            </button>    
+            </button>  
+        </div>
+
+        <!-- Search Bar UI -->
+        <div class="SearchWrapper">
+            <i class="uil uil-search"></i>
+            <input type="text" id = "SearchInput" placeholder="Search recipes..." class="SearchInput">
+            <Button class="SearchButton">Search</Button>
         </div>
 
         <!-- Overlay for the Filter menu-->
