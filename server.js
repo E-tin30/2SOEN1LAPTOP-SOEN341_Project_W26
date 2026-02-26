@@ -309,9 +309,10 @@ app.post('/recipes', (req, res) => {
     let missingFields = [];
     if (!name) missingFields.push("name");
     if (!ingredients) missingFields.push("ingredients");
-    if (!preparationSteps) missingFields.push("preparationSteps");
+    if (!Steps) missingFields.push("Steps");
     if (!time) missingFields.push("time");
     if (!cost) missingFields.push("cost");
+    if (!tags) missingFields.push("tags");
 
     if (missingFields.length > 0) {
         return res.status(400).send(`
@@ -341,7 +342,7 @@ app.post('/recipes', (req, res) => {
 
     let stepsArray = [];
     if (typeof preparationSteps === 'string') {
-        stepsArray = preparationSteps.split('\n').map(item => item.trim()).filter(item => item !== "");
+        stepsArray = steps.split('\n').map(item => item.trim()).filter(item => item !== "");
     } else if (Array.isArray(preparationSteps)) {
         stepsArray = preparationSteps;
     }
