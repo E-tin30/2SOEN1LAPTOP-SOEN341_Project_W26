@@ -234,7 +234,6 @@ button:focus {
 
 /* Search Bar Design */
 
-
 .SearchWrapper {
     position: relative;
     display: flex;
@@ -305,12 +304,7 @@ button:focus {
     transform: scale(0.95); /* Slightly shrink the button */
     background-color: #0056b3; /* Change the background color */
 }
-
-
-
-
-
-
+/* End of Search Bar Design */
 
 /* Recipe Creation Style */
 
@@ -389,7 +383,9 @@ button:focus {
 
 .RecipeCreationTitle{
     margin-top: 0;
+    position: relative;
     margin-bottom: 20px;
+    bottom: 30px;
     font-size: 24px;
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -397,16 +393,13 @@ button:focus {
 
 .CloseBtnRecipeCreation
 {
-    position: absolute;
-
-    top: 10px;
+    position: relative;
+    bottom: 25px;
     right: 15px;
-
+    left: 400px;
     font-size: 28px;
     font-weight: bold;
-
     cursor: pointer;
-
     color: red;
 }
 
@@ -456,6 +449,7 @@ button:focus {
     cursor: pointer;
     margin-left: 8px;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    border: black solid 1px;
 }
 
 .RemoveIngredientBtn:hover {
