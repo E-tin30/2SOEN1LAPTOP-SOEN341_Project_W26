@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <script src="/scripts/delete-recipe.js" defer></script>
@@ -20,7 +22,57 @@
     <main class="page-content">
         <h1>Recipes</h1>
         <hr>
+        <!-- Filter Bar, (Used for the button style) -->
+        <div class= "FilterBarContainer">
+            <button class="FilterBtn" id= "OpenFilter"> 
+            <i class="fa-solid fa-filter"> </i> 
+            Filter
+            </button>  
+        </div>
 
+        <!-- Search Bar UI -->
+        <div class="SearchWrapper">
+            <i class="uil uil-search"></i>
+            <input type="text" id = "SearchInput" placeholder="Search recipes..." class="SearchInput">
+            <Button class="SearchButton">Search</Button>
+        </div>
+
+        <!-- Overlay for the Filter menu-->
+        <div id="FilterOverlay" class="FilterOverlay">
+            <div class="OverlayContent">
+                <span class="CloseBtn">&times;</span>
+                <h2 class="FilterTitle">Filter Recipes</h2>
+                <form class = "FilterForm">
+                    <select class="FilterSelect" name="time" >
+                        <option class="OptionStyle" value="">Any Time</option>
+                        <option class="OptionStyle" value="15">Under 15 mins</option>
+                        <option class="OptionStyle" value="30">Under 30 mins</option>
+                        <option class="OptionStyle" value="60">Under 1 hour</option>
+                    </select>
+                    <select class="FilterSelect" name="cost" >
+                        <option class="OptionStyle" value="">Any Cost</option>
+                        <option class="OptionStyle" value="low">Low Cost</option>
+                        <option class="OptionStyle" value="medium">Medium Cost</option>
+                        <option class="OptionStyle" value="high">High Cost</option>
+                    </select>
+                    
+                    <select class="FilterSelect" name="difficulty" >
+                        <option class="OptionStyle" value="">Any Difficulty</option>
+                        <option class="OptionStyle" value="easy">Easy Difficulty</option>
+                        <option class="OptionStyle" value="medium">Medium Difficulty</option>
+                        <option class="OptionStyle" value="hard"> Hard Difficulty</option>
+                    </select>
+                   
+                    <select class="FilterSelect" name="dietary" >
+                        <option class="OptionStyle" value="">Any Dietery</option>
+                        <option class="OptionStyle" value="vegan">Vegan</option>
+                        <option class="OptionStyle" value="vegetarian">Vegetarian</option>
+                        <option class="OptionStyle" value="gluten-free">Gluten-free</option>
+                    </select>
+                    <button type="submit" class="FilterBtn">Apply Filters</button>
+                </form>
+            </div>
+        </div>
         <div class="recipe-header">
             <h2>Your Recipes</h2>
             <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
@@ -103,6 +155,7 @@
         </div>
 
     </main>
-</div>
+  </div>
+  <script src="/scripts/recipes.js"></script>
 </body>
 </html>
