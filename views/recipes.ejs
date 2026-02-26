@@ -31,8 +31,8 @@
                     </button>  
                 </div>
 
-                <!-- Add recipes button -->
-                <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
+                <!-- Recipe Creation UI -->
+                <button class="addRecipeBtn" id="OpenRecipeCreation" onclick="OpenRecipeCreationUI()">+ Add Recipe</button>
             </div>
         </div>
 
@@ -80,12 +80,6 @@
             </div>
         </div>
         <!-- End of Filter Overlay -->
-
-        <!-- Recipe Creation UI -->
-        <div class="recipe-header">
-            <h2>Your Recipes</h2>
-            <button class="addRecipeBtn" id="OpenRecipeCreation" onclick="OpenRecipeCreationUI()">+ Add Recipe</button>
-        </div>
 
         <div class = "RecipeCreationUI" id="RecipeCreationUIPopUp">
             <div class = "RecipeCreationOverlay">
@@ -157,35 +151,6 @@
             </div>
         </div>
         <!-- End of Recipe Creation UI -->
-
-
-        <div class="content">
-            <section class="recipe-list">
-                <% if (recipes.length > 0) { %>
-                    <% recipes.forEach(recipe => { %>
-                        <div class="recipe-card">
-                            <!-- <img src="/images/<%= recipe.id %>.jpg" alt="<%= recipe.name %>" width="200"> -->
-                            <!-- We'll see if we include an image ideally we do -->
-                            <h2><%= recipe.name %></h2>
-                            <p><strong>Ingredients:</strong></p>
-                            <ul>
-                                <% recipe.ingredients.forEach(ingredient => { %>
-                                    <li><%= ingredient %></li>
-                                <% }) %>
-                            </ul>
-                            <p><strong>Prep. time:</strong> <%= recipe.prepTime %></p>
-                            <p><strong>Prep. steps:</strong> <%= recipe.prepSteps %></p>
-                            <p><strong>Cost:</strong> <%= recipe.cost %></p>
-                            
-                            <div class="card-actions">
-                                <form action="/recipes/<%= recipe.id %>/edit" method="GET">
-                                    <button type="submit" class="editBtn">Edit</button>
-                                </form>
-
-                                <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
-                                    <button type="submit" class="deleteBtn">Delete</button>
-                                </form>
-                            </div>
 
         <% if (flashMessage) { %>
             <div class="flash-message">
