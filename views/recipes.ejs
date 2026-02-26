@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -20,14 +19,21 @@
     <%- include('partials/navbar.ejs') %>
 
     <main class="page-content">
-        <h1>Recipes</h1>
-        <hr>
-        <!-- Filter Bar, (Used for the button style) -->
-        <div class= "FilterBarContainer">
-            <button class="FilterBtn" id= "OpenFilter"> 
-            <i class="fa-solid fa-filter"> </i> 
-            Filter
-            </button>  
+        <div class="recipe-header">
+            <h1>Your Recipes</h1>
+
+            <div class="page-actions">
+                <!-- Filter Bar, (Used for the button style) -->
+                <div class= "FilterBarContainer">
+                    <button class="FilterBtn" id= "OpenFilter"> 
+                    <i class="fa-solid fa-filter"> </i> 
+                    Filter
+                    </button>  
+                </div>
+
+                <!-- Add recipes button -->
+                <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
+            </div>
         </div>
 
         <!-- Search Bar UI -->
@@ -73,10 +79,113 @@
                 </form>
             </div>
         </div>
+        <!-- End of Filter Overlay -->
+
+        <!-- Recipe Creation UI -->
         <div class="recipe-header">
             <h2>Your Recipes</h2>
-            <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
+            <button class="addRecipeBtn" id="OpenRecipeCreation" onclick="OpenRecipeCreationUI()">+ Add Recipe</button>
         </div>
+
+        <div class = "RecipeCreationUI" id="RecipeCreationUIPopUp">
+            <div class = "RecipeCreationOverlay">
+                    <span class="CloseBtnRecipeCreation">&times;</span>
+                    <h2 class="RecipeCreationTitle">Create a New Recipe</h2>
+                    
+                    <form id="RecipeForm" class = "RecipeCreationForm" action="/recipes" method="POST">
+                        <div class = "Step active">
+                            <label for="name" class="StepLabel">Recipe Name</label >
+                            <input type="text" id="RecipeName" name="name" placeholder="Enter the name of your recipe" required class="StepInputRecipe">
+                            <div class="ErrorMessage" id="RecipeNameError"></div>
+                            <div class="StepButtons">
+                            <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            </div>
+                        </div>
+                        <div class = "Step">
+                            <label class="StepLabel">Add ingredients</label>
+                            <div>
+                                <input type="text" id="IngredientInput" placeholder="Enter ingredient" class="StepInputRecipe">
+                                <button type="button" onclick="addIngredient()" class="AddIngredientButton">Add Ingredient</button>
+                            </div>
+                            <ul id="IngredientList"></ul>
+                            <input type="hidden" name="ingredients" id="IngredientsHidden">
+                            <div class="ErrorMessage" id="ingredientError"></div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            </div>
+                        </div> 
+                        <div class="Step">
+                            <label class="StepLabel">Enter preparation steps</label>
+                            <textarea name="Steps" required class="StepInputRecipe"></textarea>
+                            <div class="ErrorMessage" id="stepError"></div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            </div>
+                        </div>
+                        <div class="Step">
+                            <label class="StepLabel">Preparation time</label>
+                            <input type="text" name="time" placeholder="Enter the preparation time" id="Prep" class="StepInputRecipe" required>
+                        <div class="ErrorMessage" id="PrepError">   
+                        </div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            </div>
+                        </div>
+                        <div class="Step">
+                            <label class="StepLabel">Cost</label>
+                            <input type="text" name="cost" placeholder="Enter the Cost" id="Cost" class="StepInputRecipe" required>
+                            <div class="ErrorMessage" id="CostError"></div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+
+                            </div>
+                        </div>
+                        <div class="Step">
+                            <label class="StepLabel">Dietary tags</label>
+                            <input type="text" name="tags" id="Dietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
+                            <div class="ErrorMessage" id="DietaryError"></div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="submit" class="SubmitRecipeButtonStyle">Submit Recipe</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+        <!-- End of Recipe Creation UI -->
+
+
+        <div class="content">
+            <section class="recipe-list">
+                <% if (recipes.length > 0) { %>
+                    <% recipes.forEach(recipe => { %>
+                        <div class="recipe-card">
+                            <!-- <img src="/images/<%= recipe.id %>.jpg" alt="<%= recipe.name %>" width="200"> -->
+                            <!-- We'll see if we include an image ideally we do -->
+                            <h2><%= recipe.name %></h2>
+                            <p><strong>Ingredients:</strong></p>
+                            <ul>
+                                <% recipe.ingredients.forEach(ingredient => { %>
+                                    <li><%= ingredient %></li>
+                                <% }) %>
+                            </ul>
+                            <p><strong>Prep. time:</strong> <%= recipe.prepTime %></p>
+                            <p><strong>Prep. steps:</strong> <%= recipe.prepSteps %></p>
+                            <p><strong>Cost:</strong> <%= recipe.cost %></p>
+                            
+                            <div class="card-actions">
+                                <form action="/recipes/<%= recipe.id %>/edit" method="GET">
+                                    <button type="submit" class="editBtn">Edit</button>
+                                </form>
+
+                                <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
+                                    <button type="submit" class="deleteBtn">Delete</button>
+                                </form>
+                            </div>
 
         <% if (flashMessage) { %>
             <div class="flash-message">
