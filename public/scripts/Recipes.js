@@ -197,7 +197,7 @@ function openEditRecipe(recipeId) {
     const cost = card.dataset.cost || "";
     const tag = card.dataset.tag || "";
 
-    document.getElementById("EditRecipeForm").action = `/recipes/${recipeId}`;
+    document.getElementById("EditRecipeForm").action = `/recipes/${recipeId}?_method=PUT`;
     document.getElementById("EditRecipeName").value = name;
     EditIngredients = [...ingredients];
     updateEditIngredientList();
