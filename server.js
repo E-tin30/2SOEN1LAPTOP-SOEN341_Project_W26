@@ -236,8 +236,13 @@ function requireAuth(req, res, next) {
 
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
+    // Grab messages from the session
     const flashMessage = req.session.flashMessage;
+    const flashError = req.session.flashError;
+    
+    // Clear them immediately so they don't get stuck on the screen after refreshing
     delete req.session.flashMessage;
+    delete req.session.flashError;
 
     const allRecipes = getRecipes();
     let recipes = allRecipes.filter(r => r.username === req.session.username);
@@ -310,4 +315,87 @@ app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from da
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+
+/*CREATING RECIPE*/
+app.post('/recipes', (req, res) => {
+
+    // This will print the exact data the frontend sent into VS Terminal
+    //console.log("NEW RECIPE SUBMISSION");
+    //console.log(req.body);
+
+    // Grab what the frontend is sending in req.body
+    const { name, ingredients, Steps, time, cost, tags } = req.body;
+
+    // Validate using variable names
+    let missingFields = [];
+    if (!name) missingFields.push("name");
+    if (!ingredients) missingFields.push("ingredients");
+    if (!Steps) missingFields.push("Steps");
+    if (!time) missingFields.push("time");
+    if (!cost) missingFields.push("cost");
+    if (!tags) missingFields.push("tags");
+
+    if (missingFields.length > 0) {
+        // 4.4 Save to session and redirect
+        req.session.flashError = `Submission Failed! Missing fields: ${missingFields.join(", ")}. Please check your form.`;
+        return res.redirect('/recipes');
+    }
+
+    // Format the Cost
+    let formattedCost = cost.trim().replace(/\s/g, ''); 
+    if (formattedCost.endsWith('$')) {
+        formattedCost = '$' + formattedCost.slice(0, -1);
+    } else if (!formattedCost.startsWith('$')) {
+        formattedCost = '$' + formattedCost;
+    }
+
+    // Parse the ingredients string into an actual JavaScript array
+    let parsedIngredients = [];
+    try {
+        parsedIngredients = JSON.parse(ingredients);
+    } catch (error) {
+        // Fallback in case the frontend ever sends it as a comma-separated string
+        parsedIngredients = ingredients.split(',').map(item => item.trim());
+    }
+
+    // Create the new recipe object matching recipes.json structure 
+    const newRecipe = {
+        id: Math.floor(1000 + Math.random() * 9000).toString(), 
+        username: req.session && req.session.username ? req.session.username : "test@gmail.com",
+        name: name.trim(),
+        ingredients: parsedIngredients,
+        prepTime: time.trim(),       
+        prepSteps: Steps.trim(),     
+        cost: formattedCost,
+        tag: tags.trim()             
+    };
+    // Save to JSON file
+    const filePath = path.join(__dirname, 'data', 'recipes.json');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            req.session.flashError = "Database Error: Could not read recipes.";
+            return res.redirect('/recipes');
+        }
+
+        let recipes = [];
+        try {
+            if (data) recipes = JSON.parse(data);           
+            recipes.push(newRecipe);
+            fs.writeFile(filePath, JSON.stringify(recipes, null, 2), 'utf8', (writeErr) => {
+                if (writeErr) {
+                    req.session.flashError = "Database Error: Could not save recipe.";
+                    return res.redirect('/recipes');
+                }                
+                // 4.4 Save success message to session and redirect
+                req.session.flashMessage = "Recipe successfully created!";
+                res.redirect('/recipes');
+            });
+        } catch (parseErr) {
+            req.session.flashError = "Server processing error.";
+            res.redirect('/recipes');
+        }
+    });
 });

@@ -1,0 +1,28 @@
+Team Meeting 4:
+
+Date: February 26th, 2026 at 14:00
+
+Participants:
+Chrisjan Alejandro
+Ethan Elkaim
+Martin Miskovski
+Mark Urbano
+Paul-Phillipe Kadio Ehui
+Kepler Paul-Émile
+
+Topics:
+
+- What was done from last meeting:
+    - CI was updated to run automated test
+    - Add recipes functionality completed
+    - Search functionality implemented
+    - Some updates to css of recipes page
+    - Project Planning document completed
+    - Remember me feature implemented
+    - Passwords hashed when saved
+
+To-do:
+- Filter backend
+- Edit recipe backend
+
+#1 hour / 60 minutes
