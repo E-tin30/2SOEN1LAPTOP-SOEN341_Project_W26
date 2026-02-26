@@ -236,12 +236,26 @@ function requireAuth(req, res, next) {
 
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
+    // Grab messages from the session
     const flashMessage = req.session.flashMessage;
+    const flashError = req.session.flashError;
+    
+    // Clear them immediately so they don't get stuck on the screen after refreshing
     delete req.session.flashMessage;
+    delete req.session.flashError;
 
     const allRecipes = getRecipes(); // returns all recipes
     const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
-    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes, flashMessage });
+    
+    // Pass BOTH messages to the frontend
+    res.render('recipes', { 
+        title: 'Recipes', 
+        currentPage: 'recipes', 
+        username: req.session.username, 
+        recipes: recipes, 
+        flashMessage: flashMessage,
+        flashError: flashError
+    });
 });
 
 // Show create form
@@ -292,21 +306,17 @@ app.listen(PORT, () => {
 
 
 
-
-
-
-
-
-
+/*CREATING RECIPE*/
 app.post('/recipes', (req, res) => {
-    // This will print the exact data the frontend sent into your VSCode Terminal
-    //console.log("=== NEW RECIPE SUBMISSION ===");
-    //console.log(req.body); 
 
-    // Grab EXACTLY what the frontend is sending in req.body (Notice: 'Steps' and 'tags')
+    // This will print the exact data the frontend sent into VS Terminal
+    //console.log("NEW RECIPE SUBMISSION");
+    //console.log(req.body);
+
+    // Grab what the frontend is sending in req.body
     const { name, ingredients, Steps, time, cost, tags } = req.body;
 
-    // Validate using those exact variable names
+    // Validate using variable names
     let missingFields = [];
     if (!name) missingFields.push("name");
     if (!ingredients) missingFields.push("ingredients");
@@ -316,16 +326,12 @@ app.post('/recipes', (req, res) => {
     if (!tags) missingFields.push("tags");
 
     if (missingFields.length > 0) {
-        return res.status(400).send(`
-            <h2>Submission Failed!</h2>
-            <p>The backend is looking for specific variable names, but the frontend didn't send them.</p>
-            <p><strong>Missing fields:</strong> ${missingFields.join(", ")}</p>
-            <p><em>Tell your teammate to check the 'name="..."' attributes in their HTML form!</em></p>
-            <br><a href="/recipes">Go Back</a>
-        `);
+        // 4.4 Save to session and redirect
+        req.session.flashError = `Submission Failed! Missing fields: ${missingFields.join(", ")}. Please check your form.`;
+        return res.redirect('/recipes');
     }
 
-    // Format the Cost (e.g., converts "8$" to "$8")
+    // Format the Cost
     let formattedCost = cost.trim().replace(/\s/g, ''); 
     if (formattedCost.endsWith('$')) {
         formattedCost = '$' + formattedCost.slice(0, -1);
@@ -342,42 +348,41 @@ app.post('/recipes', (req, res) => {
         parsedIngredients = ingredients.split(',').map(item => item.trim());
     }
 
-    // Create the new recipe object matching your recipes.json structure EXACTLY
+    // Create the new recipe object matching recipes.json structure 
     const newRecipe = {
-        id: Math.floor(1000 + Math.random() * 9000).toString(), // Generates random 4-digit ID
+        id: Math.floor(1000 + Math.random() * 9000).toString(), 
         username: req.session && req.session.username ? req.session.username : "test@gmail.com",
         name: name.trim(),
         ingredients: parsedIngredients,
-        prepTime: time.trim(),       // Maps UI 'time' to DB 'prepTime'
-        prepSteps: Steps.trim(),     // Maps UI 'Steps' to DB 'prepSteps'
+        prepTime: time.trim(),       
+        prepSteps: Steps.trim(),     
         cost: formattedCost,
-        tag: tags.trim()             // Maps UI 'tags' to DB 'tag'
+        tag: tags.trim()             
     };
-
     // Save to JSON file
-    const fs = require('fs');
-    const path = require('path');
     const filePath = path.join(__dirname, 'data', 'recipes.json');
-
     fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) return res.status(500).send("Error reading database: " + err.message);
+        if (err) {
+            req.session.flashError = "Database Error: Could not read recipes.";
+            return res.redirect('/recipes');
+        }
 
         let recipes = [];
         try {
-            if (data) recipes = JSON.parse(data);
-            
-            // Append the newly created recipe
+            if (data) recipes = JSON.parse(data);           
             recipes.push(newRecipe);
-
-            // Write it back to the JSON file formatted nicely
             fs.writeFile(filePath, JSON.stringify(recipes, null, 2), 'utf8', (writeErr) => {
-                if (writeErr) return res.status(500).send("Error saving recipe: " + writeErr.message);
-                
-                // Success! Redirect back to the recipes page
+                if (writeErr) {
+                    req.session.flashError = "Database Error: Could not save recipe.";
+                    return res.redirect('/recipes');
+                }                
+                // 4.4 Save success message to session and redirect
+                req.session.flashMessage = "Recipe successfully created!";
                 res.redirect('/recipes');
             });
         } catch (parseErr) {
-            res.status(500).send("Error processing data.");
+            req.session.flashError = "Server processing error.";
+            res.redirect('/recipes');
         }
     });
 });

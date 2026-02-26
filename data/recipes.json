@@ -51,7 +51,7 @@
     "prepSteps": "Whisk eggs with liquid and seasoning until frothy. Melt butter/oil in a pan over medium-low heat. Add eggs. Lift edges to let uncooked egg flow under. Fill and fold when mostly set.",
     "cost": "$5",
     "tag": "High-Protein, Low-Carb/Keto"
-  }, 
+  },
   {
     "id": "1002",
     "username": "chris123@gmail.com",
@@ -70,5 +70,17 @@
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$15",
     "tag": "Dinner"
+  },
+  {
+    "id": "1958",
+    "username": "chris123@gmail.com",
+    "name": "Apple Slices",
+    "ingredients": [
+      "apple"
+    ],
+    "prepTime": "1 minute",
+    "prepSteps": "Slice Apple",
+    "cost": "$2",
+    "tag": "vegan"
   }
 ]
