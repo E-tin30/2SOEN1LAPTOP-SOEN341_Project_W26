@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
+
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="/scripts/delete-recipe.js" defer></script>
+    <script src="/scripts/recipe-modal.js" defer></script>
 </head>
 <body>
-    <div class="app-layout">
-    <!-- Sidebar Navigation -->
+<div class="app-layout">
+
     <%- include('partials/navbar.ejs') %>
 
-    <!-- Main Content -->
     <main class="page-content">
         <h1>Recipes</h1>
-
         <hr>
-        <!-- Filter Bar -->
+        <!-- Filter Bar, (Used for the button style) -->
         <div class= "FilterBarContainer">
             <button class="FilterBtn" id= "OpenFilter"> 
             <i class="fa-solid fa-filter"> </i> 
@@ -74,41 +77,83 @@
             <h2>Your Recipes</h2>
             <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
         </div>
-        
-        <div class="content">
-            <section class="recipe-list">
-                <% if (recipes.length > 0) { %>
-                    <% recipes.forEach(recipe => { %>
-                        <div class="recipe-card">
-                            <!-- <img src="/images/<%= recipe.id %>.jpg" alt="<%= recipe.name %>" width="200"> -->
-                            <!-- We'll see if we include an image ideally we do -->
-                            <h2><%= recipe.name %></h2>
-                            <p><strong>Ingredients:</strong></p>
-                            <ul>
-                                <% recipe.ingredients.forEach(ingredient => { %>
-                                    <li><%= ingredient %></li>
-                                <% }) %>
-                            </ul>
-                            <p><strong>Prep. time:</strong> <%= recipe.prepTime %></p>
-                            <p><strong>Prep. steps:</strong> <%= recipe.prepSteps %></p>
-                            <p><strong>Cost:</strong> <%= recipe.cost %></p>
-                            
-                            <div class="card-actions">
-                                <form action="/recipes/<%= recipe.id %>/edit" method="GET">
-                                    <button type="submit" class="editBtn">Edit</button>
-                                </form>
 
-                                <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
-                                    <button type="submit" class="deleteBtn">Delete</button>
-                                </form>
-                            </div>
+        <% if (flashMessage) { %>
+            <div class="flash-message">
+                <%= flashMessage %>
+            </div>
+        <% } %>
+
+        <section class="recipe-list">
+            <% if (recipes.length > 0) { %>
+                <% recipes.forEach(recipe => { %>
+
+                    <div class="recipe-card"
+                        data-id="<%= recipe.id %>"
+                        data-name="<%= recipe.name %>"
+                        data-ingredients='<%- JSON.stringify(recipe.ingredients) %>'
+                        data-preptime="<%= recipe.prepTime %>"
+                        data-steps="<%= recipe.prepSteps %>"
+                        data-cost="<%= recipe.cost %>"
+                        data-tag="<%= recipe.tag %>">
+
+                        <!-- Dietary Tag -->
+                        <% if (recipe.tag) { %>
+                            <span class="recipe-tag"><%= recipe.tag %></span>
+                        <% } %>
+
+                        <!-- Edit/Delete icons -->
+                        <div class="card-top-actions">
+                            <form action="/recipes/<%= recipe.id %>/edit" method="GET">
+                                <button type="submit" class="icon-btn edit-icon">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            </form>
+
+                            <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </div>
-                    <% }); %>
-                <% } else { %>
-                    <p style="margin: 0;">No recipes yet. Add a recipe to see it here.</p>
-                <% } %>
-            </section>
-      </div>
+
+                        <h3><%= recipe.name %></h3>
+
+                        <!-- Prep time + Cost -->
+                        <div class="recipe-meta">
+                            <span><i class="fa-solid fa-clock"></i> <%= recipe.prepTime %></span>
+                            <span><%= recipe.cost %></span>
+                        </div>
+
+                    </div>
+
+                <% }); %>
+            <% } else { %>
+                <p class="empty-message">No recipes yet. Add a recipe to see it here.</p>
+            <% } %>
+        </section>
+
+        <!-- MODAL -->
+        <div id="recipeModal" class="modal hidden">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+
+                <h2 id="modalName"></h2>
+                
+                <span id="modalTag" class="recipe-tag modal-tag"></span>
+
+                <p><strong>Ingredients:</strong></p>
+                <ul id="modalIngredients"></ul>
+
+                <p><strong>Prep Time:</strong> <span id="modalPrepTime"></span></p>
+
+                <p><strong>Steps:</strong></p>
+                <p id="modalSteps"></p>
+
+                <p><strong>Cost:</strong> <span id="modalCost"></span></p>
+            </div>
+        </div>
+
     </main>
   </div>
   <script src="/scripts/recipes.js"></script>
