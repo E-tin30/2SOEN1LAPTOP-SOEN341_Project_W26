@@ -1,5 +1,6 @@
 /* This script handles the opening and closing of the filter overlay on the recipes page. */
-function toggleFilterOverlay(action) {
+function toggleFilterOverlay(action) 
+{
     const FilterOverlay = document.getElementById("FilterOverlay");
 
     if (action === "open") {
@@ -9,8 +10,10 @@ function toggleFilterOverlay(action) {
     }
 }
 
-    const btn = document.getElementById("OpenFilter");
-    const close = document.querySelector(".CloseBtn");
+
+const btn = document.getElementById("OpenFilter");
+
+const close = document.querySelector(".CloseBtn");
 
     // Open FilterOverlay
     btn.onclick = () => toggleFilterOverlay("open");
@@ -19,7 +22,8 @@ function toggleFilterOverlay(action) {
     close.onclick = () => toggleFilterOverlay("close");
 
     // Close if click outside FilterOverlay content
-    window.onclick = (e) => {
+    window.onclick = (e) => 
+{
         const FilterOverlay = document.getElementById("FilterOverlay");
         if (e.target === FilterOverlay) {
             toggleFilterOverlay("close");
@@ -39,6 +43,7 @@ function CloseRecipeCreationUI()
     document.getElementById("RecipeCreationUIPopUp").classList.remove("active");
 }
 
+// Recipe Creation Overlay
 function toggleRecipeCreationOverlay(action) {
     const RecipeCreationOverlay = document.getElementById("RecipeCreationUIPopUp");
 
@@ -111,54 +116,67 @@ function removeIngredient(index)
 
 /* This script handles the dynamic addition and removal of Instructions in the recipe creation form. */
 
-
 let CurrentStep = 0;
-
 const Steps = document.querySelectorAll(".Step");
 
 function ShowStep(index)
 {
-    Steps.forEach(Step => Step.classList.remove("active"));
-    Steps[index].classList.add("active");
+    Steps.forEach((step, i) => {
+        step.classList.remove("active");
+        if (i === index) {
+            step.classList.add("active");
+        }
+    });
 }
-
+// Validate current step inputs and move to next step
 function NextStep()
 {
-    const steps = document.querySelectorAll(".Step");
-    const currentStepIndex = Array.from(steps).findIndex(step => step.classList.contains("active"));
-    const step = steps[currentStepIndex];
-
+    const step = Steps[CurrentStep];
     let valid = true;
 
     // Validate inputs in current step
     const inputs = step.querySelectorAll("input, textarea");
+
     inputs.forEach(input => {
-        // each input must have a unique ID and corresponding error div
-        const errorDiv = step.querySelector(`#${input.id}Error`);
-        if (!input.value.trim()) {
-            if (errorDiv) errorDiv.textContent = "This field is required";
+
+        
+        if (input.type === "hidden") return;
+
+        const errorDiv = document.getElementById(input.id + "Error");
+
+        if (!input.value.trim())
+        {
+            if (errorDiv)
+                errorDiv.textContent = "This field is required";
+
             valid = false;
-        } else {
-            if (errorDiv) errorDiv.textContent = "";
+        }
+        else
+        {
+            if (errorDiv)
+                errorDiv.textContent = "";
         }
     });
 
-    if (!valid) return; // stop if invalid
+    if (!valid) return;
 
-    // Move to next step
-    step.classList.remove("active");
-    if (currentStepIndex + 1 < steps.length) {
-        steps[currentStepIndex + 1].classList.add("active");
+    // move forward
+    if (CurrentStep < Steps.length - 1)
+    {
+        CurrentStep++;
+        ShowStep(CurrentStep);
+    }
+}
+// Move back to previous step
+function PrevStep()
+{
+    if (CurrentStep > 0)
+    {
+        CurrentStep--;
+        ShowStep(CurrentStep);
     }
 }
 
-function PrevStep()
-{
-    CurrentStep--;
-
-    if (CurrentStep < 0)
-        CurrentStep = 0;
-
-    ShowStep(CurrentStep);
-}
+// initialize
+ShowStep(CurrentStep);
 

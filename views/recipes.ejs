@@ -72,8 +72,6 @@
         </div>
         <!-- End of Filter Overlay -->
 
-
-
         <!-- Recipe Creation UI -->
         <div class="recipe-header">
             <h2>Your Recipes</h2>
@@ -81,26 +79,23 @@
         </div>
 
         <div class = "RecipeCreationUI" id="RecipeCreationUIPopUp">
-            
             <div class = "RecipeCreationOverlay">
                     <span class="CloseBtnRecipeCreation">&times;</span>
                     <h2 class="RecipeCreationTitle">Create a New Recipe</h2>
                     
                     <form id="RecipeForm" class = "RecipeCreationForm" action="/recipes" method="POST">
-
                         <div class = "Step active">
                             <label for="name" class="StepLabel">Recipe Name</label >
-                            <input type="text" id="name" name="name" required class="StepInputRecipeName">
-                            <div class="ErrorMessage" id="nameError"></div>
+                            <input type="text" id="RecipeName" name="name" placeholder="Enter the name of your recipe" required class="StepInputRecipe">
+                            <div class="ErrorMessage" id="RecipeNameError"></div>
                             <div class="StepButtons">
-                            <button type="submit" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
                             </div>
                         </div>
-
                         <div class = "Step">
                             <label class="StepLabel">Add ingredients</label>
                             <div>
-                                <input type="text" id="IngredientInput" placeholder="Enter ingredient" class="StepInputRecipeName">
+                                <input type="text" id="IngredientInput" placeholder="Enter ingredient" class="StepInputRecipe">
                                 <button type="button" onclick="addIngredient()" class="AddIngredientButton">Add Ingredient</button>
                             </div>
                             <ul id="IngredientList"></ul>
@@ -110,34 +105,29 @@
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
                                 <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
                             </div>
-                        </div>
-
-                        <!-- Step 3 -->
+                        </div> 
                         <div class="Step">
                             <label class="StepLabel">Enter preparation steps</label>
-                            <textarea name="Steps" required class=""></textarea>
+                            <textarea name="Steps" required class="StepInputRecipe"></textarea>
                             <div class="ErrorMessage" id="stepError"></div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
                                 <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
                             </div>
                         </div>
-
-                        <!-- Step 4 -->
                         <div class="Step">
                             <label class="StepLabel">Preparation time</label>
-                            <input type="text" name="time" id="Prep" required>
-                            <div class="ErrorMessage" id="PrepError"></div>
+                            <input type="text" name="time" placeholder="Enter the preparation time" id="Prep" class="StepInputRecipe" required>
+                        <div class="ErrorMessage" id="PrepError">   
+                        </div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
                                 <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
                             </div>
                         </div>
-
-                        <!-- Step 5 -->
                         <div class="Step">
                             <label class="StepLabel">Cost</label>
-                            <input type="text" name="cost" id="Cost" required>
+                            <input type="text" name="cost" placeholder="Enter the Cost" id="Cost" class="StepInputRecipe" required>
                             <div class="ErrorMessage" id="CostError"></div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
@@ -145,11 +135,9 @@
 
                             </div>
                         </div>
-
-                        <!-- Step 6 -->
                         <div class="Step">
                             <label class="StepLabel">Dietary tags</label>
-                            <input type="text" name="tags" id="Dietary" placeholder="vegan, gluten-free...">
+                            <input type="text" name="tags" id="Dietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
                             <div class="ErrorMessage" id="DietaryError"></div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
