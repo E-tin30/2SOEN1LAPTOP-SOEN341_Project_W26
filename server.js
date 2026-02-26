@@ -289,3 +289,95 @@ app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from da
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+app.post('/recipes', (req, res) => {
+    // This will print the exact data the frontend sent into your VSCode Terminal
+    console.log("=== NEW RECIPE SUBMISSION ===");
+    console.log(req.body); 
+
+    const { name, ingredients, preparationSteps, time, cost, dietaryTags } = req.body;
+
+    // Tells exactly which HTML input is missing or misnamed
+    let missingFields = [];
+    if (!name) missingFields.push("name");
+    if (!ingredients) missingFields.push("ingredients");
+    if (!preparationSteps) missingFields.push("preparationSteps");
+    if (!time) missingFields.push("time");
+    if (!cost) missingFields.push("cost");
+
+    if (missingFields.length > 0) {
+        return res.status(400).send(`
+            <h2>Submission Failed!</h2>
+            <p>The backend is looking for specific variable names, but the frontend didn't send them.</p>
+            <p><strong>Missing fields:</strong> ${missingFields.join(", ")}</p>
+            <p><em>Tell your teammate to check the 'name="..."' attributes in their HTML form!</em></p>
+            <br><a href="/recipes">Go Back</a>
+        `);
+    }
+
+    // Format the Cost 
+    let formattedCost = cost.trim().replace(/\s/g, ''); 
+    if (formattedCost.endsWith('$')) {
+        formattedCost = '$' + formattedCost.slice(0, -1);
+    } else if (!formattedCost.startsWith('$')) {
+        formattedCost = '$' + formattedCost;
+    }
+
+    // Convert Text to Arrays
+    let ingredientsArray = [];
+    if (typeof ingredients === 'string') {
+        ingredientsArray = ingredients.split('\n').map(item => item.trim()).filter(item => item !== "");
+    } else if (Array.isArray(ingredients)) {
+        ingredientsArray = ingredients; // Just in case teammate already made it an array
+    }
+
+    let stepsArray = [];
+    if (typeof preparationSteps === 'string') {
+        stepsArray = preparationSteps.split('\n').map(item => item.trim()).filter(item => item !== "");
+    } else if (Array.isArray(preparationSteps)) {
+        stepsArray = preparationSteps;
+    }
+
+    // Create the new recipe object
+    const newRecipe = {
+        id: Date.now().toString(), 
+        username: req.session && req.session.userId ? req.session.userId : "test@gmail.com",
+        name: name.trim(),
+        ingredients: ingredientsArray,
+        preparationSteps: stepsArray,
+        time: time.trim(),
+        cost: formattedCost,
+        dietaryTags: Array.isArray(dietaryTags) ? dietaryTags : (dietaryTags ? [dietaryTags] : [])
+    };
+
+    // Save to JSON file
+    const filePath = path.join(__dirname, 'data', 'recipes.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) return res.status(500).send("Error reading database: " + err.message);
+
+        let recipes = [];
+        try {
+            if (data) recipes = JSON.parse(data);
+            
+            recipes.push(newRecipe);
+
+            fs.writeFile(filePath, JSON.stringify(recipes, null, 2), 'utf8', (writeErr) => {
+                if (writeErr) return res.status(500).send("Error saving recipe: " + writeErr.message);
+                
+                // Success
+                res.redirect('/recipes');
+            });
+        } catch (parseErr) {
+            res.status(500).send("Error processing data.");
+        }
+    });
+});

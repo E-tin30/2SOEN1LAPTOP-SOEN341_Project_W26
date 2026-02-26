@@ -17,5 +17,24 @@
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$12",
     "tag": "Protein+"
+  },
+  {
+    "id": "1002",
+    "username": "chris123@gmail.com",
+    "name": "Creamy Garlic Chicken Pasta",
+    "ingredients": [
+      "Penne pasta",
+      "Chicken breast",
+      "Garlic",
+      "Heavy cream",
+      "Parmesan cheese",
+      "Olive oil",
+      "Salt",
+      "Black pepper"
+    ],
+    "prepTime": "30 mins",
+    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
+    "cost": "$15",
+    "tag": "Dinner"
   }
 ]
