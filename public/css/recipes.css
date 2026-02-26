@@ -125,6 +125,124 @@
     align-items: center;
 }
 
+.recipe-card ul {
+    display: inline-block;
+    text-align: left;
+    padding-left: 20px;
+    margin: auto;
+}
+
+
+.FilterBtn{
+    display: inline-flex;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    gap: 8px;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.FilterBtn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.FilterTitle{
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+ /* Overlay Box */
+.FilterOverlay{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px); /* Page blur */
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+/*  inside the pop up menu style */
+.OverlayContent{
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    max-width: 90%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.CloseBtn {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+
+.FilterSelect {
+    padding: 10px 14px;
+    border-radius: 25px;
+    border: 1.5px solid black;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    width: 100%;       /* Make them all the same width */
+    max-width: 250px;  
+    box-sizing: border-box;
+}
+
+/* Hover effect */
+.FilterSelect:hover {
+    border-color: black;        
+}
+
+/* Focus effect */
+.FilterSelect:focus {
+    outline: none;
+}
+
+/* Custom dropdown arrow */
+.FilterSelect::after {
+    content: "▼";                    /* Down arrow */
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: black;
+    font-size: 12px;
+}
+
+.OptionStyle {
+    padding: 8px 12px;
+    justify-content: center;
+    text-align: center;
+}
+
+.FilterForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
 .hidden {
     display: none;
 }
