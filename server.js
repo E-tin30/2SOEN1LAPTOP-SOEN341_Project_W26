@@ -5,6 +5,7 @@ const fs = require('fs');
 const PORT = 3000;
 const session = require('express-session');
 const methodOverride = require('method-override');
+const bcrypt = require('bcrypt');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -53,22 +54,33 @@ app.get("/login", (req, res) => {
   res.render('login', { title: 'Login', currentPage: 'login', username: req.session.username, errorMessage });
 });
 
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+app.post("/login", async (req, res) => {
+  const { username, password, rememberMe } = req.body;
   
   const usersPath = path.join(__dirname, 'data', 'users.json');
 
   try {
     const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
-    const user = usersData.find(u => u.username === username && u.password === password);
+    const user = usersData.find(u => u.username === username);
 
-    if (user) {
+    if (!user) {
+      req.session.loginError = 'Invalid credentials.';
+      return res.redirect('/login');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
       req.session.username = username;
-      res.redirect('/');
+      if (rememberMe){
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30; // 30 days
+      }
+      return res.redirect('/');
     } else {
       req.session.loginError = 'Invalid credentials.';
-      res.redirect('/login');
+      return res.redirect('/login');
     }
+
   } catch (err) {
     console.error('Login error:', err);
     req.session.loginError = 'Server error. Please try again.';
@@ -93,7 +105,8 @@ app.post("/register", (req, res) => {
     req.session.registerError = error;
     return res.redirect('/register'); // print the error message and return them to the register page
   }
-  const data = fs.readFile("data/users.json", "utf8", (err, data) => {
+
+  const data = fs.readFile("data/users.json", "utf8", async (err, data) => {
     if (err) return res.status(500).send("Server Error");
 
     const users = JSON.parse(data || "[]");
@@ -103,10 +116,12 @@ app.post("/register", (req, res) => {
       return res.redirect('/register');
     }
 
-    registerUser(users, username, password, (err) => {
-      if (err) return res.status(500).send("Server Error");
+    try {
+      await registerUser(users, username, password);
       res.redirect("/login");
-    });
+    } catch (err) {
+      res.status(500).send("Server Error");
+    }
   })
 });
 
@@ -137,9 +152,13 @@ function isDuplicate(users, username){
   return exists; // returns true is duplicate, false if not
 }
 
-function registerUser(users, username, password, callback){
-  users.push({username, password});
-  fs.writeFile("data/users.json", JSON.stringify(users, null, 2), (err) => callback(err));
+async function registerUser(users, username, password){
+  const saltRounds = 10;
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  users.push({username, password: hashedPassword});
+  await fs.promises.writeFile("data/users.json", JSON.stringify(users, null, 2));
 }
 
 // API FOR PROFILE MANAGEMENT 
@@ -198,9 +217,14 @@ app.post("/api/save-profile", (req, res) => {
 
 const RECIPES_FILE = path.join(__dirname, 'data', 'recipes.json');
 
+// helper functions
 function getRecipes() {
     if (!fs.existsSync(RECIPES_FILE)) return [];
     return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
+}
+
+function saveRecipes(data) {
+    fs.writeFileSync(RECIPES_FILE, JSON.stringify(data, null, 2));
 }
 
 function requireAuth(req, res, next) {
@@ -212,9 +236,12 @@ function requireAuth(req, res, next) {
 
 // Show all recipes
 app.get('/recipes', requireAuth, (req, res) => {
+    const flashMessage = req.session.flashMessage;
+    delete req.session.flashMessage;
+
     const allRecipes = getRecipes(); // returns all recipes
     const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
-    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes });
+    res.render('recipes', { title: 'Recipes', currentPage: 'recipes', username: req.session.username, recipes, flashMessage });
 });
 
 // Show create form
@@ -239,9 +266,23 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
 });
 
 // Handle delete
-app.delete('/recipes/:id', requireAuth, (req, res) => {
+app.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from database
     const id = req.params.id;
-    // delete recipe from database
+    const username = req.session.username;
+
+    let allRecipes = getRecipes();
+    const originalLength = allRecipes.length;
+
+    const filteredRecipes = allRecipes.filter(recipe => {
+      return !(recipe.id === id && recipe.username === username);
+    });
+
+    if (filteredRecipes.length < originalLength) {
+      req.session.flashMessage = "Recipe deleted successfully!";
+    }
+
+    saveRecipes(filteredRecipes);
+
     res.redirect('/recipes');
 });
 

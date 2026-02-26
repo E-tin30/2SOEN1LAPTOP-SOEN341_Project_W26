@@ -1,0 +1,38 @@
+Team Meeting 4:
+
+Date: February 20th, 2026 at 3:00
+
+Participants:
+Chrisjan Alejandro
+Ethan Elkaim
+Martin Miskovski
+Mark Urbano
+Paul-Phillipe Kadio Ehui
+Kepler Paul-Émile
+
+Topics:
+
+- What is done:
+    - CI is setup and is running correctly
+    - Delete recipe button works well
+    - Filter UI almost done
+    - Search UI almost done
+    - Sprint backlog is done
+    - Product backlog is done
+    - User story are on github
+    - Task are on github
+    - Acceptance test on user story for sprint 1 are on github
+
+To-do:
+- Discussion about making recipes as cards that when clicked generate pop up
+    - The filter pop up was made using display: none toggled on and off, so will use this method for recipe pop up
+    - Add tag dietary tag to recipe card
+- Implement remember me feature since we have time
+- Encrypt passwords so that more secure
+- Search backend
+- Filter backend
+- Add recipe backend
+- Edit recipe backend
+- Project planning document
+
+#1 hour / 60 minutes
