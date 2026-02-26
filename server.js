@@ -303,7 +303,7 @@ app.post('/recipes', (req, res) => {
     console.log("=== NEW RECIPE SUBMISSION ===");
     console.log(req.body); 
 
-    const { name, ingredients, preparationSteps, time, cost, dietaryTags } = req.body;
+    const { name, ingredients, Steps, time, cost, tags } = req.body;
 
     // Tells exactly which HTML input is missing or misnamed
     let missingFields = [];
