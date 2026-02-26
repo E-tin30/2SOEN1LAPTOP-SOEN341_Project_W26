@@ -300,12 +300,13 @@ app.listen(PORT, () => {
 
 app.post('/recipes', (req, res) => {
     // This will print the exact data the frontend sent into your VSCode Terminal
-    console.log("=== NEW RECIPE SUBMISSION ===");
-    console.log(req.body); 
+    //console.log("=== NEW RECIPE SUBMISSION ===");
+    //console.log(req.body); 
 
+    // Grab EXACTLY what the frontend is sending in req.body (Notice: 'Steps' and 'tags')
     const { name, ingredients, Steps, time, cost, tags } = req.body;
 
-    // Tells exactly which HTML input is missing or misnamed
+    // Validate using those exact variable names
     let missingFields = [];
     if (!name) missingFields.push("name");
     if (!ingredients) missingFields.push("ingredients");
@@ -324,7 +325,7 @@ app.post('/recipes', (req, res) => {
         `);
     }
 
-    // Format the Cost 
+    // Format the Cost (e.g., converts "8$" to "$8")
     let formattedCost = cost.trim().replace(/\s/g, ''); 
     if (formattedCost.endsWith('$')) {
         formattedCost = '$' + formattedCost.slice(0, -1);
@@ -332,34 +333,30 @@ app.post('/recipes', (req, res) => {
         formattedCost = '$' + formattedCost;
     }
 
-    // Convert Text to Arrays
-    let ingredientsArray = [];
-    if (typeof ingredients === 'string') {
-        ingredientsArray = ingredients.split('\n').map(item => item.trim()).filter(item => item !== "");
-    } else if (Array.isArray(ingredients)) {
-        ingredientsArray = ingredients; // Just in case teammate already made it an array
+    // Parse the ingredients string into an actual JavaScript array
+    let parsedIngredients = [];
+    try {
+        parsedIngredients = JSON.parse(ingredients);
+    } catch (error) {
+        // Fallback in case the frontend ever sends it as a comma-separated string
+        parsedIngredients = ingredients.split(',').map(item => item.trim());
     }
 
-    let stepsArray = [];
-    if (typeof preparationSteps === 'string') {
-        stepsArray = steps.split('\n').map(item => item.trim()).filter(item => item !== "");
-    } else if (Array.isArray(preparationSteps)) {
-        stepsArray = preparationSteps;
-    }
-
-    // Create the new recipe object
+    // Create the new recipe object matching your recipes.json structure EXACTLY
     const newRecipe = {
-        id: Date.now().toString(), 
+        id: Math.floor(1000 + Math.random() * 9000).toString(), // Generates random 4-digit ID
         username: req.session && req.session.userId ? req.session.userId : "test@gmail.com",
         name: name.trim(),
-        ingredients: ingredientsArray,
-        preparationSteps: stepsArray,
-        time: time.trim(),
+        ingredients: parsedIngredients,
+        prepTime: time.trim(),       // Maps UI 'time' to DB 'prepTime'
+        prepSteps: Steps.trim(),     // Maps UI 'Steps' to DB 'prepSteps'
         cost: formattedCost,
-        dietaryTags: Array.isArray(dietaryTags) ? dietaryTags : (dietaryTags ? [dietaryTags] : [])
+        tag: tags.trim()             // Maps UI 'tags' to DB 'tag'
     };
 
     // Save to JSON file
+    const fs = require('fs');
+    const path = require('path');
     const filePath = path.join(__dirname, 'data', 'recipes.json');
 
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -369,12 +366,14 @@ app.post('/recipes', (req, res) => {
         try {
             if (data) recipes = JSON.parse(data);
             
+            // Append the newly created recipe
             recipes.push(newRecipe);
 
+            // Write it back to the JSON file formatted nicely
             fs.writeFile(filePath, JSON.stringify(recipes, null, 2), 'utf8', (writeErr) => {
                 if (writeErr) return res.status(500).send("Error saving recipe: " + writeErr.message);
                 
-                // Success
+                // Success! Redirect back to the recipes page
                 res.redirect('/recipes');
             });
         } catch (parseErr) {

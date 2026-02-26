@@ -36,5 +36,24 @@
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$15",
     "tag": "Dinner"
+  },
+  {
+    "id": "3982",
+    "username": "test@gmail.com",
+    "name": "Lemon Herb Chicken & Veggies",
+    "ingredients": [
+      "chicken breasts",
+      "broccoli",
+      "olive oil",
+      "dried oregano",
+      "garlic powder",
+      "lemon",
+      "salt",
+      "pepper"
+    ],
+    "prepTime": "30 mins",
+    "prepSteps": "Place chicken and broccoli on the baking sheet. Drizzle with olive oil, lemon juice, garlic powder, oregano, salt, and pepper. Toss directly on the pan until everything is evenly coated. Bake until the chicken is cooked through and broccoli is tender.",
+    "cost": "$8",
+    "tag": "Gluten-Free, Low-Carb, Healthy"
   }
 ]
