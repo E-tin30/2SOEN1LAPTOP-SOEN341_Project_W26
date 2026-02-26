@@ -240,22 +240,19 @@ app.get('/recipes', requireAuth, (req, res) => {
     delete req.session.flashMessage;
 
     const allRecipes = getRecipes();
-    // Filter recipes belonging to the logged-in user
     let recipes = allRecipes.filter(r => r.username === req.session.username);
 
-    // Get search term from query string (e.g., /recipes?search=pasta)
-    const searchQuery = req.query.search ? req.query.search.trim().toLowerCase() : "";
+    // Get search term from query parameters
+    const searchQuery = req.query.search ? req.query.search.trim() : "";
 
     if (searchQuery) {
+        const lowerSearch = searchQuery.toLowerCase();
         recipes = recipes.filter(recipe => {
-            // Check if name matches
-            const nameMatch = recipe.name.toLowerCase().includes(searchQuery);
-            // Check if any ingredient matches
-            const ingredientMatch = recipe.ingredients.some(ing => 
-                ing.toLowerCase().includes(searchQuery)
+            const matchesName = recipe.name.toLowerCase().includes(lowerSearch);
+            const matchesIngredient = recipe.ingredients.some(ing => 
+                ing.toLowerCase().includes(lowerSearch)
             );
-            
-            return nameMatch || ingredientMatch;
+            return matchesName || matchesIngredient;
         });
     }
 
@@ -265,7 +262,7 @@ app.get('/recipes', requireAuth, (req, res) => {
         username: req.session.username, 
         recipes, 
         flashMessage,
-        searchQuery // Pass this to the view to detect if a search was performed
+        searchQuery // Pass this to the frontend to trigger the Return button
     });
 });
 
