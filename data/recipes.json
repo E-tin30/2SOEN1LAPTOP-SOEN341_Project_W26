@@ -59,6 +59,14 @@
     "tag": "Dinner"
   },
   {
+    "id": "1710000000005",
+    "username": "testmaky@gmail.com",
+    "name": "Banana Pancakes",
+    "ingredients": ["Banana", "Eggs", "Flour", "Milk", "Baking Powder"],
+    "prepSteps": "Mash bananas. Mix with other ingredients. Fry on a pan.",
+    "prepTime": "10 mins",
+    "cost": "$",
+    "tag": "Breakfast"
     "id": "1958",
     "username": "chris123@gmail.com",
     "name": "Apple Slices",
@@ -68,19 +76,6 @@
     "prepTime": "1 minute",
     "prepSteps": "Slice Apple",
     "cost": "$2",
-    "tag": "vegan"
-  },
-  {
-    "id": "7124",
-    "username": "test@gmail.com",
-    "name": "test",
-    "ingredients": [
-      "test",
-      "test2"
-    ],
-    "prepTime": "test",
-    "prepSteps": "test",
-    "cost": "$50",
     "tag": "vegan"
   }
 ]
