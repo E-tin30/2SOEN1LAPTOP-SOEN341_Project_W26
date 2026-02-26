@@ -244,17 +244,30 @@ app.get('/recipes', requireAuth, (req, res) => {
     delete req.session.flashMessage;
     delete req.session.flashError;
 
-    const allRecipes = getRecipes(); // returns all recipes
-    const recipes = allRecipes.filter(r => r.username === req.session.username); // filter to get only recipes for that user
-    
-    // Pass BOTH messages to the frontend
+    const allRecipes = getRecipes();
+    let recipes = allRecipes.filter(r => r.username === req.session.username);
+
+    // Get search term from query parameters
+    const searchQuery = req.query.search ? req.query.search.trim() : "";
+
+    if (searchQuery) {
+        const lowerSearch = searchQuery.toLowerCase();
+        recipes = recipes.filter(recipe => {
+            const matchesName = recipe.name.toLowerCase().includes(lowerSearch);
+            const matchesIngredient = recipe.ingredients.some(ing => 
+                ing.toLowerCase().includes(lowerSearch)
+            );
+            return matchesName || matchesIngredient;
+        });
+    }
+
     res.render('recipes', { 
         title: 'Recipes', 
         currentPage: 'recipes', 
         username: req.session.username, 
-        recipes: recipes, 
-        flashMessage: flashMessage,
-        flashError: flashError
+        recipes, 
+        flashMessage,
+        searchQuery // Pass this to the frontend to trigger the Return button
     });
 });
 

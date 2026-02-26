@@ -37,11 +37,11 @@
         </div>
 
         <!-- Search Bar UI -->
-        <div class="SearchWrapper">
-            <i class="uil uil-search"></i>
-            <input type="text" id = "SearchInput" placeholder="Search recipes..." class="SearchInput">
-            <Button class="SearchButton">Search</Button>
-        </div>
+        <form action="/recipes" method="GET" class="SearchWrapper"> 
+            <i class="uil uil-search"></i> 
+            <input type="text" name="search" id="SearchInput" placeholder="Search recipes..." class="SearchInput" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+            <button type="submit" class="SearchButton">Search</button> 
+        </form>
 
         <!-- Overlay for the Filter menu-->
         <div id="FilterOverlay" class="FilterOverlay">
@@ -203,7 +203,16 @@
 
                 <% }); %>
             <% } else { %>
-                <p class="empty-message">No recipes yet. Add a recipe to see it here.</p>
+        <div class="empty-state">
+            <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+                <p class="empty-message">No results found for "<strong><%= searchQuery %></strong>".</p>
+                <a href="/recipes" class="NextBackButtonStyle" style="text-decoration: none; display: inline-block;">
+                    <i class="fa-solid fa-arrow-left"></i> Return to Recipes
+                </a>
+            <% } else { %>
+                <p class="empty-message">No recipes yet. Add a recipe to see it here.</p> [cite: 44]
+                <% } %>
+            </div>
             <% } %>
         </section>
 
