@@ -2,5 +2,9 @@
   {
     "username": "test@gmail.com",
     "password": "$2b$10$jaU3Bz4qGkcWteekPyJS7uQfLsjsfYCzDtOZ3erlm.e5QRXRymnCa"
+  },
+  {
+    "username": "testmaky@gmail.com",
+    "password": "$2b$10$jwd4ewqqG1XrTMwA3ROCb.OQz0q0n83WXew1xO84Fa49mFfOaEY.m"
   }
 ]
