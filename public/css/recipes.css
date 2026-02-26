@@ -28,6 +28,9 @@
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .recipe-card:hover {
@@ -85,6 +88,7 @@
 
 /* Meta */
 .recipe-meta {
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
