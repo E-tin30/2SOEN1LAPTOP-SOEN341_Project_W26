@@ -17,5 +17,70 @@
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$12",
     "tag": "Protein+"
+  },
+  {
+    "id": "3982",
+    "username": "chris123@gmail.com",
+    "name": "Lemon Herb Chicken & Veggies",
+    "ingredients": [
+      "chicken breasts",
+      "broccoli",
+      "olive oil",
+      "dried oregano",
+      "garlic powder",
+      "lemon",
+      "salt",
+      "pepper"
+    ],
+    "prepTime": "30 mins",
+    "prepSteps": "Place chicken and broccoli on the baking sheet. Drizzle with olive oil, lemon juice, garlic powder, oregano, salt, and pepper. Toss directly on the pan until everything is evenly coated. Bake until the chicken is cooked through and broccoli is tender.",
+    "cost": "$8",
+    "tag": "Gluten-Free, Low-Carb, Healthy"
+  },
+  {
+    "id": "4152",
+    "username": "chris123@gmail.com",
+    "name": "Egg Omelette",
+    "ingredients": [
+      "eggs",
+      "milk",
+      "oil",
+      "salt"
+    ],
+    "prepTime": "10 minutes",
+    "prepSteps": "Whisk eggs with liquid and seasoning until frothy. Melt butter/oil in a pan over medium-low heat. Add eggs. Lift edges to let uncooked egg flow under. Fill and fold when mostly set.",
+    "cost": "$5",
+    "tag": "High-Protein, Low-Carb/Keto"
+  },
+  {
+    "id": "1002",
+    "username": "chris123@gmail.com",
+    "name": "Creamy Garlic Chicken Pasta",
+    "ingredients": [
+      "Penne pasta",
+      "Chicken breast",
+      "Garlic",
+      "Heavy cream",
+      "Parmesan cheese",
+      "Olive oil",
+      "Salt",
+      "Black pepper"
+    ],
+    "prepTime": "30 mins",
+    "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
+    "cost": "$15",
+    "tag": "Dinner"
+  },
+  {
+    "id": "1958",
+    "username": "chris123@gmail.com",
+    "name": "Apple Slices",
+    "ingredients": [
+      "apple"
+    ],
+    "prepTime": "1 minute",
+    "prepSteps": "Slice Apple",
+    "cost": "$2",
+    "tag": "vegan"
   }
 ]
