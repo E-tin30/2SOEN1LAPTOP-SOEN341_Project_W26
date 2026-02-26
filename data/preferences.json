@@ -1,11 +1,9 @@
 [
   {
     "username": "chris123@gmail.com",
-    "preference": "heart-health",
+    "preference": "Protein+",
     "allergies": [
-      "apples",
-      "bananas",
-      "peanuts"
+      "nuts"
     ]
   },
   {
