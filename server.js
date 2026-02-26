@@ -345,7 +345,7 @@ app.post('/recipes', (req, res) => {
     // Create the new recipe object matching your recipes.json structure EXACTLY
     const newRecipe = {
         id: Math.floor(1000 + Math.random() * 9000).toString(), // Generates random 4-digit ID
-        username: req.session && req.session.userId ? req.session.userId : "test@gmail.com",
+        username: req.session && req.session.username ? req.session.username : "test@gmail.com",
         name: name.trim(),
         ingredients: parsedIngredients,
         prepTime: time.trim(),       // Maps UI 'time' to DB 'prepTime'
