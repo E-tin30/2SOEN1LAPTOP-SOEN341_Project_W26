@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/recipes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -20,14 +19,21 @@
     <%- include('partials/navbar.ejs') %>
 
     <main class="page-content">
-        <h1>Recipes</h1>
-        <hr>
-        <!-- Filter Bar, (Used for the button style) -->
-        <div class= "FilterBarContainer">
-            <button class="FilterBtn" id= "OpenFilter"> 
-            <i class="fa-solid fa-filter"> </i> 
-            Filter
-            </button>  
+        <div class="recipe-header">
+            <h1>Your Recipes</h1>
+
+            <div class="page-actions">
+                <!-- Filter Bar, (Used for the button style) -->
+                <div class= "FilterBarContainer">
+                    <button class="FilterBtn" id= "OpenFilter"> 
+                    <i class="fa-solid fa-filter"> </i> 
+                    Filter
+                    </button>  
+                </div>
+
+                <!-- Add recipes button -->
+                <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
+            </div>
         </div>
 
         <!-- Search Bar UI -->
@@ -72,10 +78,6 @@
                     <button type="submit" class="FilterBtn">Apply Filters</button>
                 </form>
             </div>
-        </div>
-        <div class="recipe-header">
-            <h2>Your Recipes</h2>
-            <a href="/recipes/create" class="addRecipeBtn">+ Add Recipe</a>
         </div>
 
         <% if (flashMessage) { %>

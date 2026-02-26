@@ -7,7 +7,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 /* Grid */
@@ -100,10 +99,25 @@
     border-radius: 6px;
     font-weight: 600;
     text-decoration: none;
+
+    display: inline-block;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .addRecipeBtn:hover {
     background-color: darkgreen;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.addRecipeBtn:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* Flash */
@@ -255,6 +269,7 @@
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .SearchInput{
@@ -344,4 +359,10 @@
     width: 100%;
     text-align: center;
     color: #555;
+}
+
+.page-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
