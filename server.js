@@ -235,36 +235,37 @@ function requireAuth(req, res, next) {
 }
 
 // Show all recipes
-// Show all recipes (with search functionality)
 app.get('/recipes', requireAuth, (req, res) => {
     const flashMessage = req.session.flashMessage;
     delete req.session.flashMessage;
 
-    // 1. Capture the search query from the URL
-    const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
+    const allRecipes = getRecipes();
+    // Filter recipes belonging to the logged-in user
+    let recipes = allRecipes.filter(r => r.username === req.session.username);
 
-    const allRecipes = getRecipes(); 
-    let recipes = allRecipes.filter(r => r.username === req.session.username); 
+    // Get search term from query string (e.g., /recipes?search=pasta)
+    const searchQuery = req.query.search ? req.query.search.trim().toLowerCase() : "";
 
-    // 2. Filter recipes if a search query exists
     if (searchQuery) {
         recipes = recipes.filter(recipe => {
-            const matchName = recipe.name.toLowerCase().includes(searchQuery);
-            const matchIngredient = recipe.ingredients.some(ingredient => 
-                ingredient.toLowerCase().includes(searchQuery)
+            // Check if name matches
+            const nameMatch = recipe.name.toLowerCase().includes(searchQuery);
+            // Check if any ingredient matches
+            const ingredientMatch = recipe.ingredients.some(ing => 
+                ing.toLowerCase().includes(searchQuery)
             );
-            return matchName || matchIngredient;
+            
+            return nameMatch || ingredientMatch;
         });
     }
 
-    // 3. Pass the searchQuery back so the template can use it
     res.render('recipes', { 
         title: 'Recipes', 
         currentPage: 'recipes', 
         username: req.session.username, 
         recipes, 
         flashMessage,
-        searchQuery: req.query.search // pass original case for the input box
+        searchQuery // Pass this to the view to detect if a search was performed
     });
 });
 
