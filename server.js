@@ -363,7 +363,7 @@ app.post('/recipes', (req, res) => {
 
     // Create the new recipe object matching recipes.json structure 
     const newRecipe = {
-        id: Math.floor(1000 + Math.random() * 9000).toString(), 
+        id: generateUniqueId(), 
         username: req.session && req.session.username ? req.session.username : "test@gmail.com",
         name: name.trim(),
         ingredients: parsedIngredients,
@@ -399,3 +399,16 @@ app.post('/recipes', (req, res) => {
         }
     });
 });
+
+function generateUniqueId() {
+    const allRecipes = getRecipes();
+    let newId;
+    let exists = true;
+
+    while (exists) {
+        newId = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit ID
+        exists = allRecipes.some(recipe => recipe.id === newId);
+    }
+
+    return newId;
+}
