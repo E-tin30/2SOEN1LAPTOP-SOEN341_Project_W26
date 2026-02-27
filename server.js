@@ -278,6 +278,7 @@ app.get('/recipes', requireAuth, (req, res) => {
             return matchesName || matchesIngredient;
         });
     }
+ 
 
     res.render('recipes', { 
         title: 'Recipes', 
@@ -285,11 +286,12 @@ app.get('/recipes', requireAuth, (req, res) => {
         username: req.session.username, 
         recipes, 
         flashMessage,
-        searchQuery, // Pass this to the frontend to trigger the Return button
         time,
         cost,
         difficulty,
-        dietary
+        dietary,
+        searchQuery, // Pass this to the frontend to trigger the Return button
+        
     });
 });
 
