@@ -22,7 +22,13 @@
     "id": "1710000000001",
     "username": "testmaky@gmail.com",
     "name": "Garlic Butter Pasta",
-    "ingredients": ["Pasta", "Butter", "Garlic", "Parmesan", "Parsley"],
+    "ingredients": [
+      "Pasta",
+      "Butter",
+      "Garlic",
+      "Parmesan",
+      "Parsley"
+    ],
     "prepSteps": "Boil pasta. Sauté garlic in butter. Toss together with cheese.",
     "prepTime": "15 mins",
     "cost": "$",
@@ -32,7 +38,14 @@
     "id": "1710000000002",
     "username": "testmaky@gmail.com",
     "name": "Chicken Stir Fry",
-    "ingredients": ["Chicken Breast", "Soy Sauce", "Ginger", "Garlic", "Broccoli", "Carrots"],
+    "ingredients": [
+      "Chicken Breast",
+      "Soy Sauce",
+      "Ginger",
+      "Garlic",
+      "Broccoli",
+      "Carrots"
+    ],
     "prepSteps": "Slice chicken and veggies. Fry chicken, then add veggies and sauce.",
     "prepTime": "20 mins",
     "cost": "$$",
@@ -42,7 +55,13 @@
     "id": "1710000000003",
     "username": "testmaky@gmail.com",
     "name": "Spicy Tomato Soup",
-    "ingredients": ["Tomatoes", "Onion", "Chili Flakes", "Vegetable Broth", "Cream"],
+    "ingredients": [
+      "Tomatoes",
+      "Onion",
+      "Chili Flakes",
+      "Vegetable Broth",
+      "Cream"
+    ],
     "prepSteps": "Sauté onions. Add tomatoes and broth. Simmer and blend.",
     "prepTime": "30 mins",
     "cost": "$",
@@ -52,7 +71,14 @@
     "id": "1710000000004",
     "username": "testmaky@gmail.com",
     "name": "Beef Tacos",
-    "ingredients": ["Ground Beef", "Taco Shells", "Lettuce", "Cheese", "Tomato", "Cumin"],
+    "ingredients": [
+      "Ground Beef",
+      "Taco Shells",
+      "Lettuce",
+      "Cheese",
+      "Tomato",
+      "Cumin"
+    ],
     "prepSteps": "Brown the beef with cumin. Assemble in shells with toppings.",
     "prepTime": "15 mins",
     "cost": "$$",
@@ -62,22 +88,47 @@
     "id": "1710000000005",
     "username": "testmaky@gmail.com",
     "name": "Banana Pancakes",
-    "ingredients": ["Banana", "Eggs", "Flour", "Milk", "Baking Powder"],
+    "ingredients": [
+      "Banana",
+      "Eggs",
+      "Flour",
+      "Milk",
+      "Baking Powder"
+    ],
     "prepSteps": "Mash bananas. Mix with other ingredients. Fry on a pan.",
     "prepTime": "10 mins",
     "cost": "$",
     "tag": "Breakfast"
   },
   {
-    "id": "1958",
-    "username": "chris123@gmail.com",
-    "name": "Apple Slices",
+    "id": "5415",
+    "username": "paul@mail.com",
+    "name": "chicken soupopop4525",
     "ingredients": [
-      "apple"
+      "garlic",
+      "water",
+      "salt",
+      "qwe",
+      "marc"
     ],
-    "prepTime": "1 minute",
-    "prepSteps": "Slice Apple",
-    "cost": "$2",
-    "tag": "vegan"
+    "prepTime": "288",
+    "prepSteps": "HEHEHEHHEHE\r\n+yappy yappy\r\n<\r\nfrsd",
+    "cost": "$17",
+    "tag": "high fat"
+  },
+  {
+    "id": "4074",
+    "username": "paul@mail.com",
+    "name": "Spicy kevineeeeeeeeeeeeeeee",
+    "ingredients": [
+      "spice",
+      "kevin",
+      "oil",
+      "wdserwgsf"
+    ],
+    "prepTime": "1201",
+    "prepSteps": "Fry that chinese boy up with some spice\r\n\r\nyup",
+    "cost": "$1",
+    "tag": "Chinese+"
   }
 ]
