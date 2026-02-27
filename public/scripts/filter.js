@@ -98,11 +98,11 @@ function filterRecipes(recipes){
             decision = decision && (recipeCost > 75);}
 
     // difficulty filter
-    if(filterList.difficulty =="none"){
-        decision = decision && true;
-    }else{
-        decision = decision && (recipes.difficulty === filterList.difficulty);
-    }
+    //if(filterList.difficulty =="none"){
+     //   decision = decision && true;
+    //}else{
+      //  decision = decision && (recipes.difficulty === filterList.difficulty);
+    //}
 
     // dietary filter
     //if(filterList.dietary =="none"){
