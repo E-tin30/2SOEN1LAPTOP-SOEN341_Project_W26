@@ -295,8 +295,10 @@ document.querySelectorAll(".edit-recipe-btn").forEach(btn => {
     });
 });
 
-document.querySelector(".CloseBtnRecipeEdit")?.addEventListener("click", closeEditRecipe);
-
 document.getElementById("RecipeEditUIPopUp")?.addEventListener("click", (e) => {
     if (e.target.id === "RecipeEditUIPopUp") closeEditRecipe();
 });
+
+const closeEditBtn = document.querySelector(".CloseBtnRecipeEdit");
+
+closeEditBtn.onclick = () => closeEditRecipe();
