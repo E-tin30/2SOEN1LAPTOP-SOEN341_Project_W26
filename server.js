@@ -235,6 +235,7 @@ function requireAuth(req, res, next) {
 }
 
 // Show all recipes
+
 app.get('/recipes', requireAuth, (req, res) => {
     // Grab messages from the session
     const flashMessage = req.session.flashMessage;
@@ -245,10 +246,27 @@ app.get('/recipes', requireAuth, (req, res) => {
     delete req.session.flashError;
 
     const allRecipes = getRecipes();
-    let recipes = allRecipes.filter(r => r.username === req.session.username);
+    
+    let recipes = allRecipes.filter(r => r.username === req.session.username); // only show user's recipes and apply filter if on
 
     // Get search term from query parameters
     const searchQuery = req.query.search ? req.query.search.trim() : "";
+    
+    const time = req.query.time || "none";
+    const cost = req.query.cost || "none";
+    const difficulty = req.query.difficulty || "none";
+    const dietary = req.query.dietary || "none";
+   //toggle mechanic: by setting a nextValue opposite to the current one and sending it in the query we 
+   //toggle the filter
+    let nextValue = !(req.query.filterOn);
+    
+    const filterOn = req.query.filterOn === "true";
+    req.query.filterOn = nextValue;
+    if (filterOn) {
+        recipes = recipes.filter(recipe => {
+            return filterRecipeServer(recipe, {time,cost});
+        });
+    }
 
     if (searchQuery) {
         const lowerSearch = searchQuery.toLowerCase();
@@ -267,7 +285,11 @@ app.get('/recipes', requireAuth, (req, res) => {
         username: req.session.username, 
         recipes, 
         flashMessage,
-        searchQuery // Pass this to the frontend to trigger the Return button
+        searchQuery, // Pass this to the frontend to trigger the Return button
+        time,
+        cost,
+        difficulty,
+        dietary
     });
 });
 
@@ -449,6 +471,7 @@ app.post('/recipes', (req, res) => {
     });
 });
 
+
 function generateUniqueId() {
     const allRecipes = getRecipes();
     let newId;
@@ -460,4 +483,31 @@ function generateUniqueId() {
     }
 
     return newId;
-}
+  }
+
+function filterRecipeServer(recipe, filter) {
+
+    let decision = true;
+
+    // TIME
+    if (filter.time && filter.time !== "none") {
+        decision = decision && (parseInt(recipe.prepTime) <= parseInt(filter.time));
+    }
+
+    // COST
+    if (filter.cost && filter.cost !== "none") {
+
+        let recipeCost = parseFloat(recipe.cost.replace('$', ''));
+
+        if (filter.cost === "low") {
+            decision = decision && recipeCost <= 25;
+        } 
+        else if (filter.cost === "medium") {
+            decision = decision && recipeCost > 25 && recipeCost <= 75;
+        } 
+        else if (filter.cost === "high") {
+            decision = decision && recipeCost > 75;
+        }
+    }
+
+    return decision;}

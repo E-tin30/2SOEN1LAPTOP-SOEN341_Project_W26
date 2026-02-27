@@ -50,9 +50,9 @@
             <div class="OverlayContent">
                 <span class="CloseBtn">&times;</span>
                 <h2 class="FilterTitle">Filter Recipes</h2>
-                <form class = "FilterForm">
+                <form class = "FilterForm" action="/recipes" method="GET">
                     <select class="FilterSelect" name="time" >
-                        <option class="OptionStyle" value="none">Any Time</option>
+                        <option  class="OptionStyle" value="none">Any Time</option>
                         <option class="OptionStyle" value="15">Under 15 mins</option>
                         <option class="OptionStyle" value="30">Under 30 mins</option>
                         <option class="OptionStyle" value="60">Under 1 hour</option>
@@ -77,7 +77,8 @@
                         <option class="OptionStyle" value="vegetarian">Vegetarian</option>
                         <option class="OptionStyle" value="gluten-free">Gluten-free</option>
                     </select>
-                    <button type="submit" onclick ="applyFilter()" class="FilterBtn">Apply Filters</button>
+                    <input type="hidden" class="filteringOn" name="filterOn" value="true">
+                    <button type="submit" onclick="saveFilterValues()" class="FilterBtn">Apply Filters</button>
                 </form>
             </div>
         </div>

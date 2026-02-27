@@ -1,5 +1,41 @@
 
 
+
+//reloader();
+
+//this function will load the filter values
+const filterForm = document.querySelector(".FilterForm");
+let filterList = JSON.parse(localStorage.getItem("filterList")) || defaultfilterList;
+const defaultfilterList={
+    time: "none",
+    cost: "none",
+    difficulty: "none",
+    dietary: "none",
+};
+
+function reloader(){
+    
+    filterForm.elements['time'].value = serverFilter.time;
+    filterForm.elements['cost'].value = serverFilter.cost;
+    filterForm.elements['difficulty'].value = serverFilter.difficulty;
+    filterForm.elements['dietary'].value = serverFilter.dietary; 
+}
+
+function saveFilterValues(){
+    // Save filter values to localStorage
+    const filterValues = {
+        time: filterForm.elements['time'].value,
+        cost: filterForm.elements['cost'].value,
+        difficulty: filterForm.elements['difficulty'].value,
+        dietary: filterForm.elements['dietary'].value
+    };
+    localStorage.setItem("filterList", JSON.stringify(filterValues));
+}
+
+/* 
+
+
+
 /// ---------------KEPLER'S WORK--------------
 
 //find the form to get its elements
@@ -16,14 +52,12 @@ const defaultfilterList={
     innerText : "Apply Filter"
 };
 
-//get the values from the json object
+//instead of json i need to pull filtering list from server
+//get the values from the json object NOT DOING THAT ANYMORE
 let filterList = JSON.parse(localStorage.getItem("filterList")) || defaultfilterList;
 // the filter activates when clicking apply filter it will try to get 
 let filterOn = filterList.filterStatus || false; 
 
-console.log(filterList);
-
-reloader();
 /// ---------------KEPLER'S WORK--------------
 
 //filterForm.addEventListener('submit', function (event) {
@@ -41,11 +75,12 @@ function applyFilter(){
 
     
     //default filterList
-     filterList.time = filterForm.elements['time'].value;
+    filterList.time = filterForm.elements['time'].value;
     filterList.cost = filterForm.elements['cost'].value;
     filterList.difficulty = filterForm.elements['difficulty'].value;
     filterList.dietary = filterForm.elements['dietary'].value;
     filterList.filterStatus = filterOn;
+    filterForm.elements['filterOn'].value = false;
    }else{   
     filterOn = true;
     filterButton.innerText = "Close Filter";
@@ -57,22 +92,16 @@ function applyFilter(){
     filterList.filterStatus = filterOn;
      // filter will be applied next
     filterList.innerText = "Close Filter";  
+    filterForm.elements['filterOn'].value = true;
+    //next filterOn will turn it off
    }
    localStorage.setItem("filterList", JSON.stringify(filterList));
   
 }
 
 
-function reloader(){
-    filterButton.textContent=filterList.innerText;
-    filterForm.elements['time'].value = filterList.time;
-    filterForm.elements['cost'].value = filterList.cost;
-    filterForm.elements['difficulty'].value = filterList.difficulty;
-    filterForm.elements['dietary'].value = filterList.dietary;
-    filterOn = filterList.filterStatus;
 
-    
-}
+/*
 //recipes is an object should return true or false 
 function filterRecipes(recipes){
 
@@ -113,3 +142,4 @@ function filterRecipes(recipes){
     return decision;
 }
 
+*/
