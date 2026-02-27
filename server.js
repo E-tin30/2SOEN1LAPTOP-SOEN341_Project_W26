@@ -289,7 +289,56 @@ app.get('/recipes/:id/edit', requireAuth, (req, res) => {
 
 // Handle update
 app.put('/recipes/:id', requireAuth, (req, res) => {
-    // update logic
+    const id = req.params.id;
+    const username = req.session.username;
+    const { name, ingredients, Steps, time, cost, tags } = req.body;
+
+    let missingFields = [];
+    if (!name) missingFields.push("name");
+    if (!ingredients) missingFields.push("ingredients");
+    if (!Steps) missingFields.push("Steps");
+    if (!time) missingFields.push("time");
+    if (!cost) missingFields.push("cost");
+    if (!tags) missingFields.push("tags");
+
+    if (missingFields.length > 0) {
+        req.session.flashError = `Update failed. Missing: ${missingFields.join(", ")}.`;
+        return res.redirect('/recipes');
+    }
+
+    let formattedCost = (cost || "").trim().replace(/\s/g, '');
+    if (formattedCost.endsWith('$')) {
+        formattedCost = '$' + formattedCost.slice(0, -1);
+    } else if (!formattedCost.startsWith('$')) {
+        formattedCost = '$' + formattedCost;
+    }
+
+    let parsedIngredients = [];
+    try {
+        parsedIngredients = JSON.parse(ingredients);
+    } catch {
+        parsedIngredients = (ingredients || "").split(',').map(i => i.trim());
+    }
+
+    const allRecipes = getRecipes();
+    const idx = allRecipes.findIndex(r => r.id === id && r.username === username);
+    if (idx === -1) {
+        req.session.flashError = "Recipe not found.";
+        return res.redirect('/recipes');
+    }
+
+    allRecipes[idx] = {
+        ...allRecipes[idx],
+        name: name.trim(),
+        ingredients: parsedIngredients,
+        prepTime: time.trim(),
+        prepSteps: Steps.trim(),
+        cost: formattedCost,
+        tag: tags.trim()
+    };
+    saveRecipes(allRecipes);
+    req.session.flashMessage = "Recipe updated successfully!";
+    res.redirect('/recipes');
 });
 
 // Handle delete
@@ -363,7 +412,7 @@ app.post('/recipes', (req, res) => {
 
     // Create the new recipe object matching recipes.json structure 
     const newRecipe = {
-        id: Math.floor(1000 + Math.random() * 9000).toString(), 
+        id: generateUniqueId(), 
         username: req.session && req.session.username ? req.session.username : "test@gmail.com",
         name: name.trim(),
         ingredients: parsedIngredients,
@@ -399,3 +448,16 @@ app.post('/recipes', (req, res) => {
         }
     });
 });
+
+function generateUniqueId() {
+    const allRecipes = getRecipes();
+    let newId;
+    let exists = true;
+
+    while (exists) {
+        newId = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit ID
+        exists = allRecipes.some(recipe => recipe.id === newId);
+    }
+
+    return newId;
+}

@@ -10,5 +10,9 @@
   {
     "username": "chris123@gmail.com",
     "password": "$2b$10$yuGiUw2n1LQ.Ax472KNmj.wtp85ZASrWbPTIB9rmJe8OV7e8hm6VS"
+  },
+  {
+    "username": "paul@mail.com",
+    "password": "$2b$10$E8dEQZQ1ncO9.agnNCMDe.h26YB78aq0ZIU9xWCaH.LZCUQP8ptly"
   }
 ]

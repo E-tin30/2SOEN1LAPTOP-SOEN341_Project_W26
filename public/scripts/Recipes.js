@@ -117,11 +117,11 @@ function removeIngredient(index)
 /* This script handles the dynamic addition and removal of Instructions in the recipe creation form. */
 
 let CurrentStep = 0;
-const Steps = document.querySelectorAll(".Step");
+const Steps = () => document.querySelectorAll("#RecipeForm .Step");
 
 function ShowStep(index)
 {
-    Steps.forEach((step, i) => {
+    Steps().forEach((step, i) => {
         step.classList.remove("active");
         if (i === index) {
             step.classList.add("active");
@@ -131,7 +131,7 @@ function ShowStep(index)
 // Validate current step inputs and move to next step
 function NextStep()
 {
-    const step = Steps[CurrentStep];
+    const step = Steps()[CurrentStep];
     let valid = true;
 
     // Validate inputs in current step
@@ -161,7 +161,7 @@ function NextStep()
     if (!valid) return;
 
     // move forward
-    if (CurrentStep < Steps.length - 1)
+    if (CurrentStep < Steps().length - 1)
     {
         CurrentStep++;
         ShowStep(CurrentStep);

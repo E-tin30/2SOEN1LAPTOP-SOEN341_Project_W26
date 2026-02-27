@@ -12,7 +12,7 @@
 
     <script src="/scripts/delete-recipe.js" defer></script>
     <script src="/scripts/recipe-modal.js" defer></script>
-    <script src="/scripts/filter.js" defer></script> 
+    <script src="/scripts/recipes.js" defer></script>
 </head>
 <body>
 <div class="app-layout">
@@ -153,6 +153,76 @@
         </div>
         <!-- End of Recipe Creation UI -->
 
+        <!-- Edit Recipe UI -->
+        <div class="RecipeCreationUI" id="RecipeEditUIPopUp">
+            <div class="RecipeCreationOverlay">
+                <span class="CloseBtnRecipeEdit">&times;</span>
+                <h2 class="RecipeCreationTitle">Edit Recipe</h2>
+                <form id="EditRecipeForm" class="RecipeCreationForm" action="" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="Step active">
+                        <label for="EditRecipeName" class="StepLabel">Recipe Name</label>
+                        <input type="text" id="EditRecipeName" name="name" placeholder="Enter the name of your recipe" required class="StepInputRecipe">
+                        <div class="ErrorMessage" id="EditRecipeNameError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Add ingredients</label>
+                        <div>
+                            <input type="text" id="EditIngredientInput" placeholder="Enter ingredient" class="StepInputRecipe">
+                            <button type="button" onclick="addEditIngredient()" class="AddIngredientButton">Add Ingredient</button>
+                        </div>
+                        <ul id="EditIngredientList"></ul>
+                        <input type="hidden" name="ingredients" id="EditIngredientsHidden">
+                        <div class="ErrorMessage" id="EditIngredientError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Enter preparation steps</label>
+                        <textarea name="Steps" id="EditSteps" required class="StepInputRecipe"></textarea>
+                        <div class="ErrorMessage" id="EditStepError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Preparation time</label>
+                        <input type="text" name="time" placeholder="Enter the preparation time" id="EditPrep" class="StepInputRecipe" required>
+                        <div class="ErrorMessage" id="EditPrepError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Cost</label>
+                        <input type="text" name="cost" placeholder="Enter the Cost" id="EditCost" class="StepInputRecipe" required>
+                        <div class="ErrorMessage" id="EditCostError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Dietary tags</label>
+                        <input type="text" name="tags" id="EditDietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
+                        <div class="ErrorMessage" id="EditDietaryError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="submit" class="SubmitRecipeButtonStyle">Update Recipe</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- End of Edit Recipe UI -->
+
         <% if (flashMessage) { %>
             <div class="flash-message">
                 <%= flashMessage %>
@@ -179,11 +249,9 @@
 
                         <!-- Edit/Delete icons -->
                         <div class="card-top-actions">
-                            <form action="/recipes/<%= recipe.id %>/edit" method="GET">
-                                <button type="submit" class="icon-btn edit-icon">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                            </form>
+                            <button type="button" class="icon-btn edit-icon edit-recipe-btn" data-recipe-id="<%= recipe.id %>">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
 
                             <form action="/recipes/<%= recipe.id %>?_method=DELETE" method="POST">
                                 <button type="submit" class="icon-btn delete-icon deleteBtn">
@@ -240,6 +308,5 @@
 
     </main>
   </div>
-  <script src="/scripts/recipes.js"></script>
 </body>
 </html>
