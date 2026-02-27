@@ -455,7 +455,7 @@ app.post('/recipes', (req, res) => {
         let recipes = [];
         try {
             if (data) recipes = JSON.parse(data);           
-            recipes.push(newRecipe);
+            recipes.unshift(newRecipe);
             fs.writeFile(filePath, JSON.stringify(recipes, null, 2), 'utf8', (writeErr) => {
                 if (writeErr) {
                     req.session.flashError = "Database Error: Could not save recipe.";
