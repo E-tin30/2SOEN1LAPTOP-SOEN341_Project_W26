@@ -167,3 +167,134 @@ function NextStep()
         ShowStep(CurrentStep);
     }
 }
+
+// Move back to previous step
+function PrevStep()
+{
+    if (CurrentStep > 0)
+    {
+        CurrentStep--;
+        ShowStep(CurrentStep);
+    }
+}
+
+// initialize create form steps
+if (Steps().length) ShowStep(CurrentStep);
+
+
+/* Edit Recipe - open modal, populate form, handle steps & submit */
+let EditIngredients = [];
+let EditCurrentStep = 0;
+const EditStepsEls = () => document.querySelectorAll("#EditRecipeForm .Step");
+
+function openEditRecipe(recipeId) {
+    const card = document.querySelector(`.recipe-card[data-id="${recipeId}"]`);
+    if (!card) return;
+
+    const name = card.dataset.name || "";
+    const ingredients = JSON.parse(card.dataset.ingredients || "[]");
+    const prepTime = card.dataset.preptime || "";
+    const prepSteps = card.dataset.steps || "";
+    const cost = card.dataset.cost || "";
+    const tag = card.dataset.tag || "";
+
+    document.getElementById("EditRecipeForm").action = `/recipes/${recipeId}?_method=PUT`;
+    document.getElementById("EditRecipeName").value = name;
+    EditIngredients = [...ingredients];
+    updateEditIngredientList();
+    document.getElementById("EditSteps").value = prepSteps;
+    document.getElementById("EditPrep").value = prepTime;
+    document.getElementById("EditCost").value = cost;
+    document.getElementById("EditDietary").value = tag;
+
+    EditCurrentStep = 0;
+    EditShowStep(0);
+    document.getElementById("RecipeEditUIPopUp").style.display = "flex";
+}
+
+function closeEditRecipe() {
+    document.getElementById("RecipeEditUIPopUp").style.display = "none";
+}
+
+function addEditIngredient() {
+    const input = document.getElementById("EditIngredientInput");
+    const val = input.value.trim();
+    if (!val) return;
+    EditIngredients.push(val);
+    updateEditIngredientList();
+    input.value = "";
+}
+
+function removeEditIngredient(index) {
+    EditIngredients.splice(index, 1);
+    updateEditIngredientList();
+}
+
+function updateEditIngredientList() {
+    const list = document.getElementById("EditIngredientList");
+    list.innerHTML = "";
+    EditIngredients.forEach((ing, i) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = "X";
+        btn.className = "RemoveIngredientBtn";
+        btn.type = "button";
+        btn.onclick = () => removeEditIngredient(i);
+        li.textContent = ing + " ";
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    document.getElementById("EditIngredientsHidden").value = JSON.stringify(EditIngredients);
+}
+
+function EditShowStep(index) {
+    EditStepsEls().forEach((step, i) => {
+        step.classList.toggle("active", i === index);
+    });
+}
+
+function EditNextStep() {
+    const step = EditStepsEls()[EditCurrentStep];
+    const inputs = step.querySelectorAll("input, textarea");
+    let valid = true;
+    inputs.forEach(input => {
+        if (input.type === "hidden") return;
+        const errDiv = document.getElementById(input.id + "Error");
+        if (!errDiv) return;
+        if (!input.value.trim()) {
+            errDiv.textContent = "This field is required";
+            valid = false;
+        } else {
+            errDiv.textContent = "";
+        }
+    });
+    if (EditCurrentStep === 1 && EditIngredients.length === 0) {
+        document.getElementById("EditIngredientError").textContent = "Add at least one ingredient.";
+        valid = false;
+    }
+    if (!valid) return;
+    if (EditCurrentStep < EditStepsEls().length - 1) {
+        EditCurrentStep++;
+        EditShowStep(EditCurrentStep);
+    }
+}
+
+function EditPrevStep() {
+    if (EditCurrentStep > 0) {
+        EditCurrentStep--;
+        EditShowStep(EditCurrentStep);
+    }
+}
+
+document.querySelectorAll(".edit-recipe-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openEditRecipe(btn.dataset.recipeId);
+    });
+});
+
+document.querySelector(".CloseBtnRecipeEdit")?.addEventListener("click", closeEditRecipe);
+
+document.getElementById("RecipeEditUIPopUp")?.addEventListener("click", (e) => {
+    if (e.target.id === "RecipeEditUIPopUp") closeEditRecipe();
+});

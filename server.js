@@ -256,16 +256,13 @@ app.get('/recipes', requireAuth, (req, res) => {
     const cost = req.query.cost || "none";
     const difficulty = req.query.difficulty || "none";
     const dietary = req.query.dietary || "none";
-   //toggle mechanic: by setting a nextValue opposite to the current one and sending it in the query we 
-   //toggle the filter
-    let nextValue = !(req.query.filterOn);
     
     const filterOn = req.query.filterOn === "true";
-    req.query.filterOn = nextValue;
+    
     if (filterOn) {
-        recipes = recipes.filter(recipe => {
-            return filterRecipeServer(recipe, {time,cost});
-        });
+    recipes = recipes.filter(recipe =>
+        filterRecipeServer(recipe, { time, cost, dietary })
+      );
     }
 
     if (searchQuery) {
@@ -362,7 +359,8 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
     };
     saveRecipes(allRecipes);
     req.session.flashMessage = "Recipe updated successfully!";
-    res.redirect('/recipes');
+    const redirectUrl = req.get("referer") || "/recipes";
+    res.redirect(redirectUrl);
 });
 
 // Handle delete
@@ -493,13 +491,13 @@ function filterRecipeServer(recipe, filter) {
 
     // TIME
     if (filter.time && filter.time !== "none") {
-        decision = decision && (parseInt(recipe.prepTime) <= parseInt(filter.time));
+        let recipeTime = parseInt(recipe.prepTime);
+        decision = decision && (recipeTime <= parseInt(filter.time));
     }
 
     // COST
     if (filter.cost && filter.cost !== "none") {
-
-        let recipeCost = parseFloat(recipe.cost.replace('$', ''));
+        let recipeCost = parseFloat(recipe.cost.replace('$', '')) || 0;
 
         if (filter.cost === "low") {
             decision = decision && recipeCost <= 25;
@@ -512,4 +510,10 @@ function filterRecipeServer(recipe, filter) {
         }
     }
 
-    return decision;}
+    // DIETARY (using tag)
+    if (filter.dietary && filter.dietary !== "none") {
+        decision = decision && recipe.tag.toLowerCase().includes(filter.dietary.toLowerCase());
+    }
+
+    return decision;
+}
