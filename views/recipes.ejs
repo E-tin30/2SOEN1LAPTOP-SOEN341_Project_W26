@@ -13,7 +13,8 @@
     <script src="/scripts/delete-recipe.js" defer></script>
     <script src="/scripts/recipe-modal.js" defer></script>
     <script src="/scripts/recipes.js" defer></script>
-    <script src="/scripts/filter.js" defer></script>
+    <script src="/scripts/filter.js" defer>
+    </script>
 </head>
 <body>
 <div class="app-layout">
@@ -50,34 +51,36 @@
             <div class="OverlayContent">
                 <span class="CloseBtn">&times;</span>
                 <h2 class="FilterTitle">Filter Recipes</h2>
-                <form class = "FilterForm">
+                <form class = "FilterForm" action="/recipes" method="GET">
                     <select class="FilterSelect" name="time" >
-                        <option class="OptionStyle" value="none">Any Time</option>
-                        <option class="OptionStyle" value="15">Under 15 mins</option>
-                        <option class="OptionStyle" value="30">Under 30 mins</option>
-                        <option class="OptionStyle" value="60">Under 1 hour</option>
+                        <option class="OptionStyle" value="none" <%= time === 'none' ? 'selected' : '' %>>Any Time</option>
+                        <option class="OptionStyle" value="15" <%= time === '15' ? 'selected' : '' %>>Under 15 mins</option>
+                        <option class="OptionStyle" value="30" <%= time === '30' ? 'selected' : '' %>>Under 30 mins</option>
+                        <option class="OptionStyle" value="60" <%= time === '60' ? 'selected' : '' %>>Under 1 hour</option>
                     </select>
                     <select class="FilterSelect" name="cost" >
-                        <option class="OptionStyle" value="none">Any Cost</option>
-                        <option class="OptionStyle" value="low">Low Cost</option>
-                        <option class="OptionStyle" value="medium">Medium Cost</option>
-                        <option class="OptionStyle" value="high">High Cost</option>
+                        <option class="OptionStyle" value="none" <%= cost === 'none' ? 'selected' : '' %>>Any Cost</option>
+                        <option class="OptionStyle" value="low" <%= cost === 'low' ? 'selected' : '' %>>Low Cost</option>
+                        <option class="OptionStyle" value="medium" <%= cost === 'medium' ? 'selected' : '' %>>Medium Cost</option>
+                        <option class="OptionStyle" value="high" <%= cost === 'high' ? 'selected' : '' %>>High Cost</option>
                     </select>
                     
                     <select class="FilterSelect" name="difficulty" >
-                        <option class="OptionStyle" value="none">Any Difficulty</option>
-                        <option class="OptionStyle" value="easy">Easy Difficulty</option>
-                        <option class="OptionStyle" value="medium">Medium Difficulty</option>
-                        <option class="OptionStyle" value="hard"> Hard Difficulty</option>
+                        <option class="OptionStyle" value="none" <%= difficulty === 'none' ? 'selected' : '' %>>Any Difficulty</option>
+                        <option class="OptionStyle" value="easy" <%= difficulty === 'easy' ? 'selected' : '' %>>Easy Difficulty</option>
+                        <option class="OptionStyle" value="medium" <%= difficulty === 'medium' ? 'selected' : '' %>>Medium Difficulty</option>
+                        <option class="OptionStyle" value="hard" <%= difficulty === 'hard' ? 'selected' : '' %>> Hard Difficulty</option>
                     </select>
                    
                     <select class="FilterSelect" name="dietary" >
-                        <option class="OptionStyle" value="none">Any Dietery</option>
-                        <option class="OptionStyle" value="vegan">Vegan</option>
-                        <option class="OptionStyle" value="vegetarian">Vegetarian</option>
-                        <option class="OptionStyle" value="gluten-free">Gluten-free</option>
+                        <option class="OptionStyle" value="none" <%= dietary === 'none' ? 'selected' : '' %>>Any Dietery</option>
+                        <option class="OptionStyle" value="vegan" <%= dietary === 'vegan' ? 'selected' : '' %>>Vegan</option>
+                        <option class="OptionStyle" value="vegetarian" <%= dietary === 'vegetarian' ? 'selected' : '' %>>Vegetarian</option>
+                        <option class="OptionStyle" value="gluten-free" <%= dietary === 'gluten-free' ? 'selected' : '' %>>Gluten-free</option>
                     </select>
-                    <button type="submit" onclick ="applyFilter()" class="FilterBtn">Apply Filters</button>
+                    <input type="hidden" class="filteringOn" name="filterOn" value="true">
+                    <button type="submit" onclick="" class="FilterBtn">Apply Filters</button>
+                    
                 </form>
             </div>
         </div>
