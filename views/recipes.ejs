@@ -12,6 +12,7 @@
 
     <script src="/scripts/delete-recipe.js" defer></script>
     <script src="/scripts/recipe-modal.js" defer></script>
+    <script src="/scripts/filter.js" defer></script> 
 </head>
 <body>
 <div class="app-layout">
@@ -50,32 +51,32 @@
                 <h2 class="FilterTitle">Filter Recipes</h2>
                 <form class = "FilterForm">
                     <select class="FilterSelect" name="time" >
-                        <option class="OptionStyle" value="">Any Time</option>
+                        <option class="OptionStyle" value="none">Any Time</option>
                         <option class="OptionStyle" value="15">Under 15 mins</option>
                         <option class="OptionStyle" value="30">Under 30 mins</option>
                         <option class="OptionStyle" value="60">Under 1 hour</option>
                     </select>
                     <select class="FilterSelect" name="cost" >
-                        <option class="OptionStyle" value="">Any Cost</option>
+                        <option class="OptionStyle" value="none">Any Cost</option>
                         <option class="OptionStyle" value="low">Low Cost</option>
                         <option class="OptionStyle" value="medium">Medium Cost</option>
                         <option class="OptionStyle" value="high">High Cost</option>
                     </select>
                     
                     <select class="FilterSelect" name="difficulty" >
-                        <option class="OptionStyle" value="">Any Difficulty</option>
+                        <option class="OptionStyle" value="none">Any Difficulty</option>
                         <option class="OptionStyle" value="easy">Easy Difficulty</option>
                         <option class="OptionStyle" value="medium">Medium Difficulty</option>
                         <option class="OptionStyle" value="hard"> Hard Difficulty</option>
                     </select>
                    
                     <select class="FilterSelect" name="dietary" >
-                        <option class="OptionStyle" value="">Any Dietery</option>
+                        <option class="OptionStyle" value="none">Any Dietery</option>
                         <option class="OptionStyle" value="vegan">Vegan</option>
                         <option class="OptionStyle" value="vegetarian">Vegetarian</option>
                         <option class="OptionStyle" value="gluten-free">Gluten-free</option>
                     </select>
-                    <button type="submit" class="FilterBtn">Apply Filters</button>
+                    <button type="submit" onclick ="applyFilter()" class="FilterBtn">Apply Filters</button>
                 </form>
             </div>
         </div>

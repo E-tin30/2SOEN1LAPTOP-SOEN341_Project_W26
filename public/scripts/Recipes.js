@@ -167,15 +167,3 @@ function NextStep()
         ShowStep(CurrentStep);
     }
 }
-// Move back to previous step
-function PrevStep()
-{
-    if (CurrentStep > 0)
-    {
-        CurrentStep--;
-        ShowStep(CurrentStep);
-    }
-}
-
-// initialize
-ShowStep(CurrentStep);
