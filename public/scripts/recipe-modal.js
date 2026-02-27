@@ -9,11 +9,23 @@ cards.forEach(card => {
         const tag = card.dataset.tag;
         const modalTag = document.getElementById('modalTag');
 
+        const difficulty = card.dataset.difficulty;
+        const modalDifficulty = document.getElementById("modalDifficulty");
+
         if (tag) {
             modalTag.textContent = tag;
             modalTag.style.display = "inline-block";
         } else {
             modalTag.style.display = "none";
+        }
+
+        if (difficulty) {
+            modalDifficulty.textContent = difficulty;
+            modalDifficulty.style.display = "inline-block";
+            modalDifficulty.classList.remove("easy", "medium", "hard");
+            modalDifficulty.classList.add(difficulty.toLowerCase());
+        } else {
+            modalDifficulty.style.display = "none";
         }
 
         document.getElementById('modalPrepTime').textContent = card.dataset.preptime;

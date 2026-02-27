@@ -40,7 +40,13 @@
         </div>
 
         <!-- Search Bar UI -->
-        <form action="/recipes" method="GET" class="SearchWrapper"> 
+        <form action="/recipes" method="GET" class="SearchWrapper">
+            <!-- If filters are applied save them -->
+            <input type="hidden" name="time" value="<%= time %>">
+            <input type="hidden" name="cost" value="<%= cost %>">
+            <input type="hidden" name="difficulty" value="<%= difficulty %>">
+            <input type="hidden" name="dietary" value="<%= dietary %>">
+
             <i class="uil uil-search"></i> 
             <input type="text" name="search" id="SearchInput" placeholder="Search recipes..." class="SearchInput" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
             <button type="submit" class="SearchButton">Search</button> 
@@ -52,6 +58,9 @@
                 <span class="CloseBtn">&times;</span>
                 <h2 class="FilterTitle">Filter Recipes</h2>
                 <form class = "FilterForm" action="/recipes" method="GET">
+                    <!-- if there are search query save them -->
+                    <input type="hidden" name="search" value="<%= searchQuery %>">
+
                     <select class="FilterSelect" name="time" >
                         <option class="OptionStyle" value="none" <%= time === 'none' ? 'selected' : '' %>>Any Time</option>
                         <option class="OptionStyle" value="15" <%= time === '15' ? 'selected' : '' %>>Under 15 mins</option>
@@ -67,9 +76,9 @@
                     
                     <select class="FilterSelect" name="difficulty" >
                         <option class="OptionStyle" value="none" <%= difficulty === 'none' ? 'selected' : '' %>>Any Difficulty</option>
-                        <option class="OptionStyle" value="easy" <%= difficulty === 'easy' ? 'selected' : '' %>>Easy Difficulty</option>
-                        <option class="OptionStyle" value="medium" <%= difficulty === 'medium' ? 'selected' : '' %>>Medium Difficulty</option>
-                        <option class="OptionStyle" value="hard" <%= difficulty === 'hard' ? 'selected' : '' %>> Hard Difficulty</option>
+                        <option class="OptionStyle" value="easy" <%= difficulty === 'easy' ? 'selected' : '' %>>Easy</option>
+                        <option class="OptionStyle" value="medium" <%= difficulty === 'medium' ? 'selected' : '' %>>Medium</option>
+                        <option class="OptionStyle" value="hard" <%= difficulty === 'hard' ? 'selected' : '' %>> Hard</option>
                     </select>
                    
                     <select class="FilterSelect" name="dietary" >
@@ -86,6 +95,7 @@
         </div>
         <!-- End of Filter Overlay -->
 
+        <!-- Recipe creation UI -->
         <div class = "RecipeCreationUI" id="RecipeCreationUIPopUp">
             <div class = "RecipeCreationOverlay">
                     <span class="CloseBtnRecipeCreation">&times;</span>
@@ -144,9 +154,23 @@
                             </div>
                         </div>
                         <div class="Step">
-                            <label class="StepLabel">Dietary tags</label>
+                            <label class="StepLabel">Dietary tag</label>
                             <input type="text" name="tags" id="Dietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
                             <div class="ErrorMessage" id="DietaryError"></div>
+                            <div class="StepButtons">
+                                <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
+                                <button type="button" onclick="NextStep()" class="NextBackButtonStyle">Next</button>
+                            </div>
+                        </div>
+                        <div class="Step">
+                            <label class="StepLabel">Difficulty</label>
+                            <select name="difficulty" id="difficulty" class="StepInputRecipe" required>
+                                <option value="">Select difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                            <div class="ErrorMessage" id="DifficultyError"></div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
                                 <button type="submit" class="SubmitRecipeButtonStyle">Submit Recipe</button>
@@ -214,9 +238,23 @@
                         </div>
                     </div>
                     <div class="Step">
-                        <label class="StepLabel">Dietary tags</label>
+                        <label class="StepLabel">Dietary tag</label>
                         <input type="text" name="tags" id="EditDietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
                         <div class="ErrorMessage" id="EditDietaryError"></div>
+                        <div class="StepButtons">
+                            <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
+                            <button type="button" onclick="EditNextStep()" class="NextBackButtonStyle">Next</button>
+                        </div>
+                    </div>
+                    <div class="Step">
+                        <label class="StepLabel">Difficulty</label>
+                        <select name="difficulty" id="EditDifficulty" class="StepInputRecipe" required>
+                            <option value="">Select difficulty</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <div class="ErrorMessage" id="EditDifficultyError"></div>
                         <div class="StepButtons">
                             <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>
                             <button type="submit" class="SubmitRecipeButtonStyle">Update Recipe</button>
@@ -244,12 +282,20 @@
                         data-preptime="<%= recipe.prepTime %>"
                         data-steps="<%= recipe.prepSteps %>"
                         data-cost="<%= recipe.cost %>"
-                        data-tag="<%= recipe.tag %>">
+                        data-tag="<%= recipe.tag %>"
+                        data-difficulty="<%= recipe.difficulty %>">
 
-                        <!-- Dietary Tag -->
-                        <% if (recipe.tag) { %>
-                            <span class="recipe-tag"><%= recipe.tag %></span>
-                        <% } %>
+                        <div class="card-tags">
+                            <% if (recipe.tag) { %>
+                                <span class="recipe-tag"><%= recipe.tag %></span>
+                            <% } %>
+
+                            <% if (recipe.difficulty) { %>
+                                <span class="recipe-tag <%= recipe.difficulty %>">
+                                    <%= recipe.difficulty %>
+                                </span>
+                            <% } %>
+                        </div>
 
                         <!-- Edit/Delete icons -->
                         <div class="card-top-actions">
@@ -296,7 +342,10 @@
 
                 <h2 id="modalName"></h2>
                 
-                <span id="modalTag" class="recipe-tag modal-tag"></span>
+                <div class="modal-tags">
+                    <span id="modalTag" class="recipe-tag modal-tag"></span>
+                    <span id="modalDifficulty" class="recipe-tag modal-tag"></span>
+                </div>
 
                 <p><strong>Ingredients:</strong></p>
                 <ul id="modalIngredients"></ul>

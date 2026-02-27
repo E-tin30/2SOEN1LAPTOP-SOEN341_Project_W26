@@ -257,24 +257,22 @@ app.get('/recipes', requireAuth, (req, res) => {
     const difficulty = req.query.difficulty || "none";
     const dietary = req.query.dietary || "none";
     
-    const filterOn = req.query.filterOn === "true";
-    
-    if (filterOn) {
-    recipes = recipes.filter(recipe =>
-        filterRecipeServer(recipe, { time, cost, dietary })
-      );
-    }
+    recipes = recipes.filter(recipe => {
+      const passesFilter = filterRecipeServer(recipe, { time, cost, difficulty, dietary });
 
-    if (searchQuery) {
-        const lowerSearch = searchQuery.toLowerCase();
-        recipes = recipes.filter(recipe => {
-            const matchesName = recipe.name.toLowerCase().includes(lowerSearch);
-            const matchesIngredient = recipe.ingredients.some(ing => 
-                ing.toLowerCase().includes(lowerSearch)
-            );
-            return matchesName || matchesIngredient;
-        });
-    }
+      if (!passesFilter) return false;
+
+      if (!searchQuery) return true;
+
+      const lowerSearch = searchQuery.toLowerCase();
+
+      const matchesName = recipe.name.toLowerCase().includes(lowerSearch);
+      const matchesIngredient = recipe.ingredients.some(ing =>
+          ing.toLowerCase().includes(lowerSearch)
+      );
+
+      return matchesName || matchesIngredient;
+    });
  
 
     res.render('recipes', { 
@@ -288,7 +286,6 @@ app.get('/recipes', requireAuth, (req, res) => {
         difficulty,
         dietary,
         searchQuery, // Pass this to the frontend to trigger the Return button
-        
     });
 });
 
@@ -312,7 +309,7 @@ app.get('/recipes/:id/edit', requireAuth, (req, res) => {
 app.put('/recipes/:id', requireAuth, (req, res) => {
     const id = req.params.id;
     const username = req.session.username;
-    const { name, ingredients, Steps, time, cost, tags } = req.body;
+    const { name, ingredients, Steps, time, cost, tags, difficulty } = req.body;
 
     let missingFields = [];
     if (!name) missingFields.push("name");
@@ -321,6 +318,7 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
     if (!time) missingFields.push("time");
     if (!cost) missingFields.push("cost");
     if (!tags) missingFields.push("tags");
+    if (!difficulty) missingFields.push("difficulty");
 
     if (missingFields.length > 0) {
         req.session.flashError = `Update failed. Missing: ${missingFields.join(", ")}.`;
@@ -355,7 +353,8 @@ app.put('/recipes/:id', requireAuth, (req, res) => {
         prepTime: time.trim(),
         prepSteps: Steps.trim(),
         cost: formattedCost,
-        tag: tags.trim()
+        tag: tags.trim(),
+        difficulty: difficulty.trim()
     };
     saveRecipes(allRecipes);
     req.session.flashMessage = "Recipe updated successfully!";
@@ -398,7 +397,7 @@ app.post('/recipes', (req, res) => {
     //console.log(req.body);
 
     // Grab what the frontend is sending in req.body
-    const { name, ingredients, Steps, time, cost, tags } = req.body;
+    const { name, ingredients, Steps, time, cost, tags, difficulty } = req.body;
 
     // Validate using variable names
     let missingFields = [];
@@ -408,6 +407,7 @@ app.post('/recipes', (req, res) => {
     if (!time) missingFields.push("time");
     if (!cost) missingFields.push("cost");
     if (!tags) missingFields.push("tags");
+    if (!difficulty) missingFields.push("difficulty");
 
     if (missingFields.length > 0) {
         // 4.4 Save to session and redirect
@@ -441,7 +441,8 @@ app.post('/recipes', (req, res) => {
         prepTime: time.trim(),       
         prepSteps: Steps.trim(),     
         cost: formattedCost,
-        tag: tags.trim()             
+        tag: tags.trim(),
+        difficulty: difficulty.trim()        
     };
     // Save to JSON file
     const filePath = path.join(__dirname, 'data', 'recipes.json');
@@ -513,6 +514,10 @@ function filterRecipeServer(recipe, filter) {
     // DIETARY (using tag)
     if (filter.dietary && filter.dietary !== "none") {
         decision = decision && recipe.tag.toLowerCase().includes(filter.dietary.toLowerCase());
+    }
+
+    if (filter.difficulty && filter.difficulty !== "none") {
+      decision = decision && (recipe.difficulty || "").toLowerCase() === filter.difficulty.toLowerCase();
     }
 
     return decision;

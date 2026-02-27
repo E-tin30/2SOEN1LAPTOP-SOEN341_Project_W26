@@ -53,10 +53,34 @@
 }
 
 /* Card tag position */
-.recipe-card .recipe-tag {
+.card-tags {
     position: absolute;
     top: 12px;
     left: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+}
+
+.recipe-tag {
+    text-transform: capitalize;
+}
+
+/* Difficulty colors */
+.recipe-tag.easy {
+    background: #e6f9ed;
+    color: #1a7f37;
+}
+
+.recipe-tag.medium {
+    background: #fff4e5;
+    color: #b26a00;
+}
+
+.recipe-tag.hard {
+    background: #ffe6e6;
+    color: #c62828;
 }
 
 /* Modal tag override */
@@ -152,6 +176,11 @@
     margin: auto;
 }
 
+.modal-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
 
 .FilterBtn{
     display: inline-flex;
@@ -578,4 +607,37 @@
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+select.StepInputRecipe {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1.5px solid #d0d7de;
+    background-color: #f9fafb;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7L10 12L15 7' stroke='%236b7280' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+}
+
+select.StepInputRecipe:hover {
+    border-color: #4f46e5;
+}
+
+select.StepInputRecipe:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
