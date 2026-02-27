@@ -16,7 +16,8 @@
     "prepTime": "30 mins",
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$12",
-    "tag": "Protein+"
+    "tag": "Protein+",
+    "difficulty": "easy"
   },
   {
     "id": "1711",
@@ -32,7 +33,8 @@
     "prepSteps": "Boil pasta. Sauté garlic in butter. Toss together with cheese.",
     "prepTime": "15 mins",
     "cost": "$",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "easy"
   },
   {
     "id": "1712",
@@ -49,7 +51,8 @@
     "prepSteps": "Slice chicken and veggies. Fry chicken, then add veggies and sauce.",
     "prepTime": "20 mins",
     "cost": "$20",
-    "tag": "Healthy"
+    "tag": "Healthy",
+    "difficulty": "medium"
   },
   {
     "id": "1713",
@@ -65,7 +68,8 @@
     "prepSteps": "Sauté onions. Add tomatoes and broth. Simmer and blend.",
     "prepTime": "30 mins",
     "cost": "$10",
-    "tag": "Lunch"
+    "tag": "Lunch",
+    "difficulty": "easy"
   },
   {
     "id": "1714",
@@ -82,7 +86,8 @@
     "prepSteps": "Brown the beef with cumin. Assemble in shells with toppings.",
     "prepTime": "15 mins",
     "cost": "$5",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "easy"
   },
   {
     "id": "1715",
@@ -98,7 +103,8 @@
     "prepSteps": "Mash bananas. Mix with other ingredients. Fry on a pan.",
     "prepTime": "10 mins",
     "cost": "$",
-    "tag": "Breakfast"
+    "tag": "Breakfast",
+    "difficulty": "easy"
   },
   {
     "id": "1958",
@@ -110,7 +116,8 @@
     "prepTime": "1 minute",
     "prepSteps": "Slice Apple",
     "cost": "$2",
-    "tag": "vegan"
+    "tag": "vegan",
+    "difficulty": "easy"
   },
   {
     "id": "4827",
@@ -126,7 +133,8 @@
     "prepTime": "25 mins",
     "prepSteps": "Cook rice. Sauté chicken. Add vegetables and teriyaki sauce. Serve over rice.",
     "cost": "$11",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "medium"
   },
   {
     "id": "7394",
@@ -142,7 +150,8 @@
     "prepTime": "8 mins",
     "prepSteps": "Slice tomatoes and mozzarella. Layer with basil. Drizzle olive oil and season.",
     "cost": "$9",
-    "tag": "Healthy"
+    "tag": "Healthy",
+    "difficulty": "easy"
   },
   {
     "id": "6152",
@@ -158,7 +167,8 @@
     "prepTime": "30 mins",
     "prepSteps": "Cook pasta. Sauté chicken and garlic. Add cream and cheese. Mix together.",
     "cost": "$14",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "medium"
   },
   {
     "id": "9036",
@@ -174,7 +184,8 @@
     "prepTime": "12 mins",
     "prepSteps": "Sauté vegetables. Add to tortilla with cheese. Cook until crispy.",
     "cost": "$6",
-    "tag": "Lunch"
+    "tag": "Lunch",
+    "difficulty": "easy"
   },
   {
     "id": "2841",
@@ -190,7 +201,8 @@
     "prepTime": "20 mins",
     "prepSteps": "Mix honey garlic sauce. Bake salmon and brush with sauce.",
     "cost": "$18",
-    "tag": "Healthy"
+    "tag": "Healthy",
+    "difficulty": "medium"
   },
   {
     "id": "5578",
@@ -206,7 +218,8 @@
     "prepTime": "18 mins",
     "prepSteps": "Fill tortilla with chicken, rice, beans, and cheese. Wrap tightly.",
     "cost": "$10",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "easy"
   },
   {
     "id": "7613",
@@ -222,7 +235,8 @@
     "prepTime": "10 mins",
     "prepSteps": "Cook bacon. Assemble sandwich with lettuce, tomato, and mayo.",
     "cost": "$7",
-    "tag": "Lunch"
+    "tag": "Lunch",
+    "difficulty": "easy"
   },
   {
     "id": "4329",
@@ -237,7 +251,8 @@
     "prepTime": "4 mins",
     "prepSteps": "Blend all ingredients until smooth.",
     "cost": "$5",
-    "tag": "Protein+"
+    "tag": "Protein+",
+    "difficulty": "easy"
   },
   {
     "id": "6895",
@@ -250,10 +265,11 @@
       "Soy Sauce",
       "Garlic"
     ],
-    "prepTime": "15 mins",
+    "prepTime": "20 mins",
     "prepSteps": "Cook eggs. Stir fry rice with garlic and soy sauce. Mix together.",
     "cost": "$6",
-    "tag": "Dinner"
+    "tag": "Dinner",
+    "difficulty": "medium"
   },
   {
     "id": "9482",
@@ -269,56 +285,7 @@
     "prepTime": "40 mins",
     "prepSteps": "Brown turkey. Add beans and sauce. Simmer with spices.",
     "cost": "$12",
-    "tag": "Healthy"
-  },
-  {
-    "id": "8642",
-    "username": "test@gmail.com",
-    "name": "Garlic Lemon Chicken Thighs",
-    "ingredients": [
-      "Chicken Thighs",
-      "Garlic",
-      "Lemon",
-      "Olive Oil",
-      "Salt",
-      "Pepper"
-    ],
-    "prepTime": "35 mins",
-    "prepSteps": "Season chicken. Sear in pan. Add garlic and lemon. Finish cooking until tender.",
-    "cost": "$13",
-    "tag": "Dinner"
-  },
-  {
-    "id": "5279",
-    "username": "test@gmail.com",
-    "name": "Spinach Feta Omelette",
-    "ingredients": [
-      "Eggs",
-      "Spinach",
-      "Feta Cheese",
-      "Olive Oil",
-      "Salt"
-    ],
-    "prepTime": "8 mins",
-    "prepSteps": "Whisk eggs. Cook spinach. Add eggs and feta. Fold when set.",
-    "cost": "$5",
-    "tag": "Protein+"
-  },
-  {
-    "id": "3904",
-    "username": "test@gmail.com",
-    "name": "Creamy Mushroom Pasta",
-    "ingredients": [
-      "Pasta",
-      "Mushrooms",
-      "Garlic",
-      "Heavy Cream",
-      "Parmesan",
-      "Parsley"
-    ],
-    "prepTime": "25 mins",
-    "prepSteps": "Cook pasta. Sauté mushrooms and garlic. Add cream and cheese. Combine and simmer.",
-    "cost": "$10",
-    "tag": "Dinner"
+    "tag": "Healthy",
+    "difficulty": "hard"
   }
 ]

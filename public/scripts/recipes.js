@@ -197,6 +197,7 @@ function openEditRecipe(recipeId) {
     const prepSteps = card.dataset.steps || "";
     const cost = card.dataset.cost || "";
     const tag = card.dataset.tag || "";
+    const difficulty = card.dataset.difficulty || "";
 
     document.getElementById("EditRecipeForm").action = `/recipes/${recipeId}?_method=PUT`;
     document.getElementById("EditRecipeName").value = name;
@@ -206,6 +207,7 @@ function openEditRecipe(recipeId) {
     document.getElementById("EditPrep").value = prepTime;
     document.getElementById("EditCost").value = cost;
     document.getElementById("EditDietary").value = tag;
+    document.getElementById("EditDifficulty").value = difficulty;
 
     EditCurrentStep = 0;
     EditShowStep(0);
