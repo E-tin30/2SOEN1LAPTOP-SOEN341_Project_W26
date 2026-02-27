@@ -155,7 +155,19 @@
                         </div>
                         <div class="Step">
                             <label class="StepLabel">Dietary tag</label>
-                            <input type="text" name="tags" id="Dietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
+                            <select name="tags" id="Dietary" class="StepInputRecipe" required>
+                                <option value="">Select dietary tag</option>
+                                <option value="None">None</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Keto">Keto</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Protein+">Protein+</option>
+                                <option value="Spicy">Spicy</option>
+                                <option value="Liquid">Liquid</option>
+                                <option value="Heart-health">Heart health</option>
+                                <option value="Halal">Halal</option>
+                                <option value="Lactose-free">Lactose-free</option>
+                            </select>
                             <div class="ErrorMessage" id="DietaryError"></div>
                             <div class="StepButtons">
                                 <button type="button" onclick="PrevStep()" class="NextBackButtonStyle">Back</button>
@@ -239,7 +251,19 @@
                     </div>
                     <div class="Step">
                         <label class="StepLabel">Dietary tag</label>
-                        <input type="text" name="tags" id="EditDietary" placeholder="vegan, gluten-free..." class="StepInputRecipe">
+                        <select name="tags" id="EditDietary" class="StepInputRecipe" required>
+                                <option value="">Select dietary tag</option>
+                                <option value="None">None</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Keto">Keto</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Protein+">Protein+</option>
+                                <option value="Spicy">Spicy</option>
+                                <option value="Liquid">Liquid</option>
+                                <option value="Heart-health">Heart health</option>
+                                <option value="Halal">Halal</option>
+                                <option value="Lactose-free">Lactose-free</option>
+                        </select>
                         <div class="ErrorMessage" id="EditDietaryError"></div>
                         <div class="StepButtons">
                             <button type="button" onclick="EditPrevStep()" class="NextBackButtonStyle">Back</button>

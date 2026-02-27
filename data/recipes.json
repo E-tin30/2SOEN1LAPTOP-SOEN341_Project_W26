@@ -287,5 +287,18 @@
     "cost": "$12",
     "tag": "Healthy",
     "difficulty": "hard"
+  },
+  {
+    "id": "6990",
+    "username": "test@gmail.com",
+    "name": "test recipe",
+    "ingredients": [
+      "test"
+    ],
+    "prepTime": "30 mins",
+    "prepSteps": "test",
+    "cost": "$30",
+    "tag": "Vegan",
+    "difficulty": "easy"
   }
 ]
