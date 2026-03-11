@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
     <link rel="stylesheet" href="/css/layout.css" />
-    <link rel="stylesheet" href="/css/meal-planner.css" />
+    <link rel="stylesheet" href="/css/MealPlanner.css" />
+    <script src="/scripts/MealPlanner.js" defer></script>
 </head>
 <body>
     <div class = "MealPlanerContainer">
@@ -16,55 +17,52 @@
             <h1>Meal Planner</h1>
             <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
 
-            <div id="meal-plan-container">
-                <!-- Meal plan will be dynamically generated here -->
-                 <table class = "MealGrid">
-                    <thead>
-                        <tr>
-                            <th>Meal</th>
-                            <th>Monday</th>
-                            <th>Tuesday</th>
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th> 
-                            <th>Saturday</th>
-                            <th>Sunday</th>
-                        </tr>
-                    </thead>
-                    <tbody id="meal-plan-body">
-                        <!-- Meal plan rows will be dynamically generated here -->
-                         <tr>
-                            <td>Breakfast</td>
-                            <td class = "MealSlot" id = "breakfast-monday"></td>
-                            <td class = "MealSlot" id = "breakfast-tuesday"></td>
-                            <td class = "MealSlot" id = "breakfast-wednesday"></td>
-                            <td class = "MealSlot" id = "breakfast-thursday"></td>
-                            <td class = "MealSlot" id = "breakfast-friday"></td>
-                            <td class = "MealSlot" id = "breakfast-saturday"></td>
-                            <td class = "MealSlot" id = "breakfast-sunday"></td>
-                         </tr>
-                         <tr>
-                            <td>Lunch</td>
-                            <td class = "MealSlot" id = "Lunch-monday"></td>
-                            <td class = "MealSlot" id = "Lunch-tuesday"></td>
-                            <td class = "MealSlot" id = "Lunch-wednesday"></td>
-                            <td class = "MealSlot" id = "Lunch-thursday"></td>
-                            <td class = "MealSlot" id = "Lunch-friday"></td>
-                            <td class = "MealSlot" id = "Lunch-saturday"></td>
-                            <td class = "MealSlot" id = "Lunch-sunday"></td>
-                         </tr>
-                         <tr>
-                            <td>Dinner</td>
-                            <td class = "MealSlot" id = "Dinner-monday"></td>
-                            <td class = "MealSlot" id = "Dinner-tuesday"></td>
-                            <td class = "MealSlot" id = "Dinner-wednesday"></td>
-                            <td class = "MealSlot" id = "Dinner-thursday"></td>
-                            <td class = "MealSlot" id = "Dinner-friday"></td>
-                            <td class = "MealSlot" id = "Dinner-saturday"></td>
-                            <td class = "MealSlot" id = "Dinner-sunday"></td>
-                         </tr>
-                    </tbody>
-                 </table>
+            <div id="meal-plan-container" class="MealPlanContainer">
+                <div class="CardContainer">
+                    <div class="Card">
+                        <h2 class="CardTitle" >Monday</h2>
+                        <div class="RecipeCard" id="MondayRecipes">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Tuesday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                             
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Wednesday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Thursday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Friday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Saturday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                    <div class="Card">
+                        <h2 class="CardTitle">Sunday</h2>
+                        <div class="RecipeCard">
+                            <!-- Recipe details will go here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
