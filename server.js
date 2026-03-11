@@ -529,5 +529,9 @@ const MEALPLAN_FILE = path.join(__dirname , 'data' , 'MealPlans.json');
 
 function getMealPlans()
 {
-  if (!fs.existsSync(MEAL_))
+  if (!fs.existsSync(MEALPLAN_FILE))
+  {
+    return [];  // doesnt exist
+  }
+  return JSON.parse(fs.readFileSync(MEALPLAN_FILE , 'utf-8'))
 }
