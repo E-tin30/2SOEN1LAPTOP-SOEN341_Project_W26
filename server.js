@@ -558,10 +558,21 @@ app.get('/Meal-Planner', requireAuth , (req, res) => {
   });
 });
 
+app.post('/Meal-Planner', requireAuth , (req, res) => {
+  const { plan } = req.body; // Get the meal plan data from the request body
 
+  let allPlans = getMealPlans();
 
+  const existingIndex = allPlans.findIndex(p => p.username === req.session.username); // Check if the user already has a meal plan
+  
+  if (existingIndex !== -1) {
+    allPlans[existingIndex].plan = plan; // Update the existing meal plan
+  } else {
+    allPlans.push({ username: req.session.username, plan }); // Add a new meal plan for the user
+  }
 
+  SaveMealPlans(allPlans); // Save the updated meal plans back to the JSON file
 
-
-
+  res.json({ status: "success" }); // Send a success response back to the client
+});
 /* END OF MEAL PLANNER LOGIC */
