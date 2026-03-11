@@ -522,3 +522,46 @@ function filterRecipeServer(recipe, filter) {
 
     return decision;
 }
+
+
+/* MEALPLANNER JSON STRUCTURE */
+const MEALPLAN_FILE = path.join(__dirname , 'data' , 'MealPlans.json');
+
+function getMealPlans()
+{
+  if (!fs.existsSync(MEALPLAN_FILE))
+  {
+    return [];  // doesnt exist
+  }
+  return JSON.parse(fs.readFileSync(MEALPLAN_FILE , 'utf-8')) || [];
+}
+
+function SaveMealPlans(data)
+{
+  fs.writeFileSync(MEALPLAN_FILE,  JSON.stringify(data, null , 2));
+}
+
+// Showing the meal planner page
+
+app.get('/Meal-Planner', requireAuth , (req, res) => {
+  const AllPlans = getMealPlans();
+  const SpecificUserPlan = AllPlans.find
+  (
+    p => p.username === req.session.username  //Finds the specific username
+  );
+  res.render('meal-planner' , 
+  {
+    title: 'Meal Planner',
+    currentPage: 'meal-planner',
+    username: req.session.username,
+    plan: SpecificUserPlan || null
+  });
+});
+
+
+
+
+
+
+
+/* END OF MEAL PLANNER LOGIC */
