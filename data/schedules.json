@@ -1,0 +1,5 @@
+[{
+    "username": "test@gmail.com",
+    "recipeSchedule":[{"id": "101","day": "2026-03-11","startTime": "18:00","endTime": "19:00"},
+    {"id": "102","day": "2026-03-12","startTime": "12:00","endTime": "13:00"}]
+}]

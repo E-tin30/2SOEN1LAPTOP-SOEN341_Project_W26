@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe selection</title>  
+  <script src="/scripts/add-recipe-to-schedule.js"></script>
+</head>
+
+<body>
+
+    <div class="app-layout">
+         <!-- Sidebar -->
+        <%- include('partials/navbar.ejs') %>
+         <div class = "Button-container">
+            <button class="add-recipe-to-shcedule" onclick="toggleRecipeScheduleOverlay('open')">Add Recipe</button>">
+         </div>
+
+         <div class="schedule-recipe-overlay">
+          <span class="close-overlay" onclick="toggleRecipeScheduleOverlay('close')">&times;</span>
+          <h2>Choose a recipe from your list</h2>
+          <form id="schedule-recipe-form" action="/schedule-recipe" method="post">
+            <label for="recipe-select">Select a recipe:</label>
+            <select id="recipe-select" name="recipeId" required>
+              <% recipes.forEach(recipe => { %>
+                <option value="<%= recipe.id %>"><%= recipe.name %></option>
+              <% }) %>
+            </select>
+
+            <input type="date" id="schedule-date" name="scheduleDate" value="2026-03-11" min="Today" max="2028-03-11">
+            <input type="time" id="schedule-time" name="scheduleTime" value="12:00" min ="00:00" max="23:59">
+            <button type="submit">Add to Schedule</button>
+         </div>
+    </div>
+   
+
+    </div>
+</body>

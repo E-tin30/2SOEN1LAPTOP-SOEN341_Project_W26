@@ -522,3 +522,10 @@ function filterRecipeServer(recipe, filter) {
 
     return decision;
 }
+
+
+// API endpoint to handle adding a recipe to a schedule
+app.post('/schedules/recipe', requireAuth, (req, res) => {
+
+
+});
