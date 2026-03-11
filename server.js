@@ -522,3 +522,12 @@ function filterRecipeServer(recipe, filter) {
 
     return decision;
 }
+
+
+/* MEAL PLAN JSON STRUCTURE */
+const MEALPLAN_FILE = path.join(__dirname , 'data' , 'MealPlans.json');
+
+function getMealPlans()
+{
+  if (!fs.existsSync(MEAL_))
+}
