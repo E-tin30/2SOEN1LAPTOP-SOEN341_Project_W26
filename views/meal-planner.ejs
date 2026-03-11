@@ -9,5 +9,63 @@
     <link rel="stylesheet" href="/css/meal-planner.css" />
 </head>
 <body>
-    <h1>MEAL PLANNER HAHAHHA</h1>
+    <div class = "MealPlanerContainer">
+        <%- include('partials/navbar.ejs') %>
+
+        <main class="page-content">
+            <h1>Meal Planner</h1>
+            <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
+
+            <div id="meal-plan-container">
+                <!-- Meal plan will be dynamically generated here -->
+                 <table class = "MealGrid">
+                    <thead>
+                        <tr>
+                            <th>Meal</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th> 
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="meal-plan-body">
+                        <!-- Meal plan rows will be dynamically generated here -->
+                         <tr>
+                            <td>Breakfast</td>
+                            <td class = "MealSlot" id = "breakfast-monday"></td>
+                            <td class = "MealSlot" id = "breakfast-tuesday"></td>
+                            <td class = "MealSlot" id = "breakfast-wednesday"></td>
+                            <td class = "MealSlot" id = "breakfast-thursday"></td>
+                            <td class = "MealSlot" id = "breakfast-friday"></td>
+                            <td class = "MealSlot" id = "breakfast-saturday"></td>
+                            <td class = "MealSlot" id = "breakfast-sunday"></td>
+                         </tr>
+                         <tr>
+                            <td>Lunch</td>
+                            <td class = "MealSlot" id = "Lunch-monday"></td>
+                            <td class = "MealSlot" id = "Lunch-tuesday"></td>
+                            <td class = "MealSlot" id = "Lunch-wednesday"></td>
+                            <td class = "MealSlot" id = "Lunch-thursday"></td>
+                            <td class = "MealSlot" id = "Lunch-friday"></td>
+                            <td class = "MealSlot" id = "Lunch-saturday"></td>
+                            <td class = "MealSlot" id = "Lunch-sunday"></td>
+                         </tr>
+                         <tr>
+                            <td>Dinner</td>
+                            <td class = "MealSlot" id = "Dinner-monday"></td>
+                            <td class = "MealSlot" id = "Dinner-tuesday"></td>
+                            <td class = "MealSlot" id = "Dinner-wednesday"></td>
+                            <td class = "MealSlot" id = "Dinner-thursday"></td>
+                            <td class = "MealSlot" id = "Dinner-friday"></td>
+                            <td class = "MealSlot" id = "Dinner-saturday"></td>
+                            <td class = "MealSlot" id = "Dinner-sunday"></td>
+                         </tr>
+                    </tbody>
+                 </table>
+            </div>
+        </main>
+    </div>
 </body>
