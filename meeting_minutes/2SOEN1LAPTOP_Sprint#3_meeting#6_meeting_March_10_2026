@@ -13,9 +13,15 @@ Kepler Paul-Émile
 Topics:
 
 - What was done from last meeting:
-   
+- Filter backend
+- Edit recipe backend
 
 To-do:
-
+- Implement Weekly Meal Planner backend logic.
+- Create Weekly Planner UI grid layout.
+- Implement assign recipe to day and meal type feature.
+- Implement edit and remove meals from planner.
+- Add duplicate meal validation for the same week.
+- Continue testing and integration of backend and frontend features.
 
 #1 hour / 60 minutes
