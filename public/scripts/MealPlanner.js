@@ -81,6 +81,29 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Fetch and render the weekly plan on page load
   FetchWeeklyPlan();
+
+  const recipe = {
+    id: "1001",
+    name: "Creamy Garlic Chicken Pasta",
+    prepTime: "30 mins",
+    cost: "$12",
+    tag: "Protein+",
+    difficulty: "easy",
+    type: "Dinner",
+    time: "12:30 pm"
+  };
+
+  addRecipeToDay(recipe, "Monday"); // Example of adding a recipe to Monday on page load
+  addRecipeToDay({
+    id: "1002",
+    name: "Avocado Toast",
+    prepTime: "10 mins",
+    cost: "$5",
+    tag: "Vegetarian",
+    difficulty: "easy",
+    type: "Breakfast",
+    time: "8:00 am"
+  }, "Tuesday"); // Example of adding a recipe to Tuesday on page load  
   });
 
 
