@@ -10,14 +10,13 @@
     gap: 10px;                
              
 }
-.CardMonday, .CardTuesday, .CardWednesday, .CardThursday, .CardFriday, .CardSaturday, .CardSunday{
-    display: flex;
+.Card{
+ 
     border: 0.2px solid black;
     margin: 10px 0;          
     padding: 10px;
     padding-left: 10px;
-    flex-direction: column;
-    align-items: flex-start;
+   
     border-radius: 15px;
     width: auto;
     background-color: #f0f8ff;

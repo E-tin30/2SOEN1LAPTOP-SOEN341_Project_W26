@@ -543,7 +543,7 @@ function SaveMealPlans(data)
 
 // Showing the meal planner page
 
-app.get('/Meal-Planner', requireAuth , (req, res) => {
+app.get('/meal-planner', requireAuth , (req, res) => {
   const AllPlans = getMealPlans();
   const SpecificUserPlan = AllPlans.find
   (
@@ -558,7 +558,7 @@ app.get('/Meal-Planner', requireAuth , (req, res) => {
   });
 });
 
-app.post('/Meal-Planner', requireAuth , (req, res) => {
+app.post('/meal-planner', requireAuth , (req, res) => {
   const { plan } = req.body; // Get the meal plan data from the request body
 
   let allPlans = getMealPlans();
