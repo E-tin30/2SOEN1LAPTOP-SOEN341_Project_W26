@@ -542,15 +542,20 @@ function SaveMealPlans(data)
 }
 
 // Showing the meal planner page
-
 app.get('/meal-planner', requireAuth , (req, res) => {
   const AllPlans = getMealPlans();
-  const SpecificUserPlan = AllPlans.find
-  (
-    p => p.username === req.session.username  //Finds the specific username
+  const SpecificUserPlan = AllPlans.find(
+    p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
   );
-  res.render('meal-planner' , 
-  {
+  // If frontend requests JSON
+  if (req.query.format === 'json') {
+    return res.json({
+      username: req.session.username,
+      plan: SpecificUserPlan ? SpecificUserPlan.plan : [] // if user has a plan return it, otherwise return empty array
+    });
+  }
+  // Otherwise render the page normally
+  res.render('meal-planner', {
     title: 'Meal Planner',
     currentPage: 'meal-planner',
     username: req.session.username,

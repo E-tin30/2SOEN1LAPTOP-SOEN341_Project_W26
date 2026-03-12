@@ -4,18 +4,10 @@
 /* HARDCODED NEED TO REPLACE WITH API CALL TO GET RECIPES FROM DATABASE
 */
 document.addEventListener("DOMContentLoaded", () => {
-    const recipe = {
-      id: "1001",
-      name: "Creamy Garlic Chicken Pasta bla bla bla",
-      prepTime: "30 mins",
-      cost: "$12",
-      tag: "Protein+",
-      difficulty: "easy",
-      type: "Dinner",
-      time: "12:30 pm"
-    };
   
-    function addRecipeToDay(recipe, day) {
+    // Function to add a recipe to a specific day
+    function addRecipeToDay(recipe, day) 
+    {
       const container = document.getElementById(day + "Recipes");   
       if (!container) return;
       const RecipeCard = document.createElement("div");
@@ -33,19 +25,62 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="MealTime">${recipe.time}</span>
         `;
       RecipeCard.appendChild(item);  // Add recipe details to RecipeCard
-      
       container.appendChild(RecipeCard);  // Add RecipeCard to container
     }
+
+    async function FetchWeeklyPlan()
+    {
+        try
+        {
+            const response  = await fetch("/meal-planner?format=json");
+            const data = await response.json();
+
+            if (!data.plan) return; // No plan found
+
+            data.plan.forEach(dayEntry => {
+                dayEntry.meals.forEach(meal => {
+                    addRecipeToDay(meal, dayEntry.day);
+                });
+            });
+        }
+        catch (error)
+        {
+            console.error("Error fetching meal plan:", error);
+        }
+    }
+
+    // Global function to add a recipe 
+    /* FUNCTION TO ADD A NEW RECIPE TO AVAILABLE RECIPES OF THE USER */
+  async function addRecipe(day, mealType, recipe) {
+    try 
+    {
+      // POST the new recipe to backend
+      await fetch('/meal-planner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: [{
+            week: recipe.week || "current", // optional week
+            day,
+            meals: [{ type: mealType, recipeId: recipe.id, name: recipe.name, time: recipe.time }]
+          }]
+        })
+      });
+
+      // Instantly add the recipe to the day in the frontend
+      addRecipeToDay(recipe, day);
+    } 
+    catch (err) 
+    {
+      console.error("Error adding recipe:", err);
+    }
+  }
+
+  window.addRecipe = addRecipe; // Expose globally for + button
+  window.FetchWeeklyPlan = FetchWeeklyPlan; // Expose globally for initial load
   
-    // Example: add the same recipe to Monday
-    /* In a real application, you would loop through the recipes and days based on user input or API data */
-    addRecipeToDay(recipe, "Monday");
-    addRecipeToDay(recipe, "Tuesday");
-    addRecipeToDay(recipe, "Wednesday");
-    addRecipeToDay(recipe, "Thursday");
-    addRecipeToDay(recipe, "Friday");
-    addRecipeToDay(recipe, "Saturday");
-    addRecipeToDay(recipe, "Sunday");
-    addRecipeToDay(recipe, "Sunday");
-    addRecipeToDay(recipe, "Sunday");
+  // Fetch and render the weekly plan on page load
+  FetchWeeklyPlan();
   });
+
+
