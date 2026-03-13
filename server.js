@@ -524,8 +524,62 @@ function filterRecipeServer(recipe, filter) {
 }
 
 
-// API endpoint to handle adding a recipe to a schedule
-app.post('/schedules/recipe', requireAuth, (req, res) => {
 
+/* MEALPLANNER JSON STRUCTURE */
+const MEALPLAN_FILE = path.join(__dirname , 'data' , 'MealPlans.json');
 
+function getMealPlans()
+{
+  if (!fs.existsSync(MEALPLAN_FILE))
+  {
+    return [];  // doesnt exist
+  }
+  return JSON.parse(fs.readFileSync(MEALPLAN_FILE , 'utf-8')) || [];
+}
+
+function SaveMealPlans(data)
+{
+  fs.writeFileSync(MEALPLAN_FILE,  JSON.stringify(data, null , 2));
+}
+
+// Showing the meal planner page
+app.get('/meal-planner', requireAuth , (req, res) => {
+  const AllPlans = getMealPlans();
+  const SpecificUserPlan = AllPlans.find(
+    p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
+  );
+  // If frontend requests JSON
+  if (req.query.format === 'json') {
+    return res.json({
+      username: req.session.username,
+      plan: SpecificUserPlan ? SpecificUserPlan.plan : [] // if user has a plan return it, otherwise return empty array
+    });
+  }
+  // Otherwise render the page normally
+  res.render('meal-planner', {
+    title: 'Meal Planner',
+    currentPage: 'meal-planner',
+    username: req.session.username,
+    plan: SpecificUserPlan || null
+  });
 });
+
+app.post('/meal-planner', requireAuth , (req, res) => {
+  const { plan } = req.body; // Get the meal plan data from the request body
+
+  let allPlans = getMealPlans();
+
+  const existingIndex = allPlans.findIndex(p => p.username === req.session.username); // Check if the user already has a meal plan
+  
+  if (existingIndex !== -1) {
+    allPlans[existingIndex].plan = plan; // Update the existing meal plan
+  } else {
+    allPlans.push({ username: req.session.username, plan }); // Add a new meal plan for the user
+  }
+
+  SaveMealPlans(allPlans); // Save the updated meal plans back to the JSON file
+
+  res.json({ status: "success" }); // Send a success response back to the client
+});
+/* END OF MEAL PLANNER LOGIC */
+
