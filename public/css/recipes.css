@@ -159,6 +159,14 @@
     margin-bottom: 15px;
 }
 
+.flash-error {
+    background-color: #ffe6e6;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
 /* Modal */
 .modal {
     position: fixed;

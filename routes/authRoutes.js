@@ -5,10 +5,9 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const requireAuth = require('../middleware/requireAuth');
 
-router.get("/", (req, res) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
+const USERS_FILE = path.join(__dirname, '../data/users.json');
+
+router.get("/", requireAuth, (req, res) => {
   res.render('home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
@@ -36,11 +35,9 @@ router.get("/login", (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password, rememberMe } = req.body;
-  
-  const usersPath = path.join(__dirname, 'data', 'users.json');
 
   try {
-    const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
     const user = usersData.find(u => u.username === username);
 
     if (!user) {
@@ -86,7 +83,7 @@ router.post("/register", (req, res) => {
     return res.redirect('/register'); // print the error message and return them to the register page
   }
 
-  const data = fs.readFile("data/users.json", "utf8", async (err, data) => {
+  const data = fs.readFile(USERS_FILE, "utf8", async (err, data) => {
     if (err) return res.status(500).send("Server Error");
 
     const users = JSON.parse(data || "[]");
@@ -140,5 +137,7 @@ async function registerUser(users, username, password){
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   users.push({username, password: hashedPassword});
-  await fs.promises.writeFile("data/users.json", JSON.stringify(users, null, 2));
+  await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 }
+
+module.exports = router;

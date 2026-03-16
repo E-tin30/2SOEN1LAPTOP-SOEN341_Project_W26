@@ -5,22 +5,10 @@ const path = require('path');
 const requireAuth = require('../middleware/requireAuth');
 
 // API FOR PROFILE MANAGEMENT 
-const PREFERENCES_FILE = path.join(__dirname, 'data', 'preferences.json');
-
-function getPreferences() {
-    if (!fs.existsSync(PREFERENCES_FILE)) return [];
-    try { return JSON.parse(fs.readFileSync(PREFERENCES_FILE, 'utf8')) || []; } // read data
-    catch (err) { return []; }
-}
-
-function savePreferences(data) {
-    fs.writeFileSync(PREFERENCES_FILE, JSON.stringify(data, null, 2)); // save data
-}
+const PREFERENCES_FILE = path.join(__dirname, '../data/preferences.json');
 
 // Renders the page with the user's saved data
-app.get("/profile", (req, res) => {
-    if (!req.session.username) return res.redirect('/login');
-
+router.get("/profile", requireAuth, (req, res) => {
     const allPrefs = getPreferences();
     const userPref = allPrefs.find(p => p.username === req.session.username);
 
@@ -33,7 +21,7 @@ app.get("/profile", (req, res) => {
 });
 
 // JS file sends data here to save it
-app.post("/api/save-profile", requireAuth, (req, res) => {
+router.post("/api/save-profile", requireAuth, (req, res) => {
     const { preference, allergies } = req.body; 
 
     console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
@@ -52,3 +40,19 @@ app.post("/api/save-profile", requireAuth, (req, res) => {
     savePreferences(allPrefs);
     res.json({ status: "success" });
 });
+
+/* Helper Functions */
+
+// Helper function to get all preferences from preferences.json
+function getPreferences() {
+    if (!fs.existsSync(PREFERENCES_FILE)) return [];
+    try { return JSON.parse(fs.readFileSync(PREFERENCES_FILE, 'utf8')) || []; } // read data
+    catch (err) { return []; }
+}
+
+// Helper function to save preferences back to preferences.json
+function savePreferences(data) {
+    fs.writeFileSync(PREFERENCES_FILE, JSON.stringify(data, null, 2)); // save data
+}
+
+module.exports = router;
