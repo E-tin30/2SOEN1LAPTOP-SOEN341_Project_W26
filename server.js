@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const fs = require('fs');
 const PORT = 3000;
 const session = require('express-session');
 const methodOverride = require('method-override');
-const bcrypt = require('bcrypt');
 
 const authRoutes = require('./routes/authRoutes'); // routes for login, register, logout
 const profileRoutes = require('./routes/profileRoutes'); // routes for profile
@@ -35,3 +33,9 @@ app.use("/", profileRoutes);
 app.use("/", recipeRoutes);
 
 module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
