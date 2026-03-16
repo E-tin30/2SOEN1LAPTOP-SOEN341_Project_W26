@@ -543,41 +543,59 @@ function SaveMealPlans(data)
 
 // Showing the meal planner page
 app.get('/meal-planner', requireAuth , (req, res) => {
+  
   const AllPlans = getMealPlans();
   const SpecificUserPlan = AllPlans.find(
     p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
   );
-  // If frontend requests JSON
-  if (req.query.format === 'json') {
-    return res.json({
-      username: req.session.username,
-      plan: SpecificUserPlan ? SpecificUserPlan.plan : [] // if user has a plan return it, otherwise return empty array
-    });
-  }
-  // Otherwise render the page normally
+  
+  /*
+  TESTING PURPOSES - HARDCODED MEAL PLAN TO SHOW HOW IT WORKS. THIS IS THE STRUCTURE THE MEAL PLANS MUST BE IN FOR THE FRONTEND TO RENDER IT CORRECTLY. THE REAL DATA WILL BE PULLED FROM MealPlans.json
+  const testPlan = [
+    {
+      day: "Monday",
+      meals: [
+        { name: "Chicken Pasta", type: "Dinner", time: "7:00 PM" }
+      ]
+    },
+    {
+      day: "Friday",
+      meals: [
+        { name: "Steak Bowl", type: "Lunch", time: "12:30 PM" }
+      ]
+    }
+  ];
+  */
   res.render('meal-planner', {
     title: 'Meal Planner',
     currentPage: 'meal-planner',
     username: req.session.username,
-    plan: SpecificUserPlan || null
+    plan: /*testPlan*/ SpecificUserPlan ? SpecificUserPlan.plan : [] // pass the user's meal plan or an empty array if none exists
   });
 });
-
+// Handling the form submission from the meal planner page when user adds a recipe to a specific day
 app.post('/meal-planner', requireAuth , (req, res) => {
-  const { plan } = req.body; // Get the meal plan data from the request body
+  const { day, recipeId } = req.body;
 
-  let allPlans = getMealPlans();
+  const allPlans = getMealPlans();
 
-  const existingIndex = allPlans.findIndex(p => p.username === req.session.username); // Check if the user already has a meal plan
-  
-  if (existingIndex !== -1) {
-    allPlans[existingIndex].plan = plan; // Update the existing meal plan
-  } else {
-    allPlans.push({ username: req.session.username, plan }); // Add a new meal plan for the user
+  let userPlan = allPlans.find(
+    p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
+  );
+
+  if (!userPlan) {
+    userPlan = { username: req.session.username, plan: [] };  // if not, create a new one for the user
+    allPlans.push(userPlan);
   }
 
-  SaveMealPlans(allPlans); // Save the updated meal plans back to the JSON file
+  let dayEntry = userPlan.plan.find(d => d.day === day);  // find the specific day entry in the user's plan
 
-  res.json({ status: "success" }); // Send a success response back to the client
+  if (!dayEntry) {
+    dayEntry = { day: day, meals: [] }; // if it doesn't exist, create it
+    userPlan.plan.push(dayEntry); // add the new day entry to the user's plan
+  }
+  SaveMealPlans(allPlans);
+
+  res.redirect('/meal-planner');
 });
 /* END OF MEAL PLANNER LOGIC */
