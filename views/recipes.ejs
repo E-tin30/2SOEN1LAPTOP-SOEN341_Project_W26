@@ -295,6 +295,12 @@
             </div>
         <% } %>
 
+        <% if (flashError) { %>
+            <div class="flash-error">
+                <%= flashError %>
+            </div>
+        <% } %>
+
         <section class="recipe-list">
             <% if (recipes.length > 0) { %>
                 <% recipes.forEach(recipe => { %>
