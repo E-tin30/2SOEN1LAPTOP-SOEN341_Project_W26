@@ -46,13 +46,16 @@ describe("Auth Route Testing", () => {
 
     test("GET / returns home page if logged in", async () => {
         const agent = request.agent(app); // create agent
-        await agent.post("/login").send({ 
+        const login = await agent.post("/login").send({ 
             username: "test@gmail.com",
             password: "test12345"
-        }); // simulate agent logging in
+        }); // simulate agent logging in (using user+password from users.json)
+
+        expect(login.statusCode).toBe(302); // make sure agent is redirected on successful login
+        expect(login.headers.location).toBe("/"); // make sure agent is redirect to home page
 
         const res = await agent.get("/"); // try and access "/" after logging in
-        expect(res.statusCode).toBe(200);
+        expect(res.statusCode).toBe(200); // check that agent was able to get to home page
     });
 
     test("GET / redirect to login page if not logged in", async () => {
