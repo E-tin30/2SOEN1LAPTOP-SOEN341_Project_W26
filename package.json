@@ -25,7 +25,8 @@
     "ejs": "^4.0.1",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "method-override": "^3.0.0"
+    "method-override": "^3.0.0",
+    "Router": "^2.1.0"
   },
   "devDependencies": {
     "jest": "^30.2.0"
