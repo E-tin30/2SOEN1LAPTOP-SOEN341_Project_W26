@@ -25,10 +25,15 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
+// Authentication Middleware to ensure logged in
+function requireAuth(req, res, next) {
+    if (!req.session.username) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+app.get("/", requireAuth, (req, res) => {
   res.render('home', { title: 'Home Page', currentPage: 'home', username: req.session.username });
 });
 
@@ -175,9 +180,7 @@ function savePreferences(data) {
 }
 
 // Renders the page with the user's saved data
-app.get("/profile", (req, res) => {
-    if (!req.session.username) return res.redirect('/login');
-
+app.get("/profile", requireAuth, (req, res) => {
     const allPrefs = getPreferences();
     const userPref = allPrefs.find(p => p.username === req.session.username);
 
@@ -190,13 +193,9 @@ app.get("/profile", (req, res) => {
 });
 
 // JS file sends data here to save it
-app.post("/api/save-profile", (req, res) => {
-
-// Check if logged in
-    if (!req.session.username) return res.status(401).send("Not logged in");
+app.post("/api/save-profile", requireAuth, (req, res) => {
 
     const { preference, allergies } = req.body; 
-    
     
     console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
 
@@ -225,13 +224,6 @@ function getRecipes() {
 
 function saveRecipes(data) {
     fs.writeFileSync(RECIPES_FILE, JSON.stringify(data, null, 2));
-}
-
-function requireAuth(req, res, next) {
-    if (!req.session.username) {
-        return res.redirect('/login');
-    }
-    next();
 }
 
 // Show all recipes

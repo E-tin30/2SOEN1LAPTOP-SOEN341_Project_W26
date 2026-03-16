@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { request } = require("http");
 const path = require("path");
 
 const RECIPES_FILE_PATH = path.join(__dirname, "../data/recipes.json");
@@ -36,6 +37,40 @@ describe("System basic tests", () => {
     test("Preferences JSON is valid", () => {
         const data = fs.readFileSync(PREFERENCES_FILE_PATH, "utf8");
         expect(() => JSON.parse(data)).not.toThrow(); // check that preferences.json is valid json file
+    });
+
+});
+
+describe("Route Testing", () => {
+
+    test("GET /login redirects if not logged in", async () => {
+        const res = await request(app).get("/login");
+        expect(res.statusCode()).toBe(302);
+    });
+
+    test("GET /recipes redirects if not logged in", async () => {
+        const res = await request(app).get("/recipes");
+        expect(res.statusCode()).toBe(302);
+    });
+
+    test("", () => {
+        
+    });
+
+    test("", () => {
+        
+    });
+
+    test("", () => {
+        
+    });
+
+    test("", () => {
+        
+    });
+
+    test("", () => {
+        
     });
 
 });
