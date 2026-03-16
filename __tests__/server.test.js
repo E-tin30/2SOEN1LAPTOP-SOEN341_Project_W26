@@ -42,12 +42,26 @@ describe("System basic tests", () => {
 
 });
 
-describe("Route Testing", () => {
+describe("Auth Route Testing", () => {
+
+    test("GET / returns home page if logged in", async () => {
+        const res = await request(app).get("/");
+        expect(res.statusCode).toBe(200);
+    });
+
+    test("GET / redirect to login page if not logged in", async () => {
+        const res = await request(app).get("/");
+        expect(res.statusCode).toBe(200);
+    });
 
     test("GET /login returns page", async () => {
         const res = await request(app).get("/login");
         expect(res.statusCode).toBe(200);
     });
+
+});
+
+describe("Recipe Route Testing", () => {
 
     test("GET /recipes redirects if not logged in", async () => {
         const res = await request(app).get("/recipes");

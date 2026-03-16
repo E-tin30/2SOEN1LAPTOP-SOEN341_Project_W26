@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const fs = require('fs');
 const PORT = 3000;
 const session = require('express-session');
 const methodOverride = require('method-override');
