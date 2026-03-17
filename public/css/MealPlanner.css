@@ -1,95 +1,43 @@
-.MealPlanContainer {
-    flex-direction: column;
-    gap: 10px;
+.MealPlanContainer{
+ 
+   flex-direction: column;   
+   gap: 10px;                
 }
 
-.WeekLayout {
+.CardContainer{
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 10px;                
+             
 }
-
-.HoursColumn {
-    display: flex;
-    flex-direction: column;
-    width: 70px;
-    flex-shrink: 0;
-}
-
-.HourSpacer {
-    height: 38px;
-    margin: 10px 0;
-}
-
-.HourSlot {
-    height: 70px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-right: 8px;
-    box-sizing: border-box;
-    font-size: 11px;
-    font-weight: bold;
-    color: #4b5563;
-    border-top: 1px solid #d1d5db;
-}
-
-.CardContainer {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.Card {
+.Card{
     border: 0.2px solid black;
-    margin: 10px 0;
+    margin: 10px 0;          
     padding: 10px;
     padding-left: 10px;
     border-radius: 15px;
     width: auto;
     background-color: #f0f8ff;
     min-width: 150px;
-    display: flex;
-    flex-direction: column;
 }
 
-.CardTitle {
-    font-size: 10px;
-    font-style: italic;
+.CardTitle{
+    font-size: 10px; 
+    font-style: italic; 
+    color: #ffffff;          
     font-weight: bold;
     background-color: #1f2937;
-    color: #f0f8ff;
-    display: inline-block;
-    padding: 4px 12px;
-    margin: 0 0 10px 0;
-    white-space: nowrap;
-    border-radius: 4px;
+    color: #f0f8ff;              
+    display: inline-block;     
+    padding: 4px 12px;           
+    margin: 0 0 10px 0;     
+    
+    white-space: nowrap;        
+    border-radius: 4px;   
     max-width: 100%;
 }
 
-#MondayRecipes,
-#TuesdayRecipes,
-#WednesdayRecipes,
-#ThursdayRecipes,
-#FridayRecipes,
-#SaturdayRecipes,
-#SundayRecipes {
-    min-height: 1190px; /* 17 hours × 70px */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0,
-            transparent 69px,
-            #d1d5db 70px
-        );
-    border-radius: 8px;
-    padding-top: 4px;
-}
-
-.RecipeCard {
+.RecipeCard{
     border: 1px solid black;
     padding: 10px;
     margin-top: 10px;
@@ -98,52 +46,137 @@
     background-color: #f9fafb;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     display: block;
-    width: calc(100% - 10px);
-    box-sizing: border-box;
+    width: fit-content;
+
 }
 
-.RecipeName {
-    font-size: 9px;
+.RecipeDetails{
+    font-size: 8px;           
     font-weight: bold;
-    color: black;
-    display: inline-block;
-    padding: 4px 8px;
-    margin: -3px 0 4px 0;
-    width: 75%;
-    border-radius: 4px;
+    background-color: #fffde7;
+    color: black;              
+    display: inline-block;     
+    color: #d32f2f;
+    padding: 4px 8px;           
+    margin: 0 0 10px 0;         
+    
+    border-radius: 4px;   
     max-width: 100%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.CardRecipesItem {
+.RecipeName{
+    font-size: 9px;           
+    font-weight: bold;
+  
+    color: black;              
+    display: inline-block;     
+
+    padding: 4px 8px;           
+    margin: -3px 0 4px 0;          
+    width: 75%;       
+    border-radius: 4px;   
+    max-width: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.CardRecipesItem{
     display: flex;
     gap: 8px;
-    margin-top: 4px;
+    margin-top: 4px;      /* space between items */
     align-items: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap;      /* allow items to wrap to the next line if needed */
 }
 
-.TypeMeal {
-    font-size: 10px;
+.TypeMeal{
+    font-size: 10px;           
     font-weight: bold;
     background-color: #e0f7fa;
-    color: black;
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 0 0 10px 0;
-    border-radius: 4px;
+    color: black;              
+    display: inline-block;     
+    padding: 4px 8px;           
+    margin: 0 0 10px 0;         
+    border-radius: 4px;   
 }
+.MealTime{
 
-.MealTime {
-    font-size: 10px;
+    font-size: 10px;           
     font-weight: bold;
     background-color: #e0f7fa;
-    color: #d32f2f;
-    padding: 4px 8px;
-    margin: 0 0 10px 0;
+    color: #d32f2f;              
+    padding: 4px 8px;           
+    margin: 0 0 10px 0;         
     display: flex;
     align-items: flex-start;
-    border-radius: 4px;
+    border-radius: 4px;   
     white-space: nowrap;
-    flex-shrink: 1;
+    flex-shrink: 1; /* Allow shrinking to fit the container */
+}
+.addMealbtn{
+    background-color: #28a745;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+
+    display: inline-block;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.addMealbtn:hover {
+    background-color: darkgreen;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+.editMealbtn{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+
+    display: inline-block;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.editMealbtn:hover {
+    background-color: darkblue;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+.removeMealbtn{
+    background-color: #ef4444;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+
+    display: inline-block;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.removeMealbtn:hover {
+    background-color: darkred;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }

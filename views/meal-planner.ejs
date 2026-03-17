@@ -1,5 +1,4 @@
-
-    <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -16,20 +15,16 @@
         <main class="page-content">
             <h1>Meal Planner</h1>
             <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
-
+            <!-- Buttons for adding, editting, removing recipies from planner-->
+             <div class="page-actions">
+              <button class="addMealbtn" id="add-meal-button" onclick="">+ Add Meal</button>
+              <button class="editMealbtn" id="edit-meal-button" onclick="">Edit Meal</button>
+              <button class="removeMealbtn" id="remove-meal-button" onclick="">Remove Meal</button>
+             </div>
             <div id="meal-plan-container" class="MealPlanContainer">
-              <div class="WeekLayout">
-                <div class="HoursColumn">
-                  <div class="HourSpacer"></div>
-                  <% for (let hour = 6; hour <= 22; hour++) { %>
-                    <div class="HourSlot">
-                      <%= hour %>:00
-                    </div>
-                    <% } %>
-                  </div>
-                  <div class="CardContainer">
+                <div class="CardContainer">
                     <div class="Card">
-                        
+          
                         <h2 class="CardTitle" >Monday</h2>
                         <div  id="MondayRecipes">
                             <!-- Recipe details will go here -->
@@ -215,6 +210,4 @@
             </div>
         </main>
     </div>
-  </div>
-</div>
 </body>
