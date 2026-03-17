@@ -6,6 +6,8 @@
     <title>Meal Planner</title>
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/MealPlanner.css" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="/scripts/MealPlanner.js" defer></script>
 </head>
 <body>
@@ -24,7 +26,6 @@
             <div id="meal-plan-container" class="MealPlanContainer">
                 <div class="CardContainer">
                     <div class="Card">
-          
                         <h2 class="CardTitle" >Monday</h2>
                         <div  id="MondayRecipes">
                             <!-- Recipe details will go here -->
@@ -35,6 +36,10 @@
                                     <% day.meals.forEach(meal => { %>
                             
                                       <div class="RecipeCard">
+                                       <div class="RecipieCardActions">
+                                        <button type="button" class="icon-btn edit-icon edit-recipe-btn">
+                                          <i class="fa-solid fa-pen"></i>
+                                          </button>
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -42,6 +47,7 @@
                                           <span class="MealTime"><%= meal.time %></span>
                                         </div>
                                       </div>
+                                    </div>
                             
                                     <% }) %>
                             

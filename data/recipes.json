@@ -270,22 +270,5 @@
     "cost": "$6",
     "tag": "Dinner",
     "difficulty": "medium"
-  },
-  {
-    "id": "9482",
-    "username": "test@gmail.com",
-    "name": "Turkey Chili",
-    "ingredients": [
-      "Ground Turkey",
-      "Beans",
-      "Tomato Sauce",
-      "Onion",
-      "Chili Powder"
-    ],
-    "prepTime": "40 mins",
-    "prepSteps": "Brown turkey. Add beans and sauce. Simmer with spices.",
-    "cost": "$12",
-    "tag": "Healthy",
-    "difficulty": "hard"
   }
 ]

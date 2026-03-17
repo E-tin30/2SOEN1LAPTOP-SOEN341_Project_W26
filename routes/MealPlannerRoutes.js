@@ -31,7 +31,7 @@ router.get('/meal-planner', requireAuth , (req, res) => {
   );
   
   
-  /*TESTING PURPOSES - HARDCODED MEAL PLAN TO SHOW HOW IT WORKS. THIS IS THE STRUCTURE THE MEAL PLANS MUST BE IN FOR THE FRONTEND TO RENDER IT CORRECTLY. THE REAL DATA WILL BE PULLED FROM MealPlans.json
+//*TESTING PURPOSES - HARDCODED MEAL PLAN TO SHOW HOW IT WORKS. THIS IS THE STRUCTURE THE MEAL PLANS MUST BE IN FOR THE FRONTEND TO RENDER IT CORRECTLY. THE REAL DATA WILL BE PULLED FROM MealPlans.json
   const testPlan = [
     {
       day: "Monday",
@@ -45,14 +45,14 @@ router.get('/meal-planner', requireAuth , (req, res) => {
         { name: "Steak Bowl", type: "Lunch", time: "12:30 PM" }
       ]
     }
-  ];*/
+  ];
   
   res.render('meal-planner', {
     title: 'Meal Planner',
     currentPage: 'meal-planner',
     username: req.session.username,
-    plan: //testPlan 
-    SpecificUserPlan ? SpecificUserPlan.plan : [] // pass the user's meal plan or an empty array if none exists
+    plan: testPlan,
+    //SpecificUserPlan ? SpecificUserPlan.plan : [] // pass the user's meal plan or an empty array if none exists
   });
 });
 // Handling the form submission from the meal planner page when user adds a recipe to a specific day
