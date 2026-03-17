@@ -1,6 +1,8 @@
 const cards = document.querySelectorAll('.recipe-card');
 const modal = document.getElementById('recipeModal');
 const closeBtn = document.getElementById('closeModal');
+const modalContent = document.getElementById('modalContent');
+
 
 cards.forEach(card => {
     card.addEventListener('click', () => {
@@ -32,6 +34,10 @@ cards.forEach(card => {
         document.getElementById('modalSteps').textContent = card.dataset.steps;
         document.getElementById('modalCost').textContent = card.dataset.cost;
 
+        if (modalContent) {
+            modalContent.dataset.id = card.dataset.id;
+        }
+
         const ingredients = JSON.parse(card.dataset.ingredients);
         const list = document.getElementById('modalIngredients');
         list.innerHTML = "";
@@ -41,7 +47,7 @@ cards.forEach(card => {
             li.textContent = i;
             list.appendChild(li);
         });
-
+        modalContent.dataset.id = card.dataset.id;
         modal.classList.remove('hidden');
     });
 });

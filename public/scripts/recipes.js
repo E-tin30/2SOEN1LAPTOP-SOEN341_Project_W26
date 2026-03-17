@@ -302,3 +302,75 @@ document.getElementById("RecipeEditUIPopUp")?.addEventListener("click", (e) => {
 const closeEditBtn = document.querySelector(".CloseBtnRecipeEdit");
 
 closeEditBtn.onclick = () => closeEditRecipe();
+
+// Show/hide logic for the embedded recipe video
+
+// Get elements
+const showVideoBtn = document.getElementById('showVideoBtn');
+const videoContainer = document.getElementById('recipeVideoContainer');
+const videoIframe = document.getElementById('recipeVideoIframe');
+const closeVideoBtn = document.getElementById('closeVideoBtn');
+
+// Helper to build YouTube embed url
+
+// Helper to get the video URL for the current recipe modal (using context logic)
+async function getVideoUrlFromModal() {
+    const recipeId = document.getElementById('modalContent').dataset.id;
+    if (!recipeId) return null;
+
+    // Note: This returns a Promise now (must await or .then() by caller!)
+    const videoUrl = await fetch(`/recipes/${recipeId}/video`)
+    .then(response => {
+        if (!response.ok) return null;
+        return response.json();
+    })
+    .then(data => data && data.videoURL ? data.videoURL : null)
+    .catch(() => null);
+    console.log(videoUrl)
+    return videoUrl
+}
+
+// Show video when button pressed
+if (showVideoBtn) {
+    showVideoBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const url = await getVideoUrlFromModal();
+        if (!url) {
+            alert('The system will find an appropriate video for this recipe and display it here once it is available. Please check back later!');
+            return;
+        }
+        videoIframe.src = url;
+        videoContainer.style.display = 'block';
+        showVideoBtn.style.display = 'none';
+    });
+}
+
+// Hide video and reset iframe
+if (closeVideoBtn) {
+    closeVideoBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        videoContainer.style.display = 'none';
+        videoIframe.src = "";
+        showVideoBtn.style.display = 'inline-block';
+    });
+}
+
+// Also hide video if modal closes (preserves prev logic)
+const recipeModal = document.getElementById('recipeModal');
+const modalClose = document.getElementById('closeModal');
+if (modalClose && recipeModal) {
+    modalClose.addEventListener('click', function() {
+        videoContainer.style.display = 'none';
+        videoIframe.src = "";
+        showVideoBtn.style.display = 'inline-block';
+    });
+}
+if (recipeModal) {
+    recipeModal.addEventListener('click', function(e) {
+        if (e.target === recipeModal) {
+            videoContainer.style.display = 'none';
+            videoIframe.src = "";
+            showVideoBtn.style.display = 'inline-block';
+        }
+    });
+}

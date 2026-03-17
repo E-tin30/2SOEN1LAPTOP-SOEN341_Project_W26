@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const requireAuth = require('../middleware/requireAuth');
 
 const RECIPES_FILE = path.join(__dirname, '../data/recipes.json');
@@ -126,7 +127,8 @@ router.put('/recipes/:id', requireAuth, (req, res) => {
         prepSteps: Steps.trim(),
         cost: formattedCost,
         tag: tags.trim(),
-        difficulty: difficulty.trim()
+        difficulty: difficulty.trim(),
+        videoURL: null // TODO: Add video URL later 
     };
     saveRecipes(allRecipes);
     req.session.flashMessage = "Recipe updated successfully!";
@@ -208,7 +210,8 @@ router.post('/recipes', (req, res) => {
         prepSteps: Steps.trim(),     
         cost: formattedCost,
         tag: tags.trim(),
-        difficulty: difficulty.trim()        
+        difficulty: difficulty.trim(),  
+        videoURL: null // TODO: Add video URL later 
     };
     // Save to JSON file
     fs.readFile(RECIPES_FILE, 'utf8', (err, data) => {
@@ -237,6 +240,12 @@ router.post('/recipes', (req, res) => {
     });
 });
 
+router.get('/recipes/:id/video', (req, res) => {
+    console.log("GETTING VIDEO URL");
+    const id = req.params.id;
+    const recipe = getRecipes().find(r => r.id === id);
+    res.json({ videoURL: recipe.videoURL });
+});
 /* Helper functions */
 
 // Helper function to get all recipes

@@ -313,7 +313,8 @@
                         data-steps="<%= recipe.prepSteps %>"
                         data-cost="<%= recipe.cost %>"
                         data-tag="<%= recipe.tag %>"
-                        data-difficulty="<%= recipe.difficulty %>">
+                        data-difficulty="<%= recipe.difficulty %>"
+                        data-videourl="<%= recipe.videoURL || '' %>">
 
                         <div class="card-tags">
                             <% if (recipe.tag) { %>
@@ -367,11 +368,13 @@
 
         <!-- MODAL -->
         <div id="recipeModal" class="modal hidden">
-            <div class="modal-content">
+            <div class="modal-content" id="modalContent">
                 <span id="closeModal" class="close-btn">&times;</span>
 
-                <h2 id="modalName"></h2>
-                
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h2 id="modalName" style="margin: 0;"></h2>
+                </div>
+
                 <div class="modal-tags">
                     <span id="modalTag" class="recipe-tag modal-tag"></span>
                     <span id="modalDifficulty" class="recipe-tag modal-tag"></span>
@@ -386,9 +389,36 @@
                 <p id="modalSteps"></p>
 
                 <p><strong>Cost:</strong> <span id="modalCost"></span></p>
+                
+                <!-- Video Container (hidden initially, shown via JS) -->
+                <div id="recipeVideoContainer" style="display: none; margin: 22px auto 0;">
+                    <iframe 
+                        id="recipeVideoIframe"
+                        width="100%" 
+                        height="310" 
+                        style="border: none; display: block;"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    <button 
+                        id="closeVideoBtn"
+                        type="button"
+                        style="display: block; margin: 12px auto 0; background: #ff3939; border: none; color: #fff; padding: 5px 18px; border-radius: 20px; cursor: pointer;">
+                        Close Video
+                    </button>
+                </div>
+
+                <!-- Show Video Button -->
+                <button 
+                    id="showVideoBtn" 
+                    title="Show Video"
+                    style="position: absolute; right: 24px; bottom: 28px; background: none; border: none; cursor: pointer; font-size: 2.2em; color: #ff3939; z-index: 20;">
+                    <i class="fa-brands fa-youtube"></i>
+                </button>
             </div>
         </div>
 
+       
     </main>
   </div>
 </body>
