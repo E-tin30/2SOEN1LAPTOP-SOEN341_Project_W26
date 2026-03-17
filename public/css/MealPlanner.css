@@ -11,17 +11,14 @@
              
 }
 .Card{
- 
     border: 0.2px solid black;
     margin: 10px 0;          
     padding: 10px;
     padding-left: 10px;
-   
     border-radius: 15px;
     width: auto;
     background-color: #f0f8ff;
-    width: 135px;
-
+    min-width: 150px;
 }
 
 .CardTitle{
@@ -49,7 +46,8 @@
     background-color: #f9fafb;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     display: block;
-    max-width: 100px;
+    width: fit-content;
+
 }
 
 .RecipeDetails{
@@ -84,31 +82,32 @@
 .CardRecipesItem{
     display: flex;
     gap: 8px;
-    margin-top: 6px;      /* space between items */
-    
+    margin-top: 4px;      /* space between items */
+    align-items: flex-start;
+    flex-wrap: nowrap;      /* allow items to wrap to the next line if needed */
 }
 
 .TypeMeal{
-    font-size: 7px;           
+    font-size: 10px;           
     font-weight: bold;
     background-color: #e0f7fa;
     color: black;              
     display: inline-block;     
     padding: 4px 8px;           
     margin: 0 0 10px 0;         
-    
     border-radius: 4px;   
-    max-width: 100%;
 }
 .MealTime{
-    font-size: 8px;           
+
+    font-size: 10px;           
     font-weight: bold;
     background-color: #e0f7fa;
     color: #d32f2f;              
-    display: inline-block;     
     padding: 4px 8px;           
     margin: 0 0 10px 0;         
-    
+    display: flex;
+    align-items: flex-start;
     border-radius: 4px;   
-    max-width: 100%;
+    white-space: nowrap;
+    flex-shrink: 1; /* Allow shrinking to fit the container */
 }
