@@ -36,3 +36,41 @@ function CloseMealCreationUI() {
     if (!popup) return;
     popup.classList.remove("active");
 }
+
+// Meal edit popup helpers
+function OpenMealEditUI() {
+    const popup = document.getElementById("MealEditUIPopUp");
+    if (!popup) return;
+    popup.classList.add("active");
+}
+
+function CloseMealEditUI() {
+    const popup = document.getElementById("MealEditUIPopUp");
+    if (!popup) return;
+    popup.classList.remove("active");
+}
+
+// Wire up edit buttons to pre-fill the edit modal
+document.querySelectorAll('.meal-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const day = btn.dataset.day || "";
+        const mealIndex = btn.dataset.mealIndex || "";
+        const name = btn.dataset.name || "";
+        const type = btn.dataset.type || "";
+        const time = btn.dataset.time || "";
+
+        const dayEl = document.getElementById('MealEditDay');
+        const idxEl = document.getElementById('MealEditMealIndex');
+        const nameEl = document.getElementById('MealEditName');
+        const typeEl = document.getElementById('MealEditType');
+        const timeEl = document.getElementById('MealEditTime');
+
+        if (dayEl) dayEl.value = day;
+        if (idxEl) idxEl.value = mealIndex;
+        if (nameEl) nameEl.value = name;
+        if (typeEl) typeEl.value = type;
+        if (timeEl) timeEl.value = time;
+
+        OpenMealEditUI();
+    });
+});
