@@ -19,10 +19,83 @@
             <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
             <!-- Buttons for adding, editting, removing recipies from planner-->
              <div class="page-actions">
-              <button class="addMealbtn" id="add-meal-button" onclick="">+ Add Meal</button>
-              <button class="editMealbtn" id="edit-meal-button" onclick="">Edit Meal</button>
-              <button class="removeMealbtn" id="remove-meal-button" onclick="">Remove Meal</button>
+              <button class="addMealbtn" id="add-meal-button" type="button" onclick="OpenMealCreationUI()">+ Add Meal</button>
              </div>
+
+            <!-- Meal creation popup -->
+            <div class="MealCreationUI" id="MealCreationUIPopUp">
+                <div class="MealCreationOverlay">
+                    <span class="CloseBtnMealCreation" onclick="CloseMealCreationUI()">&times;</span>
+                    <h2 class="MealCreationTitle">Add Meal to Plan</h2>
+
+                    <form id="MealForm" class="MealCreationForm" action="/meal-planner" method="POST">
+                        <label for="MealDaySelect" class="MealLabel">Day</label>
+                        <select id="MealDaySelect" name="day" class="MealSelect" required>
+                            <option value="" disabled selected>Select day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+
+                        <label for="MealRecipeSelect" class="MealLabel">Recipe</label>
+                        <select id="MealRecipeSelect" name="recipeId" class="MealSelect" required>
+                            <% if (recipes && recipes.length) { %>
+                                <% recipes.forEach(recipe => { %>
+                                    <option value="<%= recipe.id %>"><%= recipe.name %></option>
+                                <% }) %>
+                            <% } else { %>
+                                <option value="" disabled selected>No recipes available</option>
+                            <% } %>
+                        </select>
+
+                        <div class="MealCreationActions">
+                            <button class="addMealbtn" type="submit">Add Meal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Meal edit popup -->
+            <div class="MealCreationUI" id="MealEditUIPopUp">
+                <div class="MealCreationOverlay">
+                    <span class="CloseBtnMealCreation" onclick="CloseMealEditUI()">&times;</span>
+                    <h2 class="MealCreationTitle">Edit Meal</h2>
+
+                    <form id="MealEditForm" class="MealCreationForm" action="/meal-planner?_method=PUT" method="POST">
+                        <input type="hidden" name="day" id="MealEditDay" />
+                        <input type="hidden" name="mealIndex" id="MealEditMealIndex" />
+
+                        <label for="MealEditName" class="MealLabel">Name</label>
+                        <input type="text" id="MealEditName" name="name" class="MealSelect" required />
+
+                        <label for="MealEditType" class="MealLabel">Type</label>
+                        <input type="text" id="MealEditType" name="type" class="MealSelect" required />
+
+                        <label for="MealEditTime" class="MealLabel">Time</label>
+                        <input type="text" id="MealEditTime" name="time" class="MealSelect" required />
+
+                        <div class="MealCreationActions">
+                            <button class="addMealbtn" type="submit">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <% if (flashMessage) { %>
+                <div class="flash-message">
+                    <%= flashMessage %>
+                </div>
+            <% } %>
+
+            <% if (flashError) { %>
+                <div class="flash-error">
+                    <%= flashError %>
+                </div>
+            <% } %>
             <div id="meal-plan-container" class="MealPlanContainer">
                 <div class="CardContainer">
                     <div class="Card">
@@ -33,22 +106,39 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Monday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
-                                       <div class="RecipieCardActions">
-                                        <button type="button" class="icon-btn edit-icon edit-recipe-btn">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                        <button
+                                          type="button"
+                                          class="icon-btn edit-icon meal-edit-btn"
+                                          data-day="<%= day.day %>"
+                                          data-meal-index="<%= mealIndex %>"
+                                          data-name="<%= meal.name %>"
+                                          data-type="<%= meal.type %>"
+                                          data-time="<%= meal.time %>">
                                           <i class="fa-solid fa-pen"></i>
+                                        </button>
+
+                                        <form action="/meal-planner?_method=DELETE" method="POST">
+                                          <input type="hidden" name="day" value="<%= day.day %>" />
+                                          <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                          <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                            <i class="fa-solid fa-trash"></i>
                                           </button>
+                                        </form>
+                                        </div>
+
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
                                           <span class="TypeMeal"><%= meal.type %></span>
                                           <span class="MealTime"><%= meal.time %></span>
                                         </div>
+
                                       </div>
-                                    </div>
-                            
                                     <% }) %>
                             
                                   <% } %>
@@ -64,9 +154,31 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Tuesday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -90,9 +202,31 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Wednesday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -116,9 +250,31 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Thursday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -142,9 +298,31 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Friday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                        
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -168,9 +346,30 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Saturday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
@@ -194,9 +393,30 @@
                                 <% plan.forEach(day => { %>
                                   <% if (day.day === "Sunday") { %>
                             
-                                    <% day.meals.forEach(meal => { %>
+                                    <% day.meals.forEach((meal, mealIndex) => { %>
                             
                                       <div class="RecipeCard">
+                                        <!--Edit/Remove Meal-->
+                                        <div class="MealActions">
+                                          <button
+                                            type="button"
+                                            class="icon-btn edit-icon meal-edit-btn"
+                                            data-day="<%= day.day %>"
+                                            data-meal-index="<%= mealIndex %>"
+                                            data-name="<%= meal.name %>"
+                                            data-type="<%= meal.type %>"
+                                            data-time="<%= meal.time %>">
+                                            <i class="fa-solid fa-pen"></i>
+                                          </button>
+
+                                          <form action="/meal-planner?_method=DELETE" method="POST">
+                                            <input type="hidden" name="day" value="<%= day.day %>" />
+                                            <input type="hidden" name="mealIndex" value="<%= mealIndex %>" />
+                                            <button type="submit" class="icon-btn delete-icon deleteBtn">
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
                                         <h3 class="RecipeName"><%= meal.name %></h3>
                             
                                         <div class="CardRecipesItem">
