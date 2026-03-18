@@ -56,3 +56,5 @@ function savePreferences(data) {
 }
 
 module.exports = router;
+module.exports.getPreferences = getPreferences; // Exporting for use in other routes (e.g., mealRoutes.js)
+module.exports.savePreferences = savePreferences; // Exporting for use in other routes (e.g., mealRoutes.js)
