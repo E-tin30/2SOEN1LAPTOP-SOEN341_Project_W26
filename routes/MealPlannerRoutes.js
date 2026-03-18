@@ -132,5 +132,74 @@ router.post('/meal-planner', requireAuth , (req, res) => {
   res.redirect('/meal-planner');
 });
 
+// Edit a meal in the user's plan
+// Expects: day, mealIndex, name, type, time
+router.put('/meal-planner', requireAuth, (req, res) => {
+  const { day, mealIndex, name, type, time } = req.body;
+  const idx = parseInt(mealIndex, 10);
+
+  const allPlans = getMealPlans();
+  const userPlan = allPlans.find(p => p.username === req.session.username);
+
+  if (!userPlan || !Array.isArray(userPlan.plan)) {
+    req.session.flashError = "Meal plan not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  const dayEntry = userPlan.plan.find(d => d.day === day);
+  if (!dayEntry || !Array.isArray(dayEntry.meals)) {
+    req.session.flashError = "Day entry not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  if (!Number.isFinite(idx) || idx < 0 || idx >= dayEntry.meals.length) {
+    req.session.flashError = "Meal not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  const existing = dayEntry.meals[idx] || {};
+  dayEntry.meals[idx] = {
+    ...existing,
+    name: (name || "").trim(),
+    type: (type || "").trim(),
+    time: (time || "").trim()
+  };
+
+  SaveMealPlans(allPlans);
+  req.session.flashMessage = "Meal updated successfully!";
+  res.redirect('/meal-planner');
+});
+
+// Delete a meal from the user's plan
+// Expects: day, mealIndex
+router.delete('/meal-planner', requireAuth, (req, res) => {
+  const { day, mealIndex } = req.body;
+  const idx = parseInt(mealIndex, 10);
+
+  const allPlans = getMealPlans();
+  const userPlan = allPlans.find(p => p.username === req.session.username);
+
+  if (!userPlan || !Array.isArray(userPlan.plan)) {
+    req.session.flashError = "Meal plan not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  const dayEntry = userPlan.plan.find(d => d.day === day);
+  if (!dayEntry || !Array.isArray(dayEntry.meals)) {
+    req.session.flashError = "Day entry not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  if (!Number.isFinite(idx) || idx < 0 || idx >= dayEntry.meals.length) {
+    req.session.flashError = "Meal not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  dayEntry.meals.splice(idx, 1);
+  SaveMealPlans(allPlans);
+  req.session.flashMessage = "Meal deleted successfully!";
+  res.redirect('/meal-planner');
+});
+
 module.exports = router;
 /* END OF MEAL PLANNER LOGIC */
