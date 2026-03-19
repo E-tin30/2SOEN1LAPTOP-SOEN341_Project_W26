@@ -25,12 +25,12 @@
                
                  <form class="addMealPlanForm" action ="/meal-planner" method="post">
                   <label for="Recipe"> Recipe: </label>
-                  <select class="FilterSelect" id="Recipe" name="Recipe" required>
+                  <select class="FilterSelect" id="Recipe" name="recipeID" required>
 
                    <% if (recipes && recipes.length > 0) { %>
                      <% recipes.forEach(recipe => { %>
                       console.log(recipe);
-                      <option value="<%= recipe.id %>"><%= recipe.name %></option>
+                      <option value="<%= recipe.name %>"><%= recipe.name %></option>
                      <% }) %>
                    <% } else { %>
                     <option value="none">No recipes available</option>
@@ -38,10 +38,10 @@
                   </select>
                 
                  <label for="Date">Date:</label> 
-                 <input class="FilterSelect"  type="date" id="Date" name="Date" required>
+                 <input class="FilterSelect"  type="date" id="Date" name="date" required>
 
                  <label for="day">Day:</label>
-                 <select class="FilterSelect" id="day" required>
+                 <select class="FilterSelect" id="day" name="day" required>
                   <option value="none">Change to closest day</option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
@@ -53,9 +53,9 @@
                  </select>
                  
                  <label for="startTime">STime:</label>
-                 <input class="FilterSelect" type="time" id="startTime" required>
+                 <input class="FilterSelect" type="time" id="startTime" name="startTime" required>
                  <label for="endTime">ETime:</label>
-                 <input class="FilterSelect" type="time" id="endTime" required>
+                 <input class="FilterSelect" type="time" id="endTime" name="endTime" required>
                 
                 
                  <button type="submit" class="addMealPlanSubmitBtn">Add to Schedule</button>
@@ -123,8 +123,8 @@
                             <!-- Recipe details will go here -->
                            <% if (plan) { %>
                               <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
+                                <%if(meal.Wednesday){%>
+                                  <%meal.Wednesday.forEach(recipe =>{%>
                                     <div class="RecipeCard">
                                         <h3 class="RecipeName"><%= recipe.name %></h3>
 
@@ -147,8 +147,8 @@
                             <!-- Recipe details will go here -->
                             <% if (plan) { %>
                               <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
+                                <%if(meal.Thursday){%>
+                                  <%meal.Thursday.forEach(recipe =>{%>
                                     <div class="RecipeCard">
                                         <h3 class="RecipeName"><%= recipe.name %></h3>
 
@@ -171,8 +171,8 @@
                             <!-- Recipe details will go here -->
                            <% if (plan) { %>
                               <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
+                                <%if(meal.Friday){%>
+                                  <%meal.Friday.forEach(recipe =>{%>
                                     <div class="RecipeCard">
                                         <h3 class="RecipeName"><%= recipe.name %></h3>
 
@@ -195,8 +195,8 @@
                             <!-- Recipe details will go here -->
                             <% if (plan) { %>
                               <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
+                                <%if(meal.Saturday){%>
+                                  <%meal.Saturday.forEach(recipe =>{%>
                                     <div class="RecipeCard">
                                         <h3 class="RecipeName"><%= recipe.name %></h3>
 
@@ -219,8 +219,8 @@
                             <!-- Recipe details will go here -->
                             <% if (plan) { %>
                               <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
+                                <%if(meal.Sunday){%>
+                                  <%meal.Sunday.forEach(recipe =>{%>
                                     <div class="RecipeCard">
                                         <h3 class="RecipeName"><%= recipe.name %></h3>
 

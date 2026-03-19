@@ -56,26 +56,10 @@ router.get('/meal-planner', requireAuth , (req, res) => {
 
    
    // get the recipes created by the logged in user to show in the meal planner page
-  /*TESTING PURPOSES - HARDCODED MEAL PLAN TO SHOW HOW IT WORKS. THIS IS THE STRUCTURE THE MEAL PLANS MUST BE IN FOR THE FRONTEND TO RENDER IT CORRECTLY. THE REAL DATA WILL BE PULLED FROM MealPlans.json
-  const testPlan = [
-    {
-      day: "Monday",
-      meals: [
-        { name: "Chicken Pasta", type: "Dinner", time: "7:00 PM" }
-      ]
-    },
-    {
-      day: "Friday",
-      meals: [
-        { name: "Steak Bowl", type: "Lunch", time: "12:30 PM" }
-      ]
-    }
-  ];*/
 const myPlan=[
     {
        "username":"test@gmail.com",
-       "Monday":[{"name":"Creamy Garlic Chicken Pasta","date": "2026-03-11","startTime": "18:00","endTime": "19:00"},
-      {"name": "Spaghetti","date": "2026-03-12","startTime": "12:00","endTime": "13:00"}],
+       "Monday":[{"name":"Creamy Garlic Chicken Pasta","date": "2026-03-11","startTime": "18:00","endTime": "19:00"}],
       "Tuesday":[{}], "Wednesday":[{}], "Thursday":[{}], "Friday":[{}], "Saturday":[{}], "Sunday":[{}]
       
       
@@ -87,31 +71,43 @@ const myPlan=[
     currentPage: 'meal-planner',
     recipes: userRecipes,
     username: req.session.username,
-    plan: myPlan // pass the user's meal plan or an empty array if none exists
+    plan: SpecificUserPlan ? SpecificUserPlan : myPlan // pass the user's meal plan or an empty array if none exists
   });
 });
 // Handling the form submission from the meal planner page when user adds a recipe to a specific day
 router.post('/meal-planner', requireAuth , (req, res) => {
-  const { day, recipeId } = req.body;
+  const {recipeID,date,day,startTime,endTime} = req.body;
+
+  //We'll have to validate the inputs here.
+  console.log({
+    recipeID,
+    date,
+    day,
+    startTime,
+    endTime
+  });
 
   const allPlans = getMealPlans();
 
   let userPlan = allPlans.find(
     p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
   );
-
+  //create plan if it doesnt exist
   if (!userPlan) {
-    userPlan = { username: req.session.username, plan: [] };  // if not, create a new one for the user
+    userPlan = { username: req.session.username, Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] };  // if not, create a new one for the user
     allPlans.push(userPlan);
   }
+// add the selected recipe to the plan
+// find The day then push it to the right day array
+ if(day==="Monday"){userPlan.Monday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Tuesday"){userPlan.Tuesday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Wednesday"){userPlan.Wednesday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Thursday"){userPlan.Thursday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Friday"){userPlan.Friday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Saturday"){userPlan.Saturday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
+  else if(day==="Sunday"){userPlan.Sunday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
 
-  let dayEntry = userPlan.plan.find(d => d.day === day);  ///THIS IS THE LINE// find the specific day entry in the user's plan
-
-  if (!dayEntry) {
-    dayEntry = { day: day, meals: [] }; // if it doesn't exist, create it
-    userPlan.plan.push(dayEntry); // add the new day entry to the user's plan
-  }
-  SaveMealPlans(allPlans);
+ SaveMealPlans(allPlans);
 
   res.redirect('/meal-planner');
 });
