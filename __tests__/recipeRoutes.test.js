@@ -3,12 +3,19 @@ const path = require("path");
 const request = require("supertest");
 const app = require("../server.js");
 
-const RECIPES_FILE_PATH = path.join(__dirname, "../data/recipes.json");
-const USERS_FILE_PATH = path.join(__dirname, "../data/users.json");
-const PREFERENCES_FILE_PATH = path.join(__dirname, "../data/preferences.json");
+const RECIPES_FILE_PATH = path.join(__dirname, "../data/test-recipes.json");
 
 const originalData = fs.readFileSync(RECIPES_FILE_PATH, "utf8");
 
+beforeEach(() => {
+    fs.writeFileSync(RECIPES_FILE_PATH, "[]");
+}); // this will run before each test and clear recipes.json
+
+afterAll(() => {
+    fs.writeFileSync(RECIPES_FILE_PATH, originalData);
+}); // this will run after each test and put back the original data
+
+// Create (POST)
 describe("Create (POST) Recipe Route Testing", () => {
 
     test("POST /recipes creates recipe with valid data", async () => {
@@ -75,7 +82,8 @@ describe("Create (POST) Recipe Route Testing", () => {
 
 });
 
-describe("Read (Get) Recipe Route Testing", () => {
+// Read (GET)
+describe("Read (GET) Recipe Route Testing", () => {
 
     test("GET /recipes returns page if logged in", async () => {
         const agent = request.agent(app);
@@ -96,6 +104,7 @@ describe("Read (Get) Recipe Route Testing", () => {
 
 });
 
+// Update/Edit (PUT)
 describe("Update (PUT) Recipe Route Testing", () => {
 
     test("Update works with valid data", async () => {
@@ -119,7 +128,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = recipes.reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
         const id = recipe.id;
 
         const updateRes = await agent
@@ -164,7 +173,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = recipes.reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
         const id = recipe.id;
         
         const before = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
@@ -193,6 +202,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
 
 });
 
+// Delete (DELETE)
 describe("Delete (DELETE) Recipe Route Testing", () => {
 
     test("Delete existing recipe works", async () => {
@@ -218,7 +228,7 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = recipes.reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
         const id = recipe.id;
 
         // Delete it
@@ -259,6 +269,7 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
 
 });
 
+// Search
 describe("Search Recipe Testing", () => {
 
     test("Search returns matching recipes only", async () => {
@@ -299,8 +310,10 @@ describe("Search Recipe Testing", () => {
 
 });
 
+// Filter
 describe("Filter Recipe Testing", () => {
 
+    // Time
     test("Filter by time returns correct recipes", async () => {
         const agent = request.agent(app);
 
@@ -337,10 +350,7 @@ describe("Filter Recipe Testing", () => {
         expect(res.text).not.toContain("Slow Meal");
     });
 
-});
-
-describe("Filter by Difficulty Testing", () => {
-
+    // Difficulty
     test("Filter returns only easy recipes", async () => {
         const agent = request.agent(app);
 
@@ -377,10 +387,7 @@ describe("Filter by Difficulty Testing", () => {
         expect(res.text).not.toContain("Hard Recipe");
     });
 
-});
-
-describe("Filter by Cost Testing", () => {
-
+    // Cost
     test("Filter returns only low cost recipes", async () => {
         const agent = request.agent(app);
 
@@ -417,8 +424,41 @@ describe("Filter by Cost Testing", () => {
         expect(res.text).not.toContain("Expensive Meal");
     });
 
-});
+    // Tag
+    test("Filter by tag returns correct recipes", async () => {
+        const agent = request.agent(app);
 
-afterAll(() => {
-    fs.writeFileSync(RECIPES_FILE_PATH, originalData);
+        await agent.post("/login").send({
+            username: "test@gmail.com",
+            password: "test12345"
+        });
+
+        // Create recipes
+        await agent.post("/recipes").send({
+            name: "Vegan Recipe",
+            ingredients: JSON.stringify(["egg"]),
+            time: "10",
+            Steps: "Steps",
+            cost: "$5",
+            tags: "Vegan",
+            difficulty: "easy"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Keto Recipe",
+            ingredients: JSON.stringify(["beef"]),
+            time: "30",
+            Steps: "Steps",
+            cost: "$20",
+            tags: "Keto",
+            difficulty: "hard"
+        });
+
+        const res = await agent.get("/recipes?dietary=Vegan");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Vegan Recipe");
+        expect(res.text).not.toContain("Keto Recipe");
+    });
+
 });

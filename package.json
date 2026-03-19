@@ -4,7 +4,7 @@
   "description": "Description MealMajor is a web app for students to plan meals, track groceries, and propose easy recipes.",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
     "start": "node server.js"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "Router": "^2.1.0"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "jest": "^30.2.0",
     "supertest": "^7.2.2"
   }
