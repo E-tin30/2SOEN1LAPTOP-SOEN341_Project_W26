@@ -45,6 +45,11 @@ router.get('/meal-planner', requireAuth , (req, res) => {
   // (Harder, but if we click on it we can see the recipe details, eventual goal) 
   //for now ill just show recipe name ill talk to the team after
  //1. and 2.
+
+ 
+  const flashError = req.session.flashError; // Grab the error from the session 
+  delete req.session.flashError; // Clear it immediately so it disappears if the user refreshes the page
+
   const AllPlans = getMealPlans();
   const SpecificUserPlan = AllPlans.filter(
     p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
@@ -59,7 +64,7 @@ router.get('/meal-planner', requireAuth , (req, res) => {
 const myPlan=[
     {
        "username":"test@gmail.com",
-       "Monday":[{"name":"Creamy Garlic Chicken Pasta","date": "2026-03-11","startTime": "18:00","endTime": "19:00"}],
+       "Monday":[{}],
       "Tuesday":[{}], "Wednesday":[{}], "Thursday":[{}], "Friday":[{}], "Saturday":[{}], "Sunday":[{}]
       
       
@@ -71,44 +76,62 @@ const myPlan=[
     currentPage: 'meal-planner',
     recipes: userRecipes,
     username: req.session.username,
-    plan: SpecificUserPlan ? SpecificUserPlan : myPlan // pass the user's meal plan or an empty array if none exists
+    plan: SpecificUserPlan ? SpecificUserPlan : myPlan, flashError // pass the user's meal plan or an empty array if none exists
   });
 });
+
+
 // Handling the form submission from the meal planner page when user adds a recipe to a specific day
 router.post('/meal-planner', requireAuth , (req, res) => {
   const {recipeID,date,day,startTime,endTime} = req.body;
 
-  //We'll have to validate the inputs here.
-  console.log({
-    recipeID,
-    date,
-    day,
-    startTime,
-    endTime
-  });
 
+  // VALIDATE INPUTS 
+  // Check for missing fields or unselected dropdowns
+  if (!recipeID || recipeID === "none" || 
+      !date || 
+      !day || day === "none" || 
+      !startTime || 
+      !endTime) {
+    req.session.flashError = "Validation Failed: Missing required fields.";
+    return res.redirect('/meal-planner');
+  }
+
+  // Validate that start time is before end time
+  if (startTime >= endTime) {
+    console.error("Validation Failed: Start time must be before End time.");
+    req.session.flashError = "Validation Failed: Start time must be before End time.";
+    return res.redirect('/meal-planner');
+  }
+
+
+  // SAVE TO JSON FILE 
   const allPlans = getMealPlans();
+  let userPlan = allPlans.find(p => p.username === req.session.username); // Find the meal plan for the logged in user
 
-  let userPlan = allPlans.find(
-    p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
-  );
-  //create plan if it doesnt exist
+  // Create a skeleton plan if the user doesn't have one in the JSON yet
   if (!userPlan) {
-    userPlan = { username: req.session.username, Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] };  // if not, create a new one for the user
+    userPlan = { 
+      username: req.session.username, 
+      Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] 
+    };
     allPlans.push(userPlan);
   }
-// add the selected recipe to the plan
-// find The day then push it to the right day array
- if(day==="Monday"){userPlan.Monday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Tuesday"){userPlan.Tuesday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Wednesday"){userPlan.Wednesday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Thursday"){userPlan.Thursday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Friday"){userPlan.Friday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Saturday"){userPlan.Saturday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
-  else if(day==="Sunday"){userPlan.Sunday.push({name: recipeID, date: date, startTime: startTime, endTime: endTime})}
 
- SaveMealPlans(allPlans);
+  // Push the new meal directly into the correct day's array using bracket notation []
+  if (userPlan[day]) {
+    userPlan[day].push({
+      name: recipeID, 
+      date: date, 
+      startTime: startTime, 
+      endTime: endTime
+    });
+  }
 
+  // Save the updated plans array back to MealPlans.json
+  SaveMealPlans(allPlans);
+
+  // Send the user back to the meal planner page
   res.redirect('/meal-planner');
 });
 module.exports = router;
