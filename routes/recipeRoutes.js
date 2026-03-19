@@ -61,22 +61,6 @@ router.get('/recipes', requireAuth, (req, res) => {
     });
 });
 
-// Show create form
-router.get('/recipes/create', requireAuth, (req, res) => {
-    res.render('create-recipe', { title: 'Create Recipes', currentPage: 'create-recipe', username: req.session.username });
-});
-
-// Handle create
-router.post('/recipes/create', requireAuth, (req, res) => {
-    // save recipe logic
-});
-
-// Show edit form
-router.get('/recipes/:id/edit', requireAuth, (req, res) => {
-    // load recipe
-    res.render('edit-recipe', { title: 'Edit Recipes', currentPage: 'edit-recipe', username: req.session.username }); // add id later when implemented
-});
-
 // Handle update
 router.put('/recipes/:id', requireAuth, (req, res) => {
     const id = req.params.id;
