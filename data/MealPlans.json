@@ -16,7 +16,14 @@
       }
     ],
     "Tuesday": [],
-    "Wednesday": [],
+    "Wednesday": [
+      {
+        "name": "Honey Garlic Salmon",
+        "date": "2026-03-25",
+        "startTime": "12:43",
+        "endTime": "13:32"
+      }
+    ],
     "Thursday": [],
     "Friday": [
       {
