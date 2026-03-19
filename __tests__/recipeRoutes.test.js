@@ -259,6 +259,166 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
 
 });
 
+describe("Search Recipe Testing", () => {
+
+    test("Search returns matching recipes only", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/login").send({
+            username: "test@gmail.com",
+            password: "test12345"
+        });
+
+        // Create recipes
+        await agent.post("/recipes").send({
+            name: "Pasta",
+            ingredients: JSON.stringify(["noodles"]),
+            time: "10",
+            Steps: "Steps",
+            cost: "$10",
+            tags: "Italian",
+            difficulty: "easy"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Burger",
+            ingredients: JSON.stringify(["beef"]),
+            time: "20",
+            Steps: "Steps",
+            cost: "$15",
+            tags: "FastFood",
+            difficulty: "medium"
+        });
+
+        const res = await agent.get("/recipes?search=pasta");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text.toLowerCase()).toContain("pasta");
+        expect(res.text.toLowerCase()).not.toContain("burger");
+    });
+
+});
+
+describe("Filter Recipe Testing", () => {
+
+    test("Filter by time returns correct recipes", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/login").send({
+            username: "test@gmail.com",
+            password: "test12345"
+        });
+
+        // Create recipes
+        await agent.post("/recipes").send({
+            name: "Quick Meal",
+            ingredients: JSON.stringify(["egg"]),
+            time: "10",
+            Steps: "Steps",
+            cost: "$5",
+            tags: "Test",
+            difficulty: "easy"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Slow Meal",
+            ingredients: JSON.stringify(["beef"]),
+            time: "60",
+            Steps: "Steps",
+            cost: "$20",
+            tags: "Test",
+            difficulty: "hard"
+        });
+
+        const res = await agent.get("/recipes?time=20");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Quick Meal");
+        expect(res.text).not.toContain("Slow Meal");
+    });
+
+});
+
+describe("Filter by Difficulty Testing", () => {
+
+    test("Filter returns only easy recipes", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/login").send({
+            username: "test@gmail.com",
+            password: "test12345"
+        });
+
+        // Create recipes
+        await agent.post("/recipes").send({
+            name: "Easy Recipe",
+            ingredients: JSON.stringify(["egg"]),
+            time: "10",
+            Steps: "Steps",
+            cost: "$5",
+            tags: "Test",
+            difficulty: "easy"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Hard Recipe",
+            ingredients: JSON.stringify(["beef"]),
+            time: "30",
+            Steps: "Steps",
+            cost: "$20",
+            tags: "Test",
+            difficulty: "hard"
+        });
+
+        const res = await agent.get("/recipes?difficulty=easy");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Easy Recipe");
+        expect(res.text).not.toContain("Hard Recipe");
+    });
+
+});
+
+describe("Filter by Cost Testing", () => {
+
+    test("Filter returns only low cost recipes", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/login").send({
+            username: "test@gmail.com",
+            password: "test12345"
+        });
+
+        // Create recipes
+        await agent.post("/recipes").send({
+            name: "Cheap Meal",
+            ingredients: JSON.stringify(["egg"]),
+            time: "10",
+            Steps: "Steps",
+            cost: "$10",
+            tags: "Test",
+            difficulty: "easy"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Expensive Meal",
+            ingredients: JSON.stringify(["steak"]),
+            time: "20",
+            Steps: "Steps",
+            cost: "$100",
+            tags: "Test",
+            difficulty: "easy"
+        });
+
+        const res = await agent.get("/recipes?cost=low");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Cheap Meal");
+        expect(res.text).not.toContain("Expensive Meal");
+    });
+
+});
+
 afterAll(() => {
     fs.writeFileSync(RECIPES_FILE_PATH, originalData);
 });
