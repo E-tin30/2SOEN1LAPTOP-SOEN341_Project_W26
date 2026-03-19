@@ -78,168 +78,126 @@
                         <h2 class="CardTitle" >Monday</h2>
                         <div  id="MondayRecipes">
                             <!-- Recipe details will go here -->
-                             <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Monday){%>
-                                  <%meal.Monday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                            <% if (plan && plan.Monday) { %>
+                              <% plan.Monday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Tuesday</h2>
                         <div  id="TuesdayRecipes">
                             <!-- Recipe details will go here -->
-                              <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Tuesday){%>
-                                  <%meal.Tuesday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                              <% if (plan && plan.Tuesday) { %>
+                                <%plan.Tuesday.forEach(recipe =>{%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%> 
+                              <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Wednesday</h2>
                         <div  id="WednesdayRecipes">
                             <!-- Recipe details will go here -->
-                           <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Wednesday){%>
-                                  <%meal.Wednesday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                           <% if (plan && plan.Wednesday) { %>
+                              <% plan.Wednesday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Thursday</h2>
                         <div id="ThursdayRecipes">
                             <!-- Recipe details will go here -->
-                            <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Thursday){%>
-                                  <%meal.Thursday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                            <% if (plan && plan.Thursday) { %>
+                              <% plan.Thursday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Friday</h2> 
                         <div  id="FridayRecipes">
                             <!-- Recipe details will go here -->
-                           <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Friday){%>
-                                  <%meal.Friday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                           <% if (plan && plan.Friday) { %>
+                              <% plan.Friday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Saturday</h2>
                         <div  id="SaturdayRecipes">
                             <!-- Recipe details will go here -->
-                            <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Saturday){%>
-                                  <%meal.Saturday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                            <% if (plan && plan.Saturday) { %>
+                              <% plan.Saturday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                     <div class="Card">
                         <h2 class="CardTitle" >Sunday</h2>
                         <div  id="SundayRecipes">
                             <!-- Recipe details will go here -->
-                            <% if (plan) { %>
-                              <% plan.forEach(meal =>{%>
-                                <%if(meal.Sunday){%>
-                                  <%meal.Sunday.forEach(recipe =>{%>
-                                    <div class="RecipeCard">
-                                        <h3 class="RecipeName"><%= recipe.name %></h3>
+                            <% if (plan && plan.Sunday) { %>
+                              <% plan.Sunday.forEach(recipe => {%>
+                                  <div class="RecipeCard">
+                                      <h3 class="RecipeName"><%= recipe.name %></h3>
 
-                                        <div class="CardRecipesItem">
-                                          <span class="TypeMeal"><%= recipe.date %></span>
-                                          <span class="MealTime"><%= recipe.startTime %></span>
-                                        </div>
+                                      <div class="CardRecipesItem">
+                                        <span class="TypeMeal"><%= recipe.date %></span>
+                                        <span class="MealTime"><%= recipe.startTime %></span>
                                       </div>
-                                  <%})%>
-                                   
-                                <%}%>
-                              <%})%>
-                                
-                              <% } %> 
+                                    </div>
+                                <%})%>
+                            <%}%>
                         </div>
                     </div>
                 </div>
