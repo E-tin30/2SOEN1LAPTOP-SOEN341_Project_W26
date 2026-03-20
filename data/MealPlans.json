@@ -22,9 +22,22 @@
         "date": "2026-03-25",
         "startTime": "12:43",
         "endTime": "13:32"
+      },
+      {
+        "name": "Creamy Garlic Chicken Pasta",
+        "date": "2026-03-26",
+        "startTime": "19:58",
+        "endTime": "20:58"
       }
     ],
-    "Thursday": [],
+    "Thursday": [
+      {
+        "name": "Creamy Garlic Chicken Pasta",
+        "date": "2026-03-19",
+        "startTime": "19:57",
+        "endTime": "22:57"
+      }
+    ],
     "Friday": [
       {
         "name": "Classic BLT",

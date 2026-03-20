@@ -121,12 +121,18 @@ router.post('/meal-planner', requireAuth , (req, res) => {
     return res.redirect('/meal-planner');
   }
 
+  // Check if there is already meal at that day and time
+  if (hasTimeConflict(userPlan[day], { startTime, endTime })) {
+    req.session.flashError = "Time conflict with another meal.";
+    return res.redirect('/meal-planner');
+  }
+
   // Push the new meal directly into the correct day's array using bracket notation []
   if (userPlan[day]) {
-    userPlan[day].push({
-      name: recipeID, 
-      date: date, 
-      startTime: startTime, 
+    insertMealSorted(userPlan[day], {
+      name: recipeID,
+      date: date,
+      startTime: startTime,
       endTime: endTime
     });
   }
@@ -168,6 +174,36 @@ function validateAddition(plan){
   
 
   return decision;
+}
+
+function insertMealSorted(dayArray, newMeal) {
+  const index = dayArray.findIndex(meal => {
+    const existingDate = new Date(meal.date + "T00:00:00");
+    const newDate = new Date(newMeal.date + "T00:00:00");
+
+    // First compare date
+    if (newDate < existingDate) return true;
+    if (newDate > existingDate) return false;
+
+    // If same date → compare time
+    return newMeal.startTime < meal.startTime;
+  });
+
+  if (index === -1) {
+    dayArray.push(newMeal);
+  } else {
+    dayArray.splice(index, 0, newMeal);
+  }
+}
+
+function hasTimeConflict(dayArray, newMeal) {
+  return dayArray.some(meal => {
+    // Only check meals on same date
+    if (meal.date !== newMeal.date) return false;
+
+    // Check time overlap
+    return !(newMeal.endTime <= meal.startTime || newMeal.startTime >= meal.endTime);
+  });
 }
 
 module.exports = router;
