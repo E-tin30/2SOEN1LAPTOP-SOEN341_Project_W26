@@ -19,13 +19,17 @@ async function checkAndUpdateRecipes() {
     const recipes = raw ? JSON.parse(raw) : [];
 
     for (const recipe of recipes) {
-      if (!('videoURL' in recipe)) {
-        recipe.videoURL = null;
+      if (!('videoURL_1' in recipe)) {
+        recipe.videoURL_1 = null;
+        recipe.videoURL_2 = null;
+        recipe.videoURL_3 = null;
       }
-      if (recipe.videoURL) continue;
+      if (recipe.videoURL_1) continue;
       console.log("Updating the URL for ", recipe)
-      const videoUrl = await getYoutubeUrl(recipe.name);
-      recipe.videoURL = videoUrl;
+      const videoUrls = await getYoutubeUrl(recipe.name);
+      recipe.videoURL_1 = videoUrls[0];
+      recipe.videoURL_2 = videoUrls[1];
+      recipe.videoURL_3 = videoUrls[2];
     }
 
     
@@ -49,19 +53,22 @@ function startRecipeWatcher() {
 
 async function getYoutubeUrl(title) {
     const query = encodeURIComponent(title + " recipe");
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${query}&key=${YOUTUBE_API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=3&q=${query}&key=${YOUTUBE_API_KEY}`;
   
     const response = await fetch(url);
-    console.log(response)
     const data = await response.json();
-  
+
     if (!data.items || data.items.length === 0) {
-      return null;
+      return [null, null, null];
     }
+
+    const videoIds = data.items.map(item => item.id.videoId);
+    const videoId1 = videoIds[0] || null;
+    const videoId2 = videoIds[1] || null;
+    const videoId3 = videoIds[2] || null;
+
   
-    const videoId = data.items[0].id.videoId;
-  
-    return `https://www.youtube.com/embed/${videoId}`;
+    return [`https://www.youtube.com/embed/${videoId1}`, `https://www.youtube.com/embed/${videoId2}`, `https://www.youtube.com/embed/${videoId3}`];
   }
 
 module.exports = { startRecipeWatcher };

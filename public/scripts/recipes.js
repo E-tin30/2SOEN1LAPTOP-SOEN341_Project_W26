@@ -308,7 +308,9 @@ closeEditBtn.onclick = () => closeEditRecipe();
 // Get elements
 const showVideoBtn = document.getElementById('showVideoBtn');
 const videoContainer = document.getElementById('recipeVideoContainer');
-const videoIframe = document.getElementById('recipeVideoIframe');
+const videoIframe1 = document.getElementById('recipeVideoIframe1');
+const videoIframe2 = document.getElementById('recipeVideoIframe2');
+const videoIframe3 = document.getElementById('recipeVideoIframe3');
 const closeVideoBtn = document.getElementById('closeVideoBtn');
 
 // Helper to build YouTube embed url
@@ -319,29 +321,33 @@ async function getVideoUrlFromModal() {
     if (!recipeId) return null;
 
     // Note: This returns a Promise now (must await or .then() by caller!)
-    const videoUrl = await fetch(`/recipes/${recipeId}/video`)
+    const videoUrls = await fetch(`/recipes/${recipeId}/video`)
     .then(response => {
         if (!response.ok) return null;
         return response.json();
     })
-    .then(data => data && data.videoURL ? data.videoURL : null)
+    .then(data => data && data.videoURLs ? data.videoURLs : null)
     .catch(() => null);
-    console.log(videoUrl)
-    return videoUrl
+   
+    
+    return videoUrls
 }
 
 // Show video when button pressed
 if (showVideoBtn) {
     showVideoBtn.addEventListener('click', async function(e) {
         e.stopPropagation();
-        const url = await getVideoUrlFromModal();
-        if (!url) {
+        const urls = await getVideoUrlFromModal();
+        if (!urls || urls.length === 0 || !urls[0]) {
             alert('The system will find an appropriate video for this recipe and display it here once it is available. Please check back later!');
             return;
         }
-        videoIframe.src = url;
+        console.log('Video URLs:', urls);
+        videoIframe1.src = urls[0];
+        videoIframe2.src = urls[1];
+        videoIframe3.src = urls[2];
         videoContainer.style.display = 'block';
-        showVideoBtn.style.display = 'none';
+        showVideoBtn.style.display = 'none'
     });
 }
 
@@ -350,7 +356,9 @@ if (closeVideoBtn) {
     closeVideoBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         videoContainer.style.display = 'none';
-        videoIframe.src = "";
+        videoIframe1.src = "";
+        videoIframe2.src = "";
+        videoIframe3.src = "";
         showVideoBtn.style.display = 'inline-block';
     });
 }
@@ -361,7 +369,9 @@ const modalClose = document.getElementById('closeModal');
 if (modalClose && recipeModal) {
     modalClose.addEventListener('click', function() {
         videoContainer.style.display = 'none';
-        videoIframe.src = "";
+        videoIframe1.src = "";
+        videoIframe2.src = "";
+        videoIframe3.src = "";
         showVideoBtn.style.display = 'inline-block';
     });
 }
@@ -369,7 +379,9 @@ if (recipeModal) {
     recipeModal.addEventListener('click', function(e) {
         if (e.target === recipeModal) {
             videoContainer.style.display = 'none';
-            videoIframe.src = "";
+            videoIframe1.src = "";
+            videoIframe2.src = "";
+            videoIframe3.src = "";
             showVideoBtn.style.display = 'inline-block';
         }
     });
