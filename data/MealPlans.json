@@ -1,7 +1,7 @@
 [
   {
     "username": "test@gmail.com",
-    "Monday": [
+    "meals": [
       {
         "name": "Cream Garlic Chicken Pasta",
         "date": "2026-03-11",
@@ -13,47 +13,43 @@
         "date": "2026-03-12",
         "startTime": "12:00",
         "endTime": "13:00"
-      }
-    ],
-    "Tuesday": [],
-    "Wednesday": [
+      },
+      {
+        "name": "Chicken Burrito",
+        "date": "2026-03-19",
+        "startTime": "09:00",
+        "endTime": "10:00"
+      },
+      {
+        "name": "Creamy Garlic Chicken Pasta",
+        "date": "2026-03-19",
+        "startTime": "19:00",
+        "endTime": "20:00"
+      },
+      {
+        "name": "Classic BLT",
+        "date": "2026-03-20",
+        "startTime": "08:00",
+        "endTime": "08:30"
+      },
+      {
+        "name": "Chicken Alfredo",
+        "date": "2026-03-20",
+        "startTime": "12:00",
+        "endTime": "13:00"
+      },
       {
         "name": "Honey Garlic Salmon",
         "date": "2026-03-25",
-        "startTime": "12:43",
-        "endTime": "13:32"
+        "startTime": "12:30",
+        "endTime": "13:30"
       },
       {
         "name": "Creamy Garlic Chicken Pasta",
         "date": "2026-03-26",
-        "startTime": "19:58",
-        "endTime": "20:58"
+        "startTime": "19:00",
+        "endTime": "20:00"
       }
-    ],
-    "Thursday": [
-      {
-        "name": "Creamy Garlic Chicken Pasta",
-        "date": "2026-03-19",
-        "startTime": "19:57",
-        "endTime": "22:57"
-      }
-    ],
-    "Friday": [
-      {
-        "name": "Classic BLT",
-        "date": "2026-03-20",
-        "startTime": "00:16",
-        "endTime": "00:30"
-      }
-    ],
-    "Saturday": [
-      {
-        "name": "Chicken Alfredo",
-        "date": "2026-03-20",
-        "startTime": "01:22",
-        "endTime": "14:24"
-      }
-    ],
-    "Sunday": []
+    ]
   }
 ]
