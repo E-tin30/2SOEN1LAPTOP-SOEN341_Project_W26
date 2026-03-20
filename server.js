@@ -8,7 +8,7 @@ const methodOverride = require('method-override');
 const authRoutes = require('./routes/authRoutes'); // routes for login, register, logout
 const profileRoutes = require('./routes/profileRoutes'); // routes for profile
 const recipeRoutes = require('./routes/recipeRoutes'); // routes for recipes (CRUD)
-const mealPlannerRoutes = require('./routes/MealPlannerRoutes'); // routes for meal planner
+const mealPlannerRoutes = require('./routes/mealPlannerRoutes'); // routes for meal planner
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
