@@ -50,6 +50,9 @@ router.get('/meal-planner', requireAuth , (req, res) => {
   const flashError = req.session.flashError; // Grab the error from the session 
   delete req.session.flashError; // Clear it immediately so it disappears if the user refreshes the page
 
+  const flashMessage = req.session.flashMessage; // Grab the success message from the session
+  delete req.session.flashMessage; // Clear it immediately so it disappears if the user refreshes the page
+
   const AllPlans = getMealPlans();
   const SpecificUserPlan = AllPlans.filter(
     p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
@@ -76,7 +79,9 @@ const myPlan=[
     currentPage: 'meal-planner',
     recipes: userRecipes,
     username: req.session.username,
-    plan: SpecificUserPlan ? SpecificUserPlan : myPlan, flashError // pass the user's meal plan or an empty array if none exists
+    plan: SpecificUserPlan ? SpecificUserPlan : myPlan,
+    flashError,
+    flashMessage
   });
 });
 
@@ -134,5 +139,32 @@ router.post('/meal-planner', requireAuth , (req, res) => {
   // Send the user back to the meal planner page
   res.redirect('/meal-planner');
 });
+
+// Delete a meal from the user's plan
+// Expects: day, mealIndex
+router.delete('/meal-planner', requireAuth, (req, res) => {
+  const { day, mealIndex } = req.body;
+  const idx = parseInt(mealIndex, 10);
+
+  const allPlans = getMealPlans();
+  const userPlan = allPlans.find(p => p.username === req.session.username);
+
+  if (!userPlan || !userPlan[day] || !Array.isArray(userPlan[day])) {
+    req.session.flashError = "Meal plan not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  if (!Number.isFinite(idx) || idx < 0 || idx >= userPlan[day].length) {
+    req.session.flashError = "Meal not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  userPlan[day].splice(idx, 1);
+  SaveMealPlans(allPlans);
+  req.session.flashMessage = "Meal deleted successfully!";
+  res.redirect('/meal-planner');
+});
+
 module.exports = router;
+
 /* END OF MEAL PLANNER LOGIC */

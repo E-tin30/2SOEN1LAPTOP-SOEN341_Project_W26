@@ -215,3 +215,40 @@
     color: black;
     font-size: 12px;
 }
+
+/* Meal Actions - Edit/Delete buttons container */
+.MealActions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.MealActions form {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+/* Icon buttons for edit and delete */
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    color: #555;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.2);
+    color: #1f2937;
+}
+
+.edit-icon {
+    color: black;
+}
+
+.delete-icon {
+    color: black;
+}

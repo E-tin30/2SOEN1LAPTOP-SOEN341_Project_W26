@@ -1,46 +1,12 @@
 [
   {
     "username": "test@gmail.com",
-    "Monday": [
-      {
-        "name": "Cream Garlic Chicken Pasta",
-        "date": "2026-03-11",
-        "startTime": "18:00",
-        "endTime": "19:00"
-      },
-      {
-        "name": "Spaghetti",
-        "date": "2026-03-12",
-        "startTime": "12:00",
-        "endTime": "13:00"
-      }
-    ],
+    "Monday": [],
     "Tuesday": [],
-    "Wednesday": [
-      {
-        "name": "Honey Garlic Salmon",
-        "date": "2026-03-25",
-        "startTime": "12:43",
-        "endTime": "13:32"
-      }
-    ],
+    "Wednesday": [],
     "Thursday": [],
-    "Friday": [
-      {
-        "name": "Classic BLT",
-        "date": "2026-03-20",
-        "startTime": "00:16",
-        "endTime": "00:30"
-      }
-    ],
-    "Saturday": [
-      {
-        "name": "Chicken Alfredo",
-        "date": "2026-03-20",
-        "startTime": "01:22",
-        "endTime": "14:24"
-      }
-    ],
+    "Friday": [],
+    "Saturday": [],
     "Sunday": []
   }
 ]
