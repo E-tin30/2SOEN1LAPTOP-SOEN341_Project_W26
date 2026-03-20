@@ -9,165 +9,183 @@ const RECIPES_FILE = path.join(__dirname,'../data/recipes.json');
 
 // Showing the meal planner page
 router.get('/meal-planner', requireAuth , (req, res) => {
-  
-  //1. get all meal plans from the file
-  //2. filter the plans to get the one for the user
-  //3. for each day, find the corresponding recipes using id
-  //4. ? the format is either show recipe name (easier)or take recipe from recipe file
-  // (Harder, but if we click on it we can see the recipe details, eventual goal) 
-  //for now ill just show recipe name ill talk to the team after
-  //1. and 2.
 
- 
-  const flashError = req.session.flashError; // Grab the error from the session 
-  delete req.session.flashError; // Clear it immediately so it disappears if the user refreshes the page
+  const flashError = req.session.flashError;
+  delete req.session.flashError;
 
   const AllPlans = getMealPlans();
-  const SpecificUserPlan = AllPlans.find(
-    p => p.username === req.session.username  // find the meal plan for the logged in user, if it exists
+  let SpecificUserPlan = AllPlans.find(
+    p => p.username === req.session.username
   );
   
-  //3. base for 3 and optional 4.
   const recipeList = getRecipes();
   const userRecipes = recipeList.filter(r => r.username === req.session.username);
 
-   
-  // get the recipes created by the logged in user to show in the meal planner page
-  const myPlan=[
-    {
-      "username":"test@gmail.com",
-      "Monday":[],
-      "Tuesday":[], 
-      "Wednesday":[], 
-      "Thursday":[], 
-      "Friday":[], 
-      "Saturday":[], 
-      "Sunday":[]
-    }
-    
-]
+  if (!SpecificUserPlan) {
+    SpecificUserPlan = {
+      username: req.session.username,
+      meals: []
+    };
+  }
+
+  const selectedDate = req.query.week
+  ? (() => {
+      const [y, m, d] = req.query.week.split('-').map(Number);
+      return new Date(y, m - 1, d); // local time, no timezone shift
+    })()
+  : new Date();
+
+  if (isNaN(selectedDate.getTime())) {
+    return res.redirect('/meal-planner'); // fall back to current week
+  }
+
+  let weekStart = new Date(selectedDate);
+  weekStart.setDate(selectedDate.getDate() - selectedDate.getDay());
+  weekStart.setHours(0,0,0,0);
+
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23,59,59,999);
+
+  // filter meals
+  const mealsForWeek = (SpecificUserPlan.meals || []).filter(meal => {
+    const mealDate = new Date(meal.date + "T00:00:00");
+    return mealDate >= weekStart && mealDate <= weekEnd;
+  });
+
   res.render('meal-planner', {
     title: 'Meal Planner',
     currentPage: 'meal-planner',
     recipes: userRecipes,
     username: req.session.username,
-    plan: SpecificUserPlan ? SpecificUserPlan : myPlan, flashError // pass the user's meal plan or an empty array if none exists
+    meals: mealsForWeek,
+    weekStart,
+    flashError
   });
 });
 
 
-// Handling the form submission from the meal planner page when user adds a recipe to a specific day
+// Handling the form submission
 router.post('/meal-planner', requireAuth , (req, res) => {
-  const {recipeID,date,day,startTime,endTime} = req.body;
+  const {recipeID,date,startTime,endTime} = req.body;
 
-
-  // VALIDATE INPUTS 
-  // Check for missing fields or unselected dropdowns
   if (!recipeID || recipeID === "none" || 
       !date || 
-      !day || day === "none" || 
       !startTime || 
       !endTime) {
     req.session.flashError = "Validation Failed: Missing required fields.";
     return res.redirect('/meal-planner');
   }
 
-  // Validate that start time is before end time
-  if (startTime >= endTime) {
-    console.error("Validation Failed: Start time must be before End time.");
+  if (timeToMinutes(startTime) >= timeToMinutes(endTime)) {
     req.session.flashError = "Validation Failed: Start time must be before End time.";
     return res.redirect('/meal-planner');
   }
 
-
-  // SAVE TO JSON FILE 
   const allPlans = getMealPlans();
-  let userPlan = allPlans.find(p => p.username === req.session.username); // Find the meal plan for the logged in user
+  let userPlan = allPlans.find(p => p.username === req.session.username);
 
-  // Create a skeleton plan if the user doesn't have one in the JSON yet
   if (!userPlan) {
     userPlan = { 
       username: req.session.username, 
-      Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] 
+      meals: []
     };
     allPlans.push(userPlan);
   }
 
-  const selectedDate = new Date(date + "T00:00:00"); // convert date to a date object
+  const selectedDate = new Date(date + "T00:00:00");
 
-  // Get start of the week (Sunday)
   const weekStart = new Date(selectedDate);
   weekStart.setDate(selectedDate.getDate() - selectedDate.getDay());
   weekStart.setHours(0, 0, 0, 0);
 
-  // Get end of the week (Saturday)
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate() + 6);
   weekEnd.setHours(23, 59, 59, 999);
 
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]; // define days of the week
+  const alreadyExists = userPlan.meals.some(meal => {
+    if (meal.name !== recipeID) return false;
 
-  const alreadyExists = days.some(dayKey => // loop through days of the week
-    (userPlan[dayKey] || []).some(meal => {
-      if (meal.name !== recipeID) return false; // loop through the recipes at that day and check if same recipe name
+    const mealDate = new Date(meal.date + "T00:00:00");
 
-      const mealDate = new Date(meal.date + "T00:00:00"); // if same recipe name then check if same week
-      return mealDate >= weekStart && mealDate <= weekEnd; // if same week return true else return false
-    })
-  ); // This logic blocks users from having a recipe twice in the same week
+    return mealDate >= weekStart && mealDate <= weekEnd;
+  });
 
   if (alreadyExists) {
     req.session.flashError = "This recipe is already scheduled in this week.";
     return res.redirect('/meal-planner');
   }
 
-  // Push the new meal directly into the correct day's array using bracket notation []
-  if (userPlan[day]) {
-    userPlan[day].push({
-      name: recipeID, 
-      date: date, 
-      startTime: startTime, 
-      endTime: endTime
-    });
+  if (hasTimeConflict(userPlan.meals, { date, startTime, endTime })) {
+    req.session.flashError = "Time conflict with another meal.";
+    return res.redirect('/meal-planner');
   }
 
-  // Save the updated plans array back to MealPlans.json
+  const duration = timeToMinutes(endTime) - timeToMinutes(startTime);
+
+  if (duration > 180) {
+    req.session.flashError = "Meal cannot exceed 3 hours.";
+    return res.redirect('/meal-planner');
+  }
+
+  insertMealSorted(userPlan.meals, {
+    name: recipeID, 
+    date: date, 
+    startTime: startTime, 
+    endTime: endTime
+  });
+
   SaveMealPlans(allPlans);
 
-  // Send the user back to the meal planner page
   res.redirect('/meal-planner');
 });
 
 /* Helper Functions */
 
-// Get all Meal Plans
-function getMealPlans()
-{
-  if (!fs.existsSync(MEALPLAN_FILE))
-  {
-    return [];  // doesn't exist
-  }
+function getMealPlans() {
+  if (!fs.existsSync(MEALPLAN_FILE)) return [];
   return JSON.parse(fs.readFileSync(MEALPLAN_FILE , 'utf-8')) || [];
 }
 
-// Save Meal Plans
-function SaveMealPlans(data)
-{
-  fs.writeFileSync(MEALPLAN_FILE,  JSON.stringify(data, null , 2));
+function SaveMealPlans(data) {
+  fs.writeFileSync(MEALPLAN_FILE, JSON.stringify(data, null , 2));
 }
 
-// Get all Recipes
 function getRecipes() {
-    if (!fs.existsSync(RECIPES_FILE)) return [];
-    return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
+  if (!fs.existsSync(RECIPES_FILE)) return [];
+  return JSON.parse(fs.readFileSync(RECIPES_FILE, 'utf8')) || [];
 }
 
-function validateAddition(plan){
-  let decision =true;
+function insertMealSorted(meals, newMeal) {
+  const index = meals.findIndex(meal => {
+    const existingDate = new Date(meal.date + "T00:00:00");
+    const newDate = new Date(newMeal.date + "T00:00:00");
+    if (newDate < existingDate) return true;
+    if (newDate > existingDate) return false;
 
-  
+    return timeToMinutes(newMeal.startTime) < timeToMinutes(meal.startTime);
+  });
 
-  return decision;
+  if (index === -1) meals.push(newMeal);
+  else meals.splice(index, 0, newMeal);
+}
+
+function hasTimeConflict(meals, newMeal) {
+  return meals.some(meal => {
+    if (meal.date !== newMeal.date) return false;
+
+    const newStart = timeToMinutes(newMeal.startTime);
+    const newEnd = timeToMinutes(newMeal.endTime);
+    const existingStart = timeToMinutes(meal.startTime);
+    const existingEnd = timeToMinutes(meal.endTime);
+
+    return !(newEnd <= existingStart || newStart >= existingEnd);
+  });
+}
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
 }
 
 module.exports = router;
