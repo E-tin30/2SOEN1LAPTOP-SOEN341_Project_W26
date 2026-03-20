@@ -109,9 +109,18 @@
     width: 100%;
     padding: 10px 12px;
     border-radius: 10px;
-    border: 1px solid #ccc;
     font-size: 14px;
     box-sizing: border-box;
+    appearance: none;
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    font-weight: 500;
+}
+
+.FilterSelect:focus {
+    outline: none;
+    border-color: #1f2937;
+    box-shadow: 0 0 0 2px rgba(31,41,55,0.2);
 }
 
 /* BUTTON AREA */
