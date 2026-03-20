@@ -142,9 +142,25 @@ document.addEventListener('click', (e) => {
 });
 
 function openMealModal(name, date, start, end) {
+  // Find the recipe
+  const recipe = recipes.find(r => r.name === name);
+  if (!recipe) {
+    console.error('Recipe not found');
+    return;
+  }
+
   // Populate the modal
   document.getElementById('mealModalName').textContent = name;
-  document.getElementById('mealModalDate').textContent = new Date(date).toLocaleDateString();
+  
+  // Populate ingredients as list
+  const ingredientsList = document.getElementById('mealModalIngredients');
+  ingredientsList.innerHTML = '';
+  recipe.ingredients.forEach(ingredient => {
+    const li = document.createElement('li');
+    li.textContent = ingredient;
+    ingredientsList.appendChild(li);
+  });
+  
   document.getElementById('mealModalTime').textContent = `${start} - ${end}`;
 
   // Set delete form fields
@@ -158,6 +174,11 @@ function openMealModal(name, date, start, end) {
     openEditMealOverlay(name, date, start, end);
   };
 
+  // Store data for delete
+  document.getElementById('deleteMealBtn').onclick = () => {
+    document.getElementById('deleteModal').classList.remove('hidden');
+  };
+
   // Show the modal
   document.getElementById('mealModal').classList.remove('hidden');
 }
@@ -167,11 +188,25 @@ document.getElementById('closeMealModal').addEventListener('click', () => {
   document.getElementById('mealModal').classList.add('hidden');
 });
 
+// Close delete modal when clicking close button
+document.getElementById('closeDeleteModal').addEventListener('click', () => {
+  document.getElementById('deleteModal').classList.add('hidden');
+});
+
+// Cancel delete
+document.getElementById('cancelDelete').addEventListener('click', () => {
+  document.getElementById('deleteModal').classList.add('hidden');
+});
+
 // Close modal when clicking outside
 window.addEventListener('click', (e) => {
   const modal = document.getElementById('mealModal');
   if (e.target === modal) {
     modal.classList.add('hidden');
+  }
+  const deleteModal = document.getElementById('deleteModal');
+  if (e.target === deleteModal) {
+    deleteModal.classList.add('hidden');
   }
 });
 
@@ -191,8 +226,8 @@ function openEditMealOverlay(name, date, start, end) {
   document.getElementById('originalStartTime').value = start;
   document.getElementById('originalEndTime').value = end;
 
-  // Change method to PUT
-  document.getElementById('methodField').value = 'PUT';
+  // Change action to edit
+  document.getElementById('mealPlanForm').action = '/meal-planner/edit';
 
   // Update title and button
   document.getElementById('modalTitle').textContent = 'Edit Meal Plan';

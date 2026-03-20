@@ -331,6 +331,21 @@
     gap: 8px;
 }
 
+/* Ingredients list styling */
+.meal-modal ul {
+    text-align: left;
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.meal-modal li {
+    margin-bottom: 5px;
+}
+
+.ingredients-header {
+    text-align: left;
+}
+
 /* Flash Messages */
 .flash-message {
     background-color: #e6ffed;

@@ -65,7 +65,6 @@
                
           <form class="addMealPlanForm" action="/meal-planner" method="post" id="mealPlanForm">
 
-            <input type="hidden" name="_method" id="methodField" value="POST">
             <input type="hidden" name="originalName" id="originalName">
             <input type="hidden" name="originalDate" id="originalDate">
             <input type="hidden" name="originalStartTime" id="originalStartTime">
@@ -117,19 +116,14 @@
             <button type="button" id="editMealBtn" class="icon-btn edit-icon">
               <i class="fa-solid fa-pen"></i>
             </button>
-            <form action="/meal-planner/delete" method="POST" style="display:inline;">
-              <input type="hidden" name="mealName" id="deleteMealName">
-              <input type="hidden" name="mealDate" id="deleteMealDate">
-              <input type="hidden" name="mealStartTime" id="deleteMealStartTime">
-              <input type="hidden" name="mealEndTime" id="deleteMealEndTime">
-              <button type="submit" class="icon-btn delete-icon">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </form>
+            <button type="button" id="deleteMealBtn" class="icon-btn delete-icon">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
           <span class="close-meal-modal" id="closeMealModal">&times;</span>
           <h2 id="mealModalName"></h2>
-          <p><strong>Date:</strong> <span id="mealModalDate"></span></p>
+          <p class="ingredients-header"><strong>Ingredients:</strong></p>
+          <ul id="mealModalIngredients"></ul>
           <p><strong>Time:</strong> <span id="mealModalTime"></span></p>
         </div>
       </div>
@@ -187,6 +181,30 @@
       </div>
 
     </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close" id="closeDeleteModal">&times;</span>
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete this meal?</p>
+        <form action="/meal-planner/delete" method="post" id="deleteForm">
+          <input type="hidden" name="mealName" id="deleteMealName">
+          <input type="hidden" name="mealDate" id="deleteMealDate">
+          <input type="hidden" name="mealStartTime" id="deleteMealStartTime">
+          <input type="hidden" name="mealEndTime" id="deleteMealEndTime">
+          <div class="modal-buttons">
+            <button type="button" class="btn btn-secondary" id="cancelDelete">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const recipes = <%- JSON.stringify(recipes) %>;
+    </script>
+
   </div>
 </body>
 </html>

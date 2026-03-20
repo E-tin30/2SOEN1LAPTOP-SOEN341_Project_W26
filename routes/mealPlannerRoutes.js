@@ -145,7 +145,7 @@ router.post('/meal-planner', requireAuth , (req, res) => {
 });
 
 // Edit a meal in the user's plan
-router.put('/meal-planner', requireAuth, (req, res) => {
+router.post('/meal-planner/edit', requireAuth, (req, res) => {
   const { originalName, originalDate, originalStartTime, originalEndTime, recipeID, date, startTime, endTime } = req.body;
 
   if (!recipeID || recipeID === "none" || 
@@ -181,8 +181,32 @@ router.put('/meal-planner', requireAuth, (req, res) => {
     return res.redirect('/meal-planner');
   }
 
-  // Check for conflicts, excluding the current meal
+  const selectedDate = new Date(date + "T00:00:00");
+
+  const weekStart = new Date(selectedDate);
+  weekStart.setDate(selectedDate.getDate() - selectedDate.getDay());
+  weekStart.setHours(0, 0, 0, 0);
+
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
+
+  // Check for duplicate recipes in the week, excluding the current meal
   const otherMeals = userPlan.meals.filter((_, i) => i !== mealIndex);
+  const alreadyExists = otherMeals.some(meal => {
+    if (meal.name !== recipeID) return false;
+
+    const mealDate = new Date(meal.date + "T00:00:00");
+
+    return mealDate >= weekStart && mealDate <= weekEnd;
+  });
+
+  if (alreadyExists) {
+    req.session.flashError = "This recipe is already scheduled in this week.";
+    return res.redirect('/meal-planner');
+  }
+
+  // Check for conflicts, excluding the current meal
   if (hasTimeConflict(otherMeals, { date, startTime, endTime })) {
     req.session.flashError = "Time conflict with another meal.";
     return res.redirect('/meal-planner');
