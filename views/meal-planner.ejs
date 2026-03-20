@@ -31,8 +31,14 @@
       <h1>Meal Planner</h1>
       <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
 
+      <% if (typeof flashMessage !== 'undefined' && flashMessage) { %>
+        <div class="flash-message">
+          <%= flashMessage %>
+        </div>
+      <% } %>
+
       <% if (typeof flashError !== 'undefined' && flashError) { %>
-        <div id="flash-error-message" style="background-color: #ffe6e6; color: #c62828; padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #c62828; font-weight: bold;">
+        <div class="flash-error">
           <%= flashError %>
         </div>
       <% } %>

@@ -63,7 +63,8 @@ router.get('/meal-planner', requireAuth , (req, res) => {
     username: req.session.username,
     meals: mealsForWeek,
     weekStart,
-    flashError
+    flashError,
+    flashMessage
   });
 });
 

@@ -100,23 +100,6 @@
     "difficulty": "easy"
   },
   {
-    "id": "4827",
-    "username": "test@gmail.com",
-    "name": "Teriyaki Chicken Bowl",
-    "ingredients": [
-      "Chicken Breast",
-      "Rice",
-      "Teriyaki Sauce",
-      "Broccoli",
-      "Carrots"
-    ],
-    "prepTime": "25 mins",
-    "prepSteps": "Cook rice. Sauté chicken. Add vegetables and teriyaki sauce. Serve over rice.",
-    "cost": "$11",
-    "tag": "Dinner",
-    "difficulty": "medium"
-  },
-  {
     "id": "7394",
     "username": "test@gmail.com",
     "name": "Caprese Salad",

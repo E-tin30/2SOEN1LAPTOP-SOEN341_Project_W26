@@ -330,3 +330,20 @@
     display: flex;
     gap: 8px;
 }
+
+/* Flash Messages */
+.flash-message {
+    background-color: #e6ffed;
+    color: #1a7f37;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.flash-error {
+    background-color: #ffe6e6;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}

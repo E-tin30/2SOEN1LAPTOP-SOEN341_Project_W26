@@ -214,14 +214,37 @@ document.getElementById('add-meal-plan-btn').addEventListener('click', () => {
   document.getElementById('submitBtn').textContent = 'Add to Schedule';
 });
 
-// Reset form when opening for add
-document.getElementById('add-meal-plan-btn').addEventListener('click', () => {
-  document.getElementById('mealPlanForm').reset();
-  document.getElementById('methodField').value = 'POST';
-  document.getElementById('originalName').value = '';
-  document.getElementById('originalDate').value = '';
-  document.getElementById('originalStartTime').value = '';
-  document.getElementById('originalEndTime').value = '';
-  document.getElementById('modalTitle').textContent = 'Add Recipes to Schedule';
-  document.getElementById('submitBtn').textContent = 'Add to Schedule';
+// Delete confirmation for meal
+window.addEventListener('load', () => {
+  const mealDeleteForm = document.querySelector('form[action="/meal-planner/delete"]');
+  if (mealDeleteForm) {
+    const deleteBtn = mealDeleteForm.querySelector('button[type="submit"]');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', (e) => {
+        const confirmDelete = confirm("Are you sure you want to remove this meal?");
+        if (!confirmDelete) {
+          e.preventDefault();
+        }
+      });
+    }
+  }
+
+  // Auto-dismiss flash messages
+  const flashMessage = document.querySelector('.flash-message');
+  const flashError = document.querySelector('.flash-error');
+
+  const dismissFlash = (element) => {
+    if (element) {
+      setTimeout(() => {
+        element.style.transition = "opacity 0.4s ease";
+        element.style.opacity = "0";
+        setTimeout(() => {
+          element.remove();
+        }, 400);
+      }, 3000);
+    }
+  };
+
+  dismissFlash(flashMessage);
+  dismissFlash(flashError);
 });
