@@ -206,6 +206,41 @@ router.put('/meal-planner', requireAuth, (req, res) => {
   res.redirect('/meal-planner');
 });
 
+// Delete a meal from the user's plan
+router.post('/meal-planner/delete', requireAuth, (req, res) => {
+  const { mealName, mealDate, mealStartTime, mealEndTime } = req.body;
+
+  if (!mealName || !mealDate || !mealStartTime || !mealEndTime) {
+    req.session.flashError = "Validation Failed: Missing required fields.";
+    return res.redirect('/meal-planner');
+  }
+
+  const allPlans = getMealPlans();
+  const userPlan = allPlans.find(p => p.username === req.session.username);
+
+  if (!userPlan || !userPlan.meals) {
+    req.session.flashError = "Meal plan not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  const mealIndex = userPlan.meals.findIndex(meal =>
+    meal.name === mealName &&
+    meal.date === mealDate &&
+    meal.startTime === mealStartTime &&
+    meal.endTime === mealEndTime
+  );
+
+  if (mealIndex === -1) {
+    req.session.flashError = "Meal not found.";
+    return res.redirect('/meal-planner');
+  }
+
+  userPlan.meals.splice(mealIndex, 1);
+  SaveMealPlans(allPlans);
+  req.session.flashMessage = "Meal deleted successfully!";
+  res.redirect('/meal-planner');
+});
+
 module.exports = router;
 
 /* END OF MEAL PLANNER LOGIC */
