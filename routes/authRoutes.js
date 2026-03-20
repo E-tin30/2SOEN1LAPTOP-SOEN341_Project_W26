@@ -102,7 +102,7 @@ router.post("/register", (req, res) => {
   })
 });
 
-// Helper functions
+/* Helper Functions */
 
 function validateCredentials(username, password, confirmPassword) {
   const validChars = /^[a-zA-Z0-9]{5,}$/;
