@@ -52,13 +52,91 @@ cards.forEach(card => {
     });
 });
 
+
+const favoriteVideo = async (recipeId, videoURL) => {
+    try {
+        const response = await fetch(`/recipes/${recipeId}/video/favorites`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ videoURL }),
+        });
+
+        if (!response.ok) {
+            const body = await response.json().catch(() => ({}));
+            throw new Error(body.error || 'Failed to save favorite');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Favorite video error:', error);
+        return false;
+    }
+};
+
+const NotfavoriteVideo = async (recipeId, videoURL) => {
+    try {
+        const response = await fetch(`/favorites/${recipeId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ videoURL }),
+        });
+
+        if (!response.ok) {
+            const body = await response.json().catch(() => ({}));
+            throw new Error(body.error || 'Failed to remove favorite');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Unfavorite video error:', error);
+        return false;
+    }
+}
+
+const attachHeartCheckboxListeners = () => {
+    document.querySelectorAll('.heart-checkbox').forEach((checkbox, index) => {
+        checkbox.addEventListener('change', async () => {
+            const recipeId = modalContent?.dataset?.id;
+            const iframe = document.getElementById(`recipeVideoIframe${index + 1}`);
+            const videoURL = iframe?.src?.trim();
+
+            if (!recipeId || !videoURL) {
+                checkbox.checked = false;
+                alert('No video URL available. Please open the video first.');
+                return;
+            }
+
+            if (checkbox.checked) {
+                // Favorite the video
+                const success = await favoriteVideo(recipeId, videoURL);
+                if (!success) {
+                    checkbox.checked = false;
+                    alert('Could not save favorite video. Please try again.');
+                }
+            } else {
+                // Unfavorite the video
+                const success = await NotfavoriteVideo(recipeId, videoURL);
+                if (!success) {
+                    checkbox.checked = true;
+                    alert('Could not remove favorite video. Please try again.');
+                }
+            }
+        });
+    });
+};
+
+
+attachHeartCheckboxListeners();
+
 closeBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
+   
 });
 
 modal.addEventListener('click', e => {
     if (e.target === modal) {
         modal.classList.add('hidden');
+    
     }
 });
 

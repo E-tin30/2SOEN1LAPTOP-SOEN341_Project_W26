@@ -312,6 +312,7 @@ const videoIframe1 = document.getElementById('recipeVideoIframe1');
 const videoIframe2 = document.getElementById('recipeVideoIframe2');
 const videoIframe3 = document.getElementById('recipeVideoIframe3');
 const closeVideoBtn = document.getElementById('closeVideoBtn');
+const favoriteCheckboxes = document.querySelectorAll('.heart-checkbox');
 
 // Helper to build YouTube embed url
 
@@ -328,7 +329,22 @@ async function getVideoUrlFromModal() {
     })
     .then(data => data && data.videoURLs ? data.videoURLs : null)
     .catch(() => null);
-   
+    
+    const isFavorite = []
+    if (videoUrls) {
+        for (const url of videoUrls) {
+            const favResponse = await fetch(`/favorites/check/${recipeId}?videoURL=${encodeURIComponent(url)}`);
+            if (favResponse.ok) {
+                const favData = await favResponse.json();
+                isFavorite.push(favData.isFavorite);
+            } else {
+                isFavorite.push(false);
+            }
+        }
+    }
+
+    console.log('Favorite status for videos:', isFavorite);
+    favoriteCheckboxes.forEach((checkbox, index) => checkbox.checked = isFavorite[index] || false);
     
     return videoUrls
 }
@@ -385,4 +401,26 @@ if (recipeModal) {
             showVideoBtn.style.display = 'inline-block';
         }
     });
+}
+
+
+
+async function IsfavoriteVideo(recipeId, videoURL) {
+    try {
+        const response = await fetch(`/favorites/check/${recipeId}/${videoURL}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+            const body = await response.json().catch(() => ({}));
+            throw new Error(body.error || 'Failed to check favorite');
+        }
+
+        const data = await response.json();
+        return data.isFavorite;
+    } catch (error) {
+        console.error('Check favorite video error:', error);
+        return false;
+    }
 }

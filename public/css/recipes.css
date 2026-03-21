@@ -649,3 +649,43 @@ select.StepInputRecipe:focus {
     border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
+
+/* Hide the native checkbox */
+.heart-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+/* The heart using ::before */
+.heart-checkbox::before {
+    content: '♡';
+    font-size: 26px;
+    line-height: 1;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+    display: block;
+}
+
+/* Filled heart when checked */
+.heart-checkbox:checked::before {
+    content: '♥';
+    color: #e63946;
+    text-shadow: 0 1px 6px rgba(230, 57, 70, 0.5);
+    transform: scale(1.2);
+}
+
+/* Hover effect */
+.heart-checkbox:hover::before {
+    transform: scale(1.15);
+    color: #e63946;
+}
