@@ -15,10 +15,16 @@
         "endTime": "13:00"
       },
       {
+        "name": "Classic BLT",
+        "date": "2026-03-20",
+        "startTime": "08:30",
+        "endTime": "09:30"
+      },
+      {
         "name": "Egg Fried Rice",
-        "date": "2026-03-16",
-        "startTime": "18:00",
-        "endTime": "19:00"
+        "date": "2026-03-24",
+        "startTime": "09:00",
+        "endTime": "11:00"
       },
       {
         "name": "Honey Garlic Salmon",
@@ -27,22 +33,10 @@
         "endTime": "15:45"
       },
       {
-        "name": "Chicken Burrito",
-        "date": "2026-03-19",
-        "startTime": "09:00",
-        "endTime": "10:00"
-      },
-      {
         "name": "Creamy Garlic Chicken Pasta",
         "date": "2026-03-19",
         "startTime": "19:00",
         "endTime": "20:00"
-      },
-      {
-        "name": "Classic BLT",
-        "date": "2026-03-20",
-        "startTime": "08:00",
-        "endTime": "08:30"
       },
       {
         "name": "Chicken Alfredo",

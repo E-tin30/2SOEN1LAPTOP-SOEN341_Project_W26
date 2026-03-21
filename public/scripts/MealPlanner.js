@@ -174,11 +174,6 @@ function openMealModal(name, date, start, end) {
     openEditMealOverlay(name, date, start, end);
   };
 
-  // Store data for delete
-  document.getElementById('deleteMealBtn').onclick = () => {
-    document.getElementById('deleteModal').classList.remove('hidden');
-  };
-
   // Show the modal
   document.getElementById('mealModal').classList.remove('hidden');
 }
@@ -188,25 +183,11 @@ document.getElementById('closeMealModal').addEventListener('click', () => {
   document.getElementById('mealModal').classList.add('hidden');
 });
 
-// Close delete modal when clicking close button
-document.getElementById('closeDeleteModal').addEventListener('click', () => {
-  document.getElementById('deleteModal').classList.add('hidden');
-});
-
-// Cancel delete
-document.getElementById('cancelDelete').addEventListener('click', () => {
-  document.getElementById('deleteModal').classList.add('hidden');
-});
-
 // Close modal when clicking outside
 window.addEventListener('click', (e) => {
   const modal = document.getElementById('mealModal');
   if (e.target === modal) {
     modal.classList.add('hidden');
-  }
-  const deleteModal = document.getElementById('deleteModal');
-  if (e.target === deleteModal) {
-    deleteModal.classList.add('hidden');
   }
 });
 

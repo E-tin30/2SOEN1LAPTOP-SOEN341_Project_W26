@@ -266,8 +266,6 @@ router.post('/meal-planner/delete', requireAuth, (req, res) => {
   res.redirect('/meal-planner');
 });
 
-module.exports = router;
-
 /* END OF MEAL PLANNER LOGIC */
 /* Helper Functions */
 
