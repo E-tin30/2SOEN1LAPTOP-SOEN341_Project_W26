@@ -303,6 +303,75 @@ const closeEditBtn = document.querySelector(".CloseBtnRecipeEdit");
 
 closeEditBtn.onclick = () => closeEditRecipe();
 
+// Favorites Modal
+async function openFavoritesModal() {
+    const response = await fetch('/favorites');
+    console.log('Fetch favorites response:', response);
+    if (!response.ok) {
+        alert('Failed to load favorites.');
+        return;
+    }
+    const data = await response.json();
+    const container = document.getElementById('favoritesContainer');
+    container.innerHTML = '';
+
+    if (data.favorites.length === 0) {
+        container.innerHTML = '<p>No favorite videos yet.</p>';
+    } else {
+        data.favorites.forEach(fav => {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <iframe 
+                    src="${fav.videoURL}" 
+                    width="100%" 
+                    height="315" 
+                    style="border: none; display: block;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                <button class="remove-favorite-btn" data-id="${fav.id}" data-videourl="${fav.videoURL}">
+                    <i class="fa-solid fa-trash"></i> Remove
+                </button>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    document.getElementById('favoritesModal').classList.remove('hidden');
+}
+
+document.getElementById('closeFavoritesModal').addEventListener('click', () => {
+    document.getElementById('favoritesModal').classList.add('hidden');
+});
+
+document.getElementById('favoritesModal').addEventListener('click', (e) => {
+    if (e.target.id === 'favoritesModal') {
+        document.getElementById('favoritesModal').classList.add('hidden');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-favorite-btn')) {
+        const btn = e.target;
+        const id = btn.dataset.id;
+        const videoURL = btn.dataset.videourl;
+        if (confirm('Remove this video from favorites?')) {
+            fetch(`/favorites/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ videoURL }),
+            }).then(response => {
+                if (response.ok) {
+                    btn.closest('.video-card').remove();
+                } else {
+                    alert('Failed to remove favorite.');
+                }
+            }).catch(() => alert('Error removing favorite.'));
+        }
+    }
+});
+
 // Show/hide logic for the embedded recipe video
 
 // Get elements

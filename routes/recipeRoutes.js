@@ -155,6 +155,18 @@ router.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from
 
     saveRecipes(filteredRecipes);
 
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            console.error("Error reading favorites file:", err);
+            return res.redirect('/recipes');
+        }
+    fs.writeFile(FAVORITES_FILE, JSON.stringify((data ? JSON.parse(data) : []).filter(fav => fav.id !== id), null, 2), 'utf8', (writeErr) => {
+        if (writeErr) {
+            console.error("Error updating favorites file:", writeErr);
+        }
+        });
+    });
+
     res.redirect('/recipes');
 });
 

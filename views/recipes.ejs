@@ -34,6 +34,11 @@
                     </button>  
                 </div>
 
+                <!-- Favorite Videos Button -->
+                <button class="favorite-btn" onclick="openFavoritesModal()">
+                    Favorite Videos <i class="fa-solid fa-heart"></i>
+                </button>
+
                 <!-- Recipe Creation UI -->
                 <button class="addRecipeBtn" id="OpenRecipeCreation" onclick="OpenRecipeCreationUI()">+ Add Recipe</button>
             </div>
@@ -441,6 +446,17 @@
                     style="position: absolute; right: 24px; bottom: 28px; background: none; border: none; cursor: pointer; font-size: 2.2em; color: #ff3939; z-index: 20;">
                     <i class="fa-brands fa-youtube"></i>
                 </button>
+            </div>
+        </div>
+
+        <!-- FAVORITES MODAL -->
+        <div id="favoritesModal" class="modal hidden">
+            <div class="modal-content" style="max-width: 90%; max-height: 90%; overflow-y: auto;">
+                <span id="closeFavoritesModal" class="close-btn">&times;</span>
+                <h2>Your Favorite Videos</h2>
+                <div id="favoritesContainer" class="recipe-list">
+                    <!-- Videos will be loaded here -->
+                </div>
             </div>
         </div>
 
