@@ -247,10 +247,10 @@
 }
 
 /* Maybe for later we can make it editable by clicking */
-/* .meal-block:hover {
+.meal-block:hover {
     transform: scale(1.02);
     cursor: pointer;
-} */ 
+} 
 
 /* TEXT */
 .RecipeName {
@@ -260,4 +260,105 @@
 
 .MealTime {
     color: #1b5e20;
+}
+
+/* Meal Actions - Edit/Delete buttons container */
+.MealActions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.MealActions form {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+/* Icon buttons for edit and delete */
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: black;
+}
+
+.icon-btn:hover {
+    transform: scale(1.2);
+}
+
+/* MEAL MODAL */
+.meal-modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.meal-modal.hidden {
+    display: none;
+}
+
+.meal-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.close-meal-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.card-top-actions {
+    position: absolute;
+    top: 8px;
+    right: 40px;
+    display: flex;
+    gap: 8px;
+}
+
+/* Ingredients list styling */
+.meal-modal ul {
+    text-align: left;
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.meal-modal li {
+    margin-bottom: 5px;
+}
+
+.ingredients-header {
+    text-align: left;
+}
+
+/* Flash Messages */
+.flash-message {
+    background-color: #e6ffed;
+    color: #1a7f37;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.flash-error {
+    background-color: #ffe6e6;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }

@@ -6,6 +6,7 @@
     <title>Meal Planner</title>
     <link rel="stylesheet" href="/css/layout.css" />
     <link rel="stylesheet" href="/css/MealPlanner.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="/scripts/MealPlanner.js" defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -30,8 +31,14 @@
       <h1>Meal Planner</h1>
       <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
 
+      <% if (typeof flashMessage !== 'undefined' && flashMessage) { %>
+        <div class="flash-message">
+          <%= flashMessage %>
+        </div>
+      <% } %>
+
       <% if (typeof flashError !== 'undefined' && flashError) { %>
-        <div id="flash-error-message" style="background-color: #ffe6e6; color: #c62828; padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #c62828; font-weight: bold;">
+        <div class="flash-error">
           <%= flashError %>
         </div>
       <% } %>
@@ -54,13 +61,18 @@
       <div class="addMealPlanOverlay" id="AddMealPlanOverlay">
         <div class="addMealPlanContent"> 
           <span class="closeAddMealPlanOverlay" onclick="toggleAddMealPlanOverlay('close')">&times;</span>
-          <h2 class="AddMealPlanTitle">Add Recipes to Schedule</h2>
+          <h2 class="AddMealPlanTitle" id="modalTitle">Add Recipes to Schedule</h2>
                
-          <form class="addMealPlanForm" action="/meal-planner" method="post">
+          <form class="addMealPlanForm" action="/meal-planner" method="post" id="mealPlanForm">
+
+            <input type="hidden" name="originalName" id="originalName">
+            <input type="hidden" name="originalDate" id="originalDate">
+            <input type="hidden" name="originalStartTime" id="originalStartTime">
+            <input type="hidden" name="originalEndTime" id="originalEndTime">
 
             <div class="form-group full">
               <label>Recipe</label>
-              <select class="FilterSelect" name="recipeID" required>
+              <select class="FilterSelect" name="recipeID" id="recipeSelect" required>
                 <option disabled selected>Select a recipe</option>
                 <% if (recipes && recipes.length > 0) { %>
                   <% recipes.forEach(recipe => { %>
@@ -74,27 +86,52 @@
 
             <div class="form-group">
               <label>Date</label>
-              <input class="FilterSelect" type="date" name="date" required>
+              <input class="FilterSelect" type="date" name="date" id="dateInput" required>
             </div>
             
             <div class="time-row">
                 <div class="form-group">
                   <label>Start Time</label>
-                  <select class="FilterSelect" name="startTime" id="startTime" required></select>
+                  <select class="FilterSelect" name="startTime" id="startTimeSelect" required></select>
                 </div>
 
                 <div class="form-group">
                   <label>End Time</label>
-                  <select class="FilterSelect" name="endTime" id="endTime" required></select>
+                  <select class="FilterSelect" name="endTime" id="endTimeSelect" required></select>
                 </div>
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="addMealPlanSubmitBtn">Add to Schedule</button>
+              <button type="submit" class="addMealPlanSubmitBtn" id="submitBtn">Add to Schedule</button>
             </div>
 
           </form>
         </div>  
+      </div>
+
+      <!-- MEAL DETAILS MODAL -->
+      <div id="mealModal" class="meal-modal hidden">
+        <div class="meal-modal-content">
+          <div class="card-top-actions">
+            <button type="button" id="editMealBtn" class="icon-btn edit-icon">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <form action="/meal-planner/delete" method="POST" style="display:inline;">
+              <input type="hidden" name="mealName" id="deleteMealName">
+              <input type="hidden" name="mealDate" id="deleteMealDate">
+              <input type="hidden" name="mealStartTime" id="deleteMealStartTime">
+              <input type="hidden" name="mealEndTime" id="deleteMealEndTime">
+              <button type="submit" class="icon-btn delete-icon">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </div>
+          <span class="close-meal-modal" id="closeMealModal">&times;</span>
+          <h2 id="mealModalName"></h2>
+          <p class="ingredients-header"><strong>Ingredients:</strong></p>
+          <ul id="mealModalIngredients"></ul>
+          <p><strong>Time:</strong> <span id="mealModalTime"></span></p>
+        </div>
       </div>
 
       <div id="add-meal-plan-container">
@@ -133,7 +170,7 @@
                   %>
 
                   <% if (mealDay === day && mealHour === hour) { %>
-                    <div class="meal-block">
+                    <div class="meal-block" data-name="<%= meal.name %>" data-date="<%= meal.date %>" data-start-time="<%= meal.startTime %>" data-end-time="<%= meal.endTime %>">
                       <div class="RecipeName"><%= meal.name %></div>
                       <div class="MealTime"><%= meal.startTime %> - <%= meal.endTime %></div>
                     </div>
@@ -150,6 +187,11 @@
       </div>
 
     </main>
+
+    <script>
+      const recipes = <%- JSON.stringify(recipes) %>;
+    </script>
+
   </div>
 </body>
 </html>
