@@ -14,5 +14,9 @@
   {
     "username": "paul@mail.com",
     "password": "$2b$10$E8dEQZQ1ncO9.agnNCMDe.h26YB78aq0ZIU9xWCaH.LZCUQP8ptly"
+  },
+  {
+    "username": "t@mail.n",
+    "password": "$2b$10$bJVbfIrjIMksnh2Jm0.TBen9tt4dqqD0UYFRlMnxq/FaLg9XUVA8a"
   }
 ]
