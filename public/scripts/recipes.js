@@ -302,3 +302,194 @@ document.getElementById("RecipeEditUIPopUp")?.addEventListener("click", (e) => {
 const closeEditBtn = document.querySelector(".CloseBtnRecipeEdit");
 
 closeEditBtn.onclick = () => closeEditRecipe();
+
+// Favorites Modal
+async function openFavoritesModal() {
+    const response = await fetch('/favorites');
+    console.log('Fetch favorites response:', response);
+    if (!response.ok) {
+        alert('Failed to load favorites.');
+        return;
+    }
+    const data = await response.json();
+    const container = document.getElementById('favoritesContainer');
+    container.innerHTML = '';
+
+    if (data.favorites.length === 0) {
+        container.innerHTML = '<p>No favorite videos yet.</p>';
+    } else {
+        data.favorites.forEach(fav => {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <iframe 
+                    src="${fav.videoURL}" 
+                    width="100%" 
+                    height="315" 
+                    style="border: none; display: block;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                <button class="remove-favorite-btn" data-id="${fav.id}" data-videourl="${fav.videoURL}">
+                    <i class="fa-solid fa-trash"></i> Remove
+                </button>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    document.getElementById('favoritesModal').classList.remove('hidden');
+}
+
+document.getElementById('closeFavoritesModal').addEventListener('click', () => {
+    document.getElementById('favoritesModal').classList.add('hidden');
+});
+
+document.getElementById('favoritesModal').addEventListener('click', (e) => {
+    if (e.target.id === 'favoritesModal') {
+        document.getElementById('favoritesModal').classList.add('hidden');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-favorite-btn')) {
+        const btn = e.target;
+        const id = btn.dataset.id;
+        const videoURL = btn.dataset.videourl;
+        if (confirm('Remove this video from favorites?')) {
+            fetch(`/favorites/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ videoURL }),
+            }).then(response => {
+                if (response.ok) {
+                    btn.closest('.video-card').remove();
+                } else {
+                    alert('Failed to remove favorite.');
+                }
+            }).catch(() => alert('Error removing favorite.'));
+        }
+    }
+});
+
+// Show/hide logic for the embedded recipe video
+
+// Get elements
+const showVideoBtn = document.getElementById('showVideoBtn');
+const videoContainer = document.getElementById('recipeVideoContainer');
+const videoIframe1 = document.getElementById('recipeVideoIframe1');
+const videoIframe2 = document.getElementById('recipeVideoIframe2');
+const videoIframe3 = document.getElementById('recipeVideoIframe3');
+const closeVideoBtn = document.getElementById('closeVideoBtn');
+const favoriteCheckboxes = document.querySelectorAll('.heart-checkbox');
+
+// Helper to build YouTube embed url
+
+// Helper to get the video URL for the current recipe modal (using context logic)
+async function getVideoUrlFromModal() {
+    const recipeId = document.getElementById('modalContent').dataset.id;
+    if (!recipeId) return null;
+
+    // Note: This returns a Promise now (must await or .then() by caller!)
+    const videoUrls = await fetch(`/recipes/${recipeId}/video`)
+    .then(response => {
+        if (!response.ok) return null;
+        return response.json();
+    })
+    .then(data => data && data.videoURLs ? data.videoURLs : null)
+    .catch(() => null);
+    
+    const isFavorite = []
+    if (videoUrls) {
+        for (const url of videoUrls) {
+            const favResponse = await fetch(`/favorites/check/${recipeId}?videoURL=${encodeURIComponent(url)}`);
+            if (favResponse.ok) {
+                const favData = await favResponse.json();
+                isFavorite.push(favData.isFavorite);
+            } else {
+                isFavorite.push(false);
+            }
+        }
+    }
+
+    console.log('Favorite status for videos:', isFavorite);
+    favoriteCheckboxes.forEach((checkbox, index) => checkbox.checked = isFavorite[index] || false);
+    
+    return videoUrls
+}
+
+// Show video when button pressed
+if (showVideoBtn) {
+    showVideoBtn.addEventListener('click', async function(e) {
+        e.stopPropagation();
+        const urls = await getVideoUrlFromModal();
+        if (!urls || urls.length === 0 || !urls[0]) {
+            alert('The system will find an appropriate video for this recipe and display it here once it is available. Please check back later!');
+            return;
+        }
+        console.log('Video URLs:', urls);
+        videoIframe1.src = urls[0];
+        videoIframe2.src = urls[1];
+        videoIframe3.src = urls[2];
+        videoContainer.style.display = 'block';
+        showVideoBtn.style.display = 'none'
+    });
+}
+
+// Hide video and reset iframe
+if (closeVideoBtn) {
+    closeVideoBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        videoContainer.style.display = 'none';
+        videoIframe1.src = "";
+        videoIframe2.src = "";
+        videoIframe3.src = "";
+        showVideoBtn.style.display = 'inline-block';
+    });
+}
+
+// Also hide video if modal closes (preserves prev logic)
+const recipeModal = document.getElementById('recipeModal');
+const modalClose = document.getElementById('closeModal');
+if (modalClose && recipeModal) {
+    modalClose.addEventListener('click', function() {
+        videoContainer.style.display = 'none';
+        videoIframe1.src = "";
+        videoIframe2.src = "";
+        videoIframe3.src = "";
+        showVideoBtn.style.display = 'inline-block';
+    });
+}
+if (recipeModal) {
+    recipeModal.addEventListener('click', function(e) {
+        if (e.target === recipeModal) {
+            videoContainer.style.display = 'none';
+            videoIframe1.src = "";
+            videoIframe2.src = "";
+            videoIframe3.src = "";
+            showVideoBtn.style.display = 'inline-block';
+        }
+    });
+}
+
+
+
+async function IsfavoriteVideo(recipeId, videoURL) {
+    try {
+        const response = await fetch(`/favorites/check/${recipeId}/${videoURL}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+            const body = await response.json().catch(() => ({}));
+            throw new Error(body.error || 'Failed to check favorite');
+        }
+
+        const data = await response.json();
+        return data.isFavorite;
+    } catch (error) {
+        console.error('Check favorite video error:', error);
+        return false;
+    }
+}
