@@ -228,11 +228,13 @@
     border: 1px solid #eee;
     height: 60px;
     position: relative;
+    overflow: visible;
 }
 
 /* MEAL BLOCK */
 .meal-block {
     position: absolute;
+    z-index: 10;
     top: 2px;
     left: 2px;
     right: 2px;
@@ -241,13 +243,13 @@
     border: 1px solid #28a745;
     border-left: 4px solid #28a745;
     border-radius: 6px;
+    box-sizing: border-box;
 
     padding: 4px;
     padding-bottom: 25px;
     font-size: 12px;
 }
 
-/* Maybe for later we can make it editable by clicking */
 .meal-block:hover {
     transform: scale(1.02);
     cursor: pointer;

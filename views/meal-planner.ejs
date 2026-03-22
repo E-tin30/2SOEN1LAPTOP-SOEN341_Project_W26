@@ -162,15 +162,30 @@
 
                   <% 
                     const mealDate = new Date(meal.date + "T00:00:00");
-
                     const daysMap = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
                     const mealDay = daysMap[mealDate.getDay()];
 
-                    const mealHour = parseInt(meal.startTime.split(":")[0]);
+                    const [startH, startM] = meal.startTime.split(":").map(Number);
+                    const [endH, endM] = meal.endTime.split(":").map(Number);
+
+                    const startMinutes = startH * 60 + startM;
+                    const endMinutes = endH * 60 + endM;
+                    const durationMinutes = endMinutes - startMinutes;
+
+                    // Each hour row is 60px tall, so 1 minute = 1px
+                    const top = (startM / 60) * 60;
+                    const height = (durationMinutes / 60) * 60;
                   %>
 
-                  <% if (mealDay === day && mealHour === hour) { %>
-                    <div class="meal-block" data-name="<%= meal.name %>" data-date="<%= meal.date %>" data-start-time="<%= meal.startTime %>" data-end-time="<%= meal.endTime %>">
+                  <% if (mealDay === day && hour === startH) { %>
+                    <div 
+                      class="meal-block"
+                      style="top: <%= top %>px; height: <%= height %>px;"
+                      data-name="<%= meal.name %>"
+                      data-date="<%= meal.date %>"
+                      data-start-time="<%= meal.startTime %>"
+                      data-end-time="<%= meal.endTime %>"
+                    >
                       <div class="RecipeName"><%= meal.name %></div>
                       <div class="MealTime"><%= meal.startTime %> - <%= meal.endTime %></div>
                     </div>
