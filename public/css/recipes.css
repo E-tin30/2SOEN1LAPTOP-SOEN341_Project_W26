@@ -87,6 +87,7 @@
 .modal-tag {
     position: static;
     display: inline-block;
+    margin-top: 15px;
     /* margin: 10px 0 20px 0; */
 }
 
