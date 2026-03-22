@@ -157,6 +157,11 @@
     font-weight: bold;
 }
 
+.week-btn:hover {
+    color: white;
+    background: #1f2937;
+}
+
 /* ICON BUTTON */
 .icon-btn {
     display: flex;
@@ -167,14 +172,10 @@
     height: 36px;
 
     border-radius: 50%;
-    background: #1f2937;
+    /* background: #1f2937; */
     color: white;
 
     transition: 0.2s;
-}
-
-.icon-btn:hover {
-    background: #374151;
 }
 
 /* ================= CALENDAR ================= */
@@ -328,7 +329,10 @@
     top: 8px;
     right: 40px;
     display: flex;
-    gap: 8px;
+}
+
+.card-top-actions form {
+    display: contents;
 }
 
 /* Ingredients list styling */
