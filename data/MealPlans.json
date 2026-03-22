@@ -1,0 +1,61 @@
+[
+  {
+    "username": "test@gmail.com",
+    "meals": [
+      {
+        "name": "Cream Garlic Chicken Pasta",
+        "date": "2026-03-11",
+        "startTime": "18:00",
+        "endTime": "19:00"
+      },
+      {
+        "name": "Spaghetti",
+        "date": "2026-03-12",
+        "startTime": "12:00",
+        "endTime": "13:00"
+      },
+      {
+        "name": "Turkey Chili",
+        "date": "2026-03-16",
+        "startTime": "08:00",
+        "endTime": "09:00"
+      },
+      {
+        "name": "Chicken Burrito",
+        "date": "2026-03-19",
+        "startTime": "09:00",
+        "endTime": "10:00"
+      },
+      {
+        "name": "Creamy Garlic Chicken Pasta",
+        "date": "2026-03-19",
+        "startTime": "19:00",
+        "endTime": "20:00"
+      },
+      {
+        "name": "Classic BLT",
+        "date": "2026-03-20",
+        "startTime": "08:00",
+        "endTime": "08:30"
+      },
+      {
+        "name": "Chicken Alfredo",
+        "date": "2026-03-20",
+        "startTime": "12:00",
+        "endTime": "13:00"
+      },
+      {
+        "name": "Honey Garlic Salmon",
+        "date": "2026-03-25",
+        "startTime": "12:30",
+        "endTime": "13:30"
+      },
+      {
+        "name": "Creamy Garlic Chicken Pasta",
+        "date": "2026-03-26",
+        "startTime": "19:00",
+        "endTime": "20:00"
+      }
+    ]
+  }
+]

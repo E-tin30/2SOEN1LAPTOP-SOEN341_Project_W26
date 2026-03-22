@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4 # installs node.js version 18
         with:
-          node-version: 18
+          node-version: 24
 
       - name: Install dependencies
         run: npm install # install all dependencies needed defined in package-lock.json
@@ -31,3 +31,4 @@ jobs:
         run: | # Run the server and wait 5 seconds to verify that it runs to
           node server.js &
           sleep 5
+          curl -f http://localhost:3000 || exit 1

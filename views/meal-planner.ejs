@@ -1,19 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
     <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/MealPlanner.css" />
+    <script src="/scripts/MealPlanner.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="app-layout">
-    <!-- Sidebar Navigation -->
+  <div class="MealPlannerContainer">
     <%- include('partials/navbar.ejs') %>
 
-    <!-- Main Content -->
+    <% const mealsSafe = typeof meals !== 'undefined' ? meals : []; %>
+
+    <%
+      const prevWeek = new Date(weekStart);
+      prevWeek.setDate(weekStart.getDate() - 7);
+
+      const nextWeek = new Date(weekStart);
+      nextWeek.setDate(weekStart.getDate() + 7);
+
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+    %>
+
     <main class="page-content">
-        <h1>Meal Planner</h1>
+      <h1>Meal Planner</h1>
+      <p>Plan your meals for the week based on your dietary preferences and allergies.</p>
+
+      <% if (typeof flashError !== 'undefined' && flashError) { %>
+        <div id="flash-error-message" style="background-color: #ffe6e6; color: #c62828; padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #c62828; font-weight: bold;">
+          <%= flashError %>
+        </div>
+      <% } %>
+
+      <!-- WEEK NAVIGATION -->
+      <div class="week-nav">
+        <a href="/meal-planner?week=<%= prevWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Previous week">
+            <i data-lucide="chevron-left"></i>
+        </a>
+        <h2 class="week-range">
+          <%= weekStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %>
+          –
+          <%= weekEnd.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %>
+        </h2>
+        <a href="/meal-planner?week=<%= nextWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Next week">
+            <i data-lucide="chevron-right"></i>
+        </a>
+      </div>
+
+      <div class="addMealPlanOverlay" id="AddMealPlanOverlay">
+        <div class="addMealPlanContent"> 
+          <span class="closeAddMealPlanOverlay" onclick="toggleAddMealPlanOverlay('close')">&times;</span>
+          <h2 class="AddMealPlanTitle">Add Recipes to Schedule</h2>
+               
+          <form class="addMealPlanForm" action="/meal-planner" method="post">
+
+            <div class="form-group full">
+              <label>Recipe</label>
+              <select class="FilterSelect" name="recipeID" required>
+                <option disabled selected>Select a recipe</option>
+                <% if (recipes && recipes.length > 0) { %>
+                  <% recipes.forEach(recipe => { %>
+                    <option value="<%= recipe.name %>"><%= recipe.name %></option>
+                  <% }) %>
+                <% } else { %>
+                  <option value="none">No recipes available</option>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Date</label>
+              <input class="FilterSelect" type="date" name="date" required>
+            </div>
+            
+            <div class="time-row">
+                <div class="form-group">
+                  <label>Start Time</label>
+                  <select class="FilterSelect" name="startTime" id="startTime" required></select>
+                </div>
+
+                <div class="form-group">
+                  <label>End Time</label>
+                  <select class="FilterSelect" name="endTime" id="endTime" required></select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="addMealPlanSubmitBtn">Add to Schedule</button>
+            </div>
+
+          </form>
+        </div>  
+      </div>
+
+      <div id="add-meal-plan-container">
+        <button id="add-meal-plan-btn" class="addMealPlanBtn" onclick="toggleAddMealPlanOverlay('open')">Add Meal Plan</button>
+      </div>
+
+      <!-- CALENDAR GRID -->
+      <div id="calendarGrid" class="calendar-grid">
+
+        <!-- HEADER -->
+        <div class="time-column"></div>
+
+        <% const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; %>
+        <% days.forEach(day => { %>
+        <div class="day-header"><%= day %></div>
+        <% }) %>
+
+        <!-- TIME SLOTS -->
+        <% for (let hour = 0; hour < 24; hour++) { %>
+
+          <div class="time-slot"><%= (hour < 10 ? "0" + hour : hour) %>:00</div>
+
+          <% days.forEach(day => { %>
+            <div class="cell">
+
+              <% if (mealsSafe) { %>
+                <% mealsSafe.forEach(meal => { %>
+
+                  <% 
+                    const mealDate = new Date(meal.date + "T00:00:00");
+
+                    const daysMap = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                    const mealDay = daysMap[mealDate.getDay()];
+
+                    const mealHour = parseInt(meal.startTime.split(":")[0]);
+                  %>
+
+                  <% if (mealDay === day && mealHour === hour) { %>
+                    <div class="meal-block">
+                      <div class="RecipeName"><%= meal.name %></div>
+                      <div class="MealTime"><%= meal.startTime %> - <%= meal.endTime %></div>
+                    </div>
+                  <% } %>
+
+                <% }) %>
+              <% } %>
+
+            </div>
+          <% }) %>
+
+        <% } %>
+
+      </div>
+
     </main>
   </div>
 </body>
