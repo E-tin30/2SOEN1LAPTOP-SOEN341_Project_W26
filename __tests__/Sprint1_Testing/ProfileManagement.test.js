@@ -232,11 +232,11 @@ describe('Profile Management - POST /api/save-profile', () => {
     // Back up original preferences before all tests, restore after all tests
     let originalPrefs;
 
-    beforeAll(() => {
+    beforeEach(() => {
         originalPrefs = fs.readFileSync(PREFERENCES_FILE, 'utf8');
     });
 
-    afterAll(() => {
+    afterEach(() => {
         fs.writeFileSync(PREFERENCES_FILE, originalPrefs); // restore original data
     });
 
@@ -304,8 +304,8 @@ describe('Profile Management - POST /api/save-profile', () => {
 
 });
 
-// Clean up test users from users.json after all tests
-afterAll(() => {
+// Clean up test users from users.json after each tests
+afterEach(() => {
     const USERS_FILE = path.join(__dirname, '../../data/users.json');
     const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
     const cleaned = users.filter(u => !u.username.startsWith("profileTestUser"));

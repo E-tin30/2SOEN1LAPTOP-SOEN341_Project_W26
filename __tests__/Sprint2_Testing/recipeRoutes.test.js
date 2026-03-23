@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const request = require("supertest");
-const app = require("../server.js");
+const app = require("../../server.js");
 
-const RECIPES_FILE_PATH = path.join(__dirname, "../data/test-recipes.json");
+const RECIPES_FILE_PATH = path.join(__dirname, "../../data/recipes.json");
 
 const originalData = fs.readFileSync(RECIPES_FILE_PATH, "utf8");
 
@@ -129,6 +129,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
         const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        expect(recipe).toBeDefined();
         const id = recipe.id;
 
         const updateRes = await agent
@@ -174,6 +175,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
         const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        expect(recipe).toBeDefined();
         const id = recipe.id;
         
         const before = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
@@ -229,6 +231,7 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
         const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        expect(recipe).toBeDefined();
         const id = recipe.id;
 
         // Delete it
