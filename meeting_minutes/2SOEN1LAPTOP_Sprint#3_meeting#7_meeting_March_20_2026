@@ -1,0 +1,29 @@
+Team Meeting 4:
+
+Date: March 10th, 2026 at 2:45 pm 
+
+Participants:
+Chrisjan Alejandro
+Ethan Elkaim
+Martin Miskovski
+Mark Urbano
+Paul-Phillipe Kadio Ehui
+Kepler Paul-Émile
+
+Topics:
+
+- What was done from last meeting:
+- Meal planner UI
+- Add recipes to meal planner UI
+- Add recipes to meal planner backend
+- Prevent duplicates + frontend validation
+- Unit tests
+- Youtube tutorials
+
+To-do:
+- Create Weekly Planner UI grid layout.
+- Implement edit and remove meals from planner.
+- Youtube tutorials multiple videos + favorite youtube videos + dedicated page 
+- Continue testing and integration of backend and frontend features.
+
+#1 hour / 60 minutes
