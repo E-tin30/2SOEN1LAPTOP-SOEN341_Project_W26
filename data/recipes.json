@@ -1,77 +1,5 @@
 [
   {
-    "id": "1744",
-    "username": "t@mail.n",
-    "name": "Garlic pasta",
-    "ingredients": [
-      "garlic",
-      "pasta"
-    ],
-    "prepTime": "23",
-    "prepSteps": "fgbhbn",
-    "cost": "$12",
-    "tag": "Vegan",
-    "difficulty": "medium",
-    "videoURL": "https://www.youtube.com/embed/WwSJhSpdnr0",
-    "videoURL_1": "https://www.youtube.com/embed/WwSJhSpdnr0",
-    "videoURL_2": "https://www.youtube.com/embed/mTySj6rw8-w",
-    "videoURL_3": "https://www.youtube.com/embed/AK0dcuydkiM"
-  },
-  {
-    "id": "6714",
-    "username": "t@mail.n",
-    "name": "Yassa chicken",
-    "ingredients": [
-      "Mustard",
-      "onion",
-      "garlic",
-      "rice"
-    ],
-    "prepTime": "60",
-    "prepSteps": "wertyhj",
-    "cost": "$12",
-    "tag": "Protein+",
-    "difficulty": "medium",
-    "videoURL": "https://www.youtube.com/embed/usf7222TKR8",
-    "videoURL_1": "https://www.youtube.com/embed/usf7222TKR8",
-    "videoURL_2": "https://www.youtube.com/embed/yT1mdPyiqdo",
-    "videoURL_3": "https://www.youtube.com/embed/lc-dDsHteKU"
-  },
-  {
-    "id": "7774",
-    "username": "t@mail.n",
-    "name": "Tomato chicken soup",
-    "ingredients": [
-      "tomato",
-      "chicken"
-    ],
-    "prepTime": "25",
-    "prepSteps": "qergthyjg",
-    "cost": "$15",
-    "tag": "Spicy",
-    "difficulty": "hard",
-    "videoURL_1": "https://www.youtube.com/embed/HvjtACSHH1M",
-    "videoURL_2": "https://www.youtube.com/embed/nXVEfiSpgW0",
-    "videoURL_3": "https://www.youtube.com/embed/bVvcNVS4xFQ"
-  },
-  {
-    "id": "4986",
-    "username": "t@mail.n",
-    "name": "Fried rice",
-    "ingredients": [
-      "rice",
-      "egg"
-    ],
-    "prepTime": "2",
-    "prepSteps": "rftgyhujikl",
-    "cost": "$12",
-    "tag": "Vegetarian",
-    "difficulty": "medium",
-    "videoURL_1": "https://www.youtube.com/embed/ZjEL_bLSRlY",
-    "videoURL_2": "https://www.youtube.com/embed/_m6mFdYA_Bk",
-    "videoURL_3": "https://www.youtube.com/embed/8ILZMMTpRug"
-  },
-  {
     "id": "1001",
     "username": "test@gmail.com",
     "name": "Creamy Garlic Chicken Pasta",
@@ -91,8 +19,8 @@
     "tag": "Protein+",
     "difficulty": "easy",
     "videoURL_1": "https://www.youtube.com/embed/qI1OOGZ4AuA",
-    "videoURL_2": "https://www.youtube.com/embed/Ang9BXfKVX0",
-    "videoURL_3": "https://www.youtube.com/embed/5x3NBix4mic"
+    "videoURL_2": "https://www.youtube.com/embed/HzUUKh-iprw",
+    "videoURL_3": "https://www.youtube.com/embed/Ang9BXfKVX0"
   },
   {
     "id": "1711",
@@ -111,8 +39,8 @@
     "tag": "Dinner",
     "difficulty": "easy",
     "videoURL_1": "https://www.youtube.com/embed/WwSJhSpdnr0",
-    "videoURL_2": "https://www.youtube.com/embed/Gdv82vmzSFU",
-    "videoURL_3": "https://www.youtube.com/embed/KLdZ8FyZ8Ho"
+    "videoURL_2": "https://www.youtube.com/embed/zP_kNvR4Jqs",
+    "videoURL_3": "https://www.youtube.com/embed/MQVjTtjF0BY"
   },
   {
     "id": "1712",
@@ -131,9 +59,9 @@
     "cost": "$20",
     "tag": "Healthy",
     "difficulty": "medium",
-    "videoURL_1": "https://www.youtube.com/embed/h6EaCv-lLQY",
-    "videoURL_2": "https://www.youtube.com/embed/rR8Nm5aok0Y",
-    "videoURL_3": "https://www.youtube.com/embed/nY4VaHXvruk"
+    "videoURL_1": "https://www.youtube.com/embed/4jAR-6hBsss",
+    "videoURL_2": "https://www.youtube.com/embed/nt9CVDHh38Q",
+    "videoURL_3": "https://www.youtube.com/embed/5dybdeTylz0"
   },
   {
     "id": "1713",
@@ -192,8 +120,8 @@
     "cost": "$",
     "tag": "Breakfast",
     "difficulty": "easy",
-    "videoURL_1": "https://www.youtube.com/embed/GeVFpgEDjCg",
-    "videoURL_2": "https://www.youtube.com/embed/NbGPOTDf6Jc",
+    "videoURL_1": "https://www.youtube.com/embed/NbGPOTDf6Jc",
+    "videoURL_2": "https://www.youtube.com/embed/GeVFpgEDjCg",
     "videoURL_3": "https://www.youtube.com/embed/CjbMzuo04n4"
   },
   {
@@ -210,7 +138,7 @@
     "difficulty": "easy",
     "videoURL_1": "https://www.youtube.com/embed/KhsozGAECz4",
     "videoURL_2": "https://www.youtube.com/embed/jtwSAd4La2Q",
-    "videoURL_3": "https://www.youtube.com/embed/YZU2pNtT9kw"
+    "videoURL_3": "https://www.youtube.com/embed/m45wHFgjrpk"
   },
   {
     "id": "4827",
@@ -246,7 +174,7 @@
     "prepTime": "8 mins",
     "prepSteps": "Slice tomatoes and mozzarella. Layer with basil. Drizzle olive oil and season.",
     "cost": "$9",
-    "tag": "Healthy",
+    "tag": "Vegan",
     "difficulty": "easy",
     "videoURL_1": "https://www.youtube.com/embed/gOcfUgd4ekA",
     "videoURL_2": "https://www.youtube.com/embed/V4Cv_hVwT00",
@@ -310,7 +238,7 @@
     "difficulty": "medium",
     "videoURL_1": "https://www.youtube.com/embed/P4xuyEq37nE",
     "videoURL_2": "https://www.youtube.com/embed/vAziD9FWF08",
-    "videoURL_3": "https://www.youtube.com/embed/x-eH2VBzjlc"
+    "videoURL_3": "https://www.youtube.com/embed/CMefj_Lcock"
   },
   {
     "id": "5578",
@@ -349,8 +277,8 @@
     "tag": "Lunch",
     "difficulty": "easy",
     "videoURL_1": "https://www.youtube.com/embed/9JBCShzrWhI",
-    "videoURL_2": "https://www.youtube.com/embed/VFE28sFcD8M",
-    "videoURL_3": "https://www.youtube.com/embed/KTV2VzFaXsg"
+    "videoURL_2": "https://www.youtube.com/embed/KTV2VzFaXsg",
+    "videoURL_3": "https://www.youtube.com/embed/qaHWDmFtBl0"
   },
   {
     "id": "4329",
@@ -367,9 +295,9 @@
     "cost": "$5",
     "tag": "Protein+",
     "difficulty": "easy",
-    "videoURL_1": "https://www.youtube.com/embed/F3KMMtA0rB0",
+    "videoURL_1": "https://www.youtube.com/embed/vamQNX7Ns-c",
     "videoURL_2": "https://www.youtube.com/embed/TMXZO4REf0M",
-    "videoURL_3": "https://www.youtube.com/embed/opXustyrkqQ"
+    "videoURL_3": "https://www.youtube.com/embed/F3KMMtA0rB0"
   },
   {
     "id": "6895",
