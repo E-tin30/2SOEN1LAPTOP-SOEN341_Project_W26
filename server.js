@@ -36,7 +36,10 @@ app.use("/", profileRoutes);
 app.use("/", recipeRoutes);
 app.use("/", mealPlannerRoutes);
 
-startRecipeWatcher();
+if (process.env.NODE_ENV !== "test") {
+  startRecipeWatcher();
+}
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
