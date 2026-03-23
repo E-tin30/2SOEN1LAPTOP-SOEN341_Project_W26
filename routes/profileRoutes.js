@@ -24,8 +24,6 @@ router.get("/profile", requireAuth, (req, res) => {
 router.post("/api/save-profile", requireAuth, (req, res) => {
     const { preference, allergies } = req.body; 
 
-    console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
-
     let allPrefs = getPreferences();
 
     // Find and update the user

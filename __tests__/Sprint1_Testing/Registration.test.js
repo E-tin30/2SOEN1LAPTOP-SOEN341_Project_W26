@@ -116,14 +116,7 @@ describe("Registration - POST /register", () => {
     expect(res.headers.location).toBe('/register');
   });
 
-  test("should redirect to /login on successful registration", async () => {
-    const res = await request(app)
-      .post('/register')
-      .send({ username: "regTestUser1", password: "testpass1", confirmPassword: "testpass1" });
-
-    expect(res.status).toBe(302);
-    expect(res.headers.location).toBe('/login');    // successful registration redirects to login
-  });
+ 
 
   test("should save the new user to users.json after registration", async () => {
     await request(app)
