@@ -31,10 +31,12 @@ describe("Create (POST) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
-        }); // login so agent can create recipes
+        });
+
+        expect(loginRes.statusCode).toBe(302);
 
         const before = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
 
@@ -67,10 +69,12 @@ describe("Create (POST) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
-        }); // login so agent can create recipes
+        });
+
+        expect(loginRes.statusCode).toBe(302);
 
         const before = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
 
@@ -110,10 +114,12 @@ describe("Read (GET) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
-        }); // login so agent can access recipes page
+        });
+
+        expect(loginRes.statusCode).toBe(302);
 
         const res = await agent.get("/recipes");
         expect(res.statusCode).toBe(200);
@@ -138,10 +144,12 @@ describe("Update (PUT) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
-        }); // login so agent can edit recipes
+        });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipe to edit
         await agent.post("/recipes").send({
@@ -190,10 +198,12 @@ describe("Update (PUT) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
-        }); // login so agent can edit recipes
+        });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipe to edit
         await agent.post("/recipes").send({
@@ -250,10 +260,12 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipe to delete
         await agent.post("/recipes").send({
@@ -296,10 +308,12 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
+
+        expect(loginRes.statusCode).toBe(302);
 
         const before = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
 
@@ -330,10 +344,12 @@ describe("Search Recipe Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipes
         await agent.post("/recipes").send({
@@ -378,10 +394,12 @@ describe("Filter Recipe Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipes
         await agent.post("/recipes").send({
@@ -421,10 +439,12 @@ describe("Filter Recipe Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipes
         await agent.post("/recipes").send({
@@ -464,10 +484,12 @@ describe("Filter Recipe Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipes
         await agent.post("/recipes").send({
@@ -507,10 +529,12 @@ describe("Filter Recipe Testing", () => {
             confirmPassword: "test12345"
         });
 
-        await agent.post("/login").send({
+        const loginRes = await agent.post("/login").send({
             username: "jesttest@gmail.com",
             password: "test12345"
         });
+
+        expect(loginRes.statusCode).toBe(302);
 
         // Create recipes
         await agent.post("/recipes").send({
