@@ -141,3 +141,6 @@ async function registerUser(users, username, password){
 }
 
 module.exports = router;
+module.exports.validateCredentials = validateCredentials;
+module.exports.isDuplicate = isDuplicate;
+module.exports.registerUser = registerUser;

@@ -24,18 +24,10 @@ router.get("/profile", requireAuth, (req, res) => {
 router.post("/api/save-profile", requireAuth, (req, res) => {
     const { preference, allergies } = req.body; 
 
-    console.log(`Saving for ${req.session.username}:`, { preference, allergies }); // terminal to see if this prints
-
     let allPrefs = getPreferences();
 
     // Find and update the user
-    const existingIndex = allPrefs.findIndex(p => p.username === req.session.username);
-    if (existingIndex !== -1) {
-        allPrefs[existingIndex].preference = preference;
-        allPrefs[existingIndex].allergies = allergies;
-    } else {
-        allPrefs.push({ username: req.session.username, preference, allergies });
-    }
+    allPrefs = updateUserPreferences(allPrefs, req.session.username, preference, allergies);
 
     savePreferences(allPrefs);
     res.json({ status: "success" });
@@ -55,4 +47,25 @@ function savePreferences(data) {
     fs.writeFileSync(PREFERENCES_FILE, JSON.stringify(data, null, 2)); // save data
 }
 
+// Helper function to find a user's preferences from the array
+function findUserPreference(allPrefs, username) {
+    return allPrefs.find(p => p.username === username) || null;
+}
+
+// Helper function to update or add user preferences in the array
+function updateUserPreferences(allPrefs, username, preference, allergies) {
+    const existingIndex = allPrefs.findIndex(p => p.username === username);
+    if (existingIndex !== -1) {
+        allPrefs[existingIndex].preference = preference;
+        allPrefs[existingIndex].allergies = allergies;
+    } else {
+        allPrefs.push({ username, preference, allergies });
+    }
+    return allPrefs;
+}
+
 module.exports = router;
+module.exports.getPreferences = getPreferences; // Exporting for use in other routes (e.g., mealRoutes.js)
+module.exports.savePreferences = savePreferences; // Exporting for use in other routes (e.g., mealRoutes.js)
+module.exports.updateUserPreferences = updateUserPreferences;
+module.exports.findUserPreference = findUserPreference;

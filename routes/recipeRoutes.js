@@ -5,7 +5,10 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const requireAuth = require('../middleware/requireAuth');
 
-const RECIPES_FILE = path.join(__dirname, '../data/recipes.json');
+const RECIPES_FILE = process.env.NODE_ENV === "test"
+    ? path.join(__dirname, "../data/test-recipes.json")
+    : path.join(__dirname, "../data/recipes.json");
+
 const FAVORITES_FILE = path.join(__dirname, '../data/favorite_recipe.json');
 
 // Show all recipes
@@ -61,22 +64,6 @@ router.get('/recipes', requireAuth, (req, res) => {
         dietary,
         searchQuery, // Pass this to the frontend to trigger the Return button
     });
-});
-
-// Show create form
-router.get('/recipes/create', requireAuth, (req, res) => {
-    res.render('create-recipe', { title: 'Create Recipes', currentPage: 'create-recipe', username: req.session.username });
-});
-
-// Handle create
-router.post('/recipes/create', requireAuth, (req, res) => {
-    // save recipe logic
-});
-
-// Show edit form
-router.get('/recipes/:id/edit', requireAuth, (req, res) => {
-    // load recipe
-    res.render('edit-recipe', { title: 'Edit Recipes', currentPage: 'edit-recipe', username: req.session.username }); // add id later when implemented
 });
 
 // Handle update
