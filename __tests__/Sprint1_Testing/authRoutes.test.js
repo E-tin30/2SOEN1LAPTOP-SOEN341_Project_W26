@@ -6,6 +6,17 @@ const { validateCredentials, isDuplicate } = require('../../routes/authRoutes');
 
 const USERS_FILE_PATH = path.join(__dirname, "../../data/users.json");
 
+// Back up original users before each tests, restore after each tests
+let originalUsers;
+
+beforeEach(() => {
+    originalUsers = fs.readFileSync(USERS_FILE_PATH, 'utf8');
+});
+
+afterEach(() => {
+    fs.writeFileSync(USERS_FILE_PATH, originalUsers);  // restore original users data
+});
+
 describe("Login Route Testing", () => {
 
     test("GET /login returns page", async () => {
@@ -15,8 +26,15 @@ describe("Login Route Testing", () => {
 
     test("GET / returns home page if logged in", async () => {
         const agent = request.agent(app); // create agent
+
+        await request(app).post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         const login = await agent.post("/login").send({ 
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // simulate agent logging in (using user+password from users.json)
 
@@ -50,8 +68,14 @@ describe("Logout Route Testing", () => {
     test("POST /logout ends session and logs out user", async() => {
         const agent = request.agent(app); // create agent
 
+        await request(app).post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({ 
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // simulate agent logging in (using user+password from users.json)
 
@@ -139,17 +163,6 @@ describe("Registration - GET /register", () => {
 // ==================== POST /register ====================
 describe("Registration - POST /register", () => {
 
-  // Back up original users before each tests, restore after each tests
-  let originalUsers;
-
-  beforeEach(() => {
-    originalUsers = fs.readFileSync(USERS_FILE_PATH, 'utf8');
-  });
-
-  afterEach(() => {
-    fs.writeFileSync(USERS_FILE_PATH, originalUsers);  // restore original users data
-  });
-
   test("should redirect to /register when fields are missing", async () => {
     const res = await request(app)
       .post('/register')
@@ -180,7 +193,7 @@ describe("Registration - POST /register", () => {
  
 
   test("should save the new user to users.json after registration", async () => {
-    await request(app)
+    const res = await request(app)
       .post('/register')
       .send({ username: "regTestUser2", password: "testpass1", confirmPassword: "testpass1" });
 
