@@ -5,9 +5,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const requireAuth = require('../middleware/requireAuth');
 
-const RECIPES_FILE = process.env.NODE_ENV === "test"
-    ? path.join(__dirname, "../data/test-recipes.json")
-    : path.join(__dirname, "../data/recipes.json");
+const RECIPES_FILE = path.join(__dirname, "../data/recipes.json");
 
 const FAVORITES_FILE = path.join(__dirname, '../data/favorite_recipe.json');
 
