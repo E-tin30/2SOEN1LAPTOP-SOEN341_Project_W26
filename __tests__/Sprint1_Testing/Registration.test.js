@@ -1,5 +1,11 @@
 // Registration Testing function
 const { validateCredentials, isDuplicate } = require('../../routes/authRoutes');    // import the functions to test
+const request = require('supertest');
+const app = require('../../server');
+const fs = require('fs');
+const path = require('path');
+
+const USERS_FILE = path.join(__dirname, '../../data/users.json');
 
 describe("Registration - validateCredentials", () => {
 
@@ -55,6 +61,96 @@ describe("Registration - isDuplicate", () => {
   test("should return false if username is new", () => {
     const result = isDuplicate(existingUsers, "newuser");
     expect(result).toBe(false);
+  });
+
+});
+
+// ==================== GET /register ====================
+describe("Registration - GET /register", () => {
+
+  test("should return 200 and render the register page", async () => {
+    const res = await request(app).get('/register');
+    expect(res.status).toBe(200);   // 200 = OK, page rendered
+  });
+
+});
+
+// ==================== POST /register ====================
+describe("Registration - POST /register", () => {
+
+  // Back up original users before all tests, restore after all tests
+  let originalUsers;
+
+  beforeAll(() => {
+    originalUsers = fs.readFileSync(USERS_FILE, 'utf8');
+  });
+
+  afterAll(() => {
+    fs.writeFileSync(USERS_FILE, originalUsers);  // restore original users data
+  });
+
+  test("should redirect to /register when fields are missing", async () => {
+    const res = await request(app)
+      .post('/register')
+      .send({ username: "", password: "hello1", confirmPassword: "hello1" });
+
+    expect(res.status).toBe(302);                   // 302 = redirect
+    expect(res.headers.location).toBe('/register');  // redirects back to register page
+  });
+
+  test("should redirect to /register when passwords don't match", async () => {
+    const res = await request(app)
+      .post('/register')
+      .send({ username: "testUser", password: "hello1", confirmPassword: "hello2" });
+
+    expect(res.status).toBe(302);
+    expect(res.headers.location).toBe('/register');
+  });
+
+  test("should redirect to /register when password rules are not followed", async () => {
+    const res = await request(app)
+      .post('/register')
+      .send({ username: "testUser", password: "hi", confirmPassword: "hi" });   // too short, no digit
+
+    expect(res.status).toBe(302);
+    expect(res.headers.location).toBe('/register');
+  });
+
+  test("should redirect to /login on successful registration", async () => {
+    const res = await request(app)
+      .post('/register')
+      .send({ username: "regTestUser1", password: "testpass1", confirmPassword: "testpass1" });
+
+    expect(res.status).toBe(302);
+    expect(res.headers.location).toBe('/login');    // successful registration redirects to login
+  });
+
+  test("should save the new user to users.json after registration", async () => {
+    await request(app)
+      .post('/register')
+      .send({ username: "regTestUser2", password: "testpass1", confirmPassword: "testpass1" });
+
+    // Read the file and verify the user was saved
+    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+    const newUser = users.find(u => u.username === "regTestUser2");
+
+    expect(newUser).toBeDefined();                  // user exists in file
+    expect(newUser.password).not.toBe("testpass1"); // password should be hashed, not plain text
+  });
+
+  test("should redirect to /register if username already exists", async () => {
+    // Register first time
+    await request(app)
+      .post('/register')
+      .send({ username: "regTestUser3", password: "testpass1", confirmPassword: "testpass1" });
+
+    // Try registering again with the same username
+    const res = await request(app)
+      .post('/register')
+      .send({ username: "regTestUser3", password: "testpass1", confirmPassword: "testpass1" });
+
+    expect(res.status).toBe(302);
+    expect(res.headers.location).toBe('/register');  // duplicate username redirects back
   });
 
 });
