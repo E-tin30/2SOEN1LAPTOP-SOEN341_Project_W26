@@ -4,15 +4,19 @@ const request = require("supertest");
 const app = require("../../server.js");
 
 const RECIPES_FILE_PATH = path.join(__dirname, "../../data/recipes.json");
+const USERS_FILE_PATH = path.join(__dirname, "../../data/users.json");
 
 const originalData = fs.readFileSync(RECIPES_FILE_PATH, "utf8");
+const originalUsers = fs.readFileSync(USERS_FILE_PATH, "utf8");
 
 beforeEach(() => {
     fs.writeFileSync(RECIPES_FILE_PATH, "[]");
+    fs.writeFileSync(USERS_FILE_PATH, "[]");
 }); // this will run before each test and clear recipes.json
 
 afterAll(() => {
     fs.writeFileSync(RECIPES_FILE_PATH, originalData);
+    fs.writeFileSync(USERS_FILE_PATH, originalUsers);
 }); // this will run after each test and put back the original data
 
 // Create (POST)
@@ -21,8 +25,14 @@ describe("Create (POST) Recipe Route Testing", () => {
     test("POST /recipes creates recipe with valid data", async () => {
         const agent = request.agent(app); // create agent
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can create recipes
 
@@ -51,8 +61,14 @@ describe("Create (POST) Recipe Route Testing", () => {
     test("POST /recipes does not create recipe with invalid data", async () => {
         const agent = request.agent(app); // create agent
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can create recipes
 
@@ -88,8 +104,14 @@ describe("Read (GET) Recipe Route Testing", () => {
     test("GET /recipes returns page if logged in", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can access recipes page
 
@@ -110,8 +132,14 @@ describe("Update (PUT) Recipe Route Testing", () => {
     test("Update works with valid data", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
 
@@ -128,7 +156,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "jesttest@gmail.com" && r.name === "Original Recipe");
         expect(recipe).toBeDefined();
         const id = recipe.id;
 
@@ -156,8 +184,14 @@ describe("Update (PUT) Recipe Route Testing", () => {
     test("Update fails with missing required fields", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
 
@@ -174,7 +208,7 @@ describe("Update (PUT) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "jesttest@gmail.com" && r.name === "Original Recipe");
         expect(recipe).toBeDefined();
         const id = recipe.id;
         
@@ -210,8 +244,14 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
     test("Delete existing recipe works", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
 
@@ -230,7 +270,7 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
 
         // Get existing recipe
         const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
-        const recipe = [...recipes].reverse().find(r => r.username === "test@gmail.com" && r.name === "Original Recipe");
+        const recipe = [...recipes].reverse().find(r => r.username === "jesttest@gmail.com" && r.name === "Original Recipe");
         expect(recipe).toBeDefined();
         const id = recipe.id;
 
@@ -250,8 +290,14 @@ describe("Delete (DELETE) Recipe Route Testing", () => {
     test("Delete does nothing if id does not exist", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         }); // login so agent can edit recipes
 
@@ -278,8 +324,14 @@ describe("Search Recipe Testing", () => {
     test("Search returns matching recipes only", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         });
 
@@ -320,8 +372,14 @@ describe("Filter Recipe Testing", () => {
     test("Filter by time returns correct recipes", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         });
 
@@ -357,8 +415,14 @@ describe("Filter Recipe Testing", () => {
     test("Filter returns only easy recipes", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         });
 
@@ -394,8 +458,14 @@ describe("Filter Recipe Testing", () => {
     test("Filter returns only low cost recipes", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         });
 
@@ -431,8 +501,14 @@ describe("Filter Recipe Testing", () => {
     test("Filter by tag returns correct recipes", async () => {
         const agent = request.agent(app);
 
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
         await agent.post("/login").send({
-            username: "test@gmail.com",
+            username: "jesttest@gmail.com",
             password: "test12345"
         });
 
