@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const requireAuth = require('../middleware/requireAuth');
 
 const RECIPES_FILE = process.env.NODE_ENV === "test"
     ? path.join(__dirname, "../data/test-recipes.json")
     : path.join(__dirname, "../data/recipes.json");
+
+const FAVORITES_FILE = path.join(__dirname, '../data/favorite_recipe.json');
 
 // Show all recipes
 router.get('/recipes', requireAuth, (req, res) => {
@@ -112,7 +115,8 @@ router.put('/recipes/:id', requireAuth, (req, res) => {
         prepSteps: Steps.trim(),
         cost: formattedCost,
         tag: tags.trim(),
-        difficulty: difficulty.trim()
+        difficulty: difficulty.trim(),
+        videoURL: null // TODO: Add video URL later 
     };
     saveRecipes(allRecipes);
     req.session.flashMessage = "Recipe updated successfully!";
@@ -137,6 +141,18 @@ router.delete('/recipes/:id', requireAuth, (req, res) => { // delete recipe from
     }
 
     saveRecipes(filteredRecipes);
+
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            console.error("Error reading favorites file:", err);
+            return res.redirect('/recipes');
+        }
+    fs.writeFile(FAVORITES_FILE, JSON.stringify((data ? JSON.parse(data) : []).filter(fav => fav.id !== id), null, 2), 'utf8', (writeErr) => {
+        if (writeErr) {
+            console.error("Error updating favorites file:", writeErr);
+        }
+        });
+    });
 
     res.redirect('/recipes');
 });
@@ -194,7 +210,8 @@ router.post('/recipes', (req, res) => {
         prepSteps: Steps.trim(),     
         cost: formattedCost,
         tag: tags.trim(),
-        difficulty: difficulty.trim()        
+        difficulty: difficulty.trim(),  
+        videoURL: null // TODO: Add video URL later 
     };
     // Save to JSON file
     fs.readFile(RECIPES_FILE, 'utf8', (err, data) => {
@@ -219,6 +236,127 @@ router.post('/recipes', (req, res) => {
         } catch (parseErr) {
             req.session.flashError = "Server processing error.";
             res.redirect('/recipes');
+        }
+    });
+});
+
+router.get('/recipes/:id/video', (req, res) => {
+    console.log("GETTING VIDEO URL");
+    const id = req.params.id;
+    const recipe = getRecipes().find(r => r.id === id);
+    res.json({ videoURLs: [recipe.videoURL_1, recipe.videoURL_2, recipe.videoURL_3] });
+});
+
+router.post('/recipes/:id/video/favorites', requireAuth, (req, res) => {
+
+    const id = req.params.id;
+    const { videoURL } = req.body;
+    const username = req.session.username;
+
+    if (!videoURL || typeof videoURL !== 'string' || !videoURL.trim()) {
+        return res.status(400).json({ error: "Missing or invalid videoURL." });
+    }
+ 
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            return res.status(500).json({ error: "Could not read favorites." });
+        }
+
+        let favorites = [];
+        if (data) {
+            try {
+                favorites = JSON.parse(data);
+            } catch (parseErr) {
+                return res.status(500).json({ error: "Server processing error." });
+            }
+        }
+
+        const existing = favorites.some(fav => fav.username === username && fav.id === id && fav.videoURL === videoURL);
+        if (existing) {
+            return res.status(409).json({ error: "Video already in favorites." });
+        }
+
+        favorites.push({ username, id, videoURL });
+
+        fs.writeFile(FAVORITES_FILE, JSON.stringify(favorites, null, 2), 'utf8', (writeErr) => {
+            if (writeErr) {
+                return res.status(500).json({ error: "Could not save favorite." });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+router.get('/favorites/check/:id', requireAuth, (req, res) => {
+    console.log("CHECKING IF VIDEO IS FAVORITE");
+    const id = req.params.id;
+    const videoURL = req.query.videoURL;
+    const username = req.session.username;
+    console.log("Received check for recipe ID:", id, "videoURL:", videoURL, "user:", username);
+
+    if (!videoURL || typeof videoURL !== 'string' || !videoURL.trim()) {
+        return res.status(400).json({ error: "Missing or invalid videoURL." });
+    }
+
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Could not read favorites." });
+        }
+        try {
+            let favorites = [];
+            if (data) favorites = JSON.parse(data);
+            const isFavorite = favorites.some(fav => fav.username === username && fav.id === id && fav.videoURL === videoURL);
+            res.json({ isFavorite });
+        } catch (parseErr) {
+            return res.status(500).json({ error: "Server processing error." });
+        }
+    });
+});
+
+
+
+router.get('/favorites', requireAuth, (req, res) => {
+    const username = req.session.username;
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Could not read favorites." });
+        }
+        try {
+            let favorites = [];
+            if (data) favorites = JSON.parse(data);
+            const userFavorites = favorites.filter(fav => fav.username === username);
+            res.json({ favorites: userFavorites });
+        } catch (parseErr) {
+            return res.status(500).json({ error: "Server processing error." });
+        }
+    });
+});
+
+router.delete('/favorites/:id', requireAuth, (req, res) => {
+    console.log("REMOVING VIDEO FROM FAVORITES");
+    const username = req.session.username;
+    const id = req.params.id;
+    const { videoURL } = req.body;
+    console.log("Received unfavorite request for recipe ID:", id, "videoURL:", videoURL, "user:", username);
+    if (!videoURL || typeof videoURL !== 'string' || !videoURL.trim()) {
+        return res.status(400).json({ error: "Missing or invalid videoURL." });
+    }
+    fs.readFile(FAVORITES_FILE, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Could not read favorites." });
+        }
+        try {
+            let favorites = [];
+            if (data) favorites = JSON.parse(data);
+            const updatedFavorites = favorites.filter(fav => !(fav.username === username && fav.id === id && fav.videoURL === videoURL));
+            fs.writeFile(FAVORITES_FILE, JSON.stringify(updatedFavorites, null, 2), 'utf8', (writeErr) => {
+                if (writeErr) {
+                    return res.status(500).json({ error: "Could not update favorites." });
+                }
+                res.json({ success: true });
+            });
+        } catch (parseErr) {
+            return res.status(500).json({ error: "Server processing error." });
         }
     });
 });

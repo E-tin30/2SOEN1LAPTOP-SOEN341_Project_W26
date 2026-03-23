@@ -1,113 +1,370 @@
-.MealPlanContainer{
- 
-   flex-direction: column;   
-   gap: 10px;                
-}
-
-.CardContainer{
+/* ================= CONTAINER ================= */
+.MealPlanerContainer {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;                
-             
-}
-.Card{
-    border: 0.2px solid black;
-    margin: 10px 0;          
-    padding: 10px;
-    padding-left: 10px;
-    border-radius: 15px;
-    width: auto;
-    background-color: #f0f8ff;
-    min-width: 150px;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.CardTitle{
-    font-size: 10px; 
-    font-style: italic; 
-    color: #ffffff;          
+/* ================= BUTTON ================= */
+.addMealPlanBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.addMealPlanBtn:hover {
+    background-color: darkgreen;
+    transform: translateY(-2px);
+}
+
+/* ================= OVERLAY ================= */
+.addMealPlanOverlay {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+
+    backdrop-filter: blur(4px);
+    background-color: rgba(0,0,0,0.4);
+
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================= MODAL ================= */
+.addMealPlanContent {
+    position: relative;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.AddMealPlanTitle {
+    margin-bottom: 15px;
+}
+
+/* CLOSE BUTTON */
+.closeAddMealPlanOverlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
     font-weight: bold;
-    background-color: #1f2937;
-    color: #f0f8ff;              
-    display: inline-block;     
-    padding: 4px 12px;           
-    margin: 0 0 10px 0;     
-    
-    white-space: nowrap;        
-    border-radius: 4px;   
-    max-width: 100%;
+    cursor: pointer;
+    color: red;
 }
 
-.RecipeCard{
-    border: 1px solid black;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 15px;
-    font-size: 10px;
+/* ================= FORM ================= */
+.addMealPlanForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* GROUP */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full {
+    grid-column: span 2;
+}
+
+.form-group.time {
+    grid-column: span 2;
+}
+
+.time-row {
+    grid-column: span 2;
+    display: flex;
+    gap: 10px;
+}
+
+.time-row .form-group {
+    flex: 1;
+    min-width: 0;
+}
+
+/* LABEL */
+.form-group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* INPUTS */
+.FilterSelect {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    appearance: none;
     background-color: #f9fafb;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    display: block;
-    width: fit-content;
-
+    border: 1px solid #d1d5db;
+    font-weight: 500;
 }
 
-.RecipeDetails{
-    font-size: 8px;           
+.FilterSelect:focus {
+    outline: none;
+    border-color: #1f2937;
+    box-shadow: 0 0 0 2px rgba(31,41,55,0.2);
+}
+
+/* BUTTON AREA */
+.form-actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* SUBMIT BUTTON */
+.addMealPlanSubmitBtn {
+    background: #1f2937;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.addMealPlanSubmitBtn:hover {
+    background: #374151;
+}
+
+/* ================= WEEK NAV ================= */
+.week-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.week-range {
     font-weight: bold;
-    background-color: #fffde7;
-    color: black;              
-    display: inline-block;     
-    color: #d32f2f;
-    padding: 4px 8px;           
-    margin: 0 0 10px 0;         
-    
-    border-radius: 4px;   
-    max-width: 100%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.RecipeName{
-    font-size: 9px;           
+.week-btn:hover {
+    color: white;
+    background: #1f2937;
+}
+
+/* ICON BUTTON */
+.icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+    /* background: #1f2937; */
+    color: white;
+
+    transition: 0.2s;
+}
+
+/* ================= CALENDAR ================= */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    border: 1px solid #ccc;
+    margin-top: 20px;
+
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* HEADERS */
+.day-header {
+    text-align: center;
     font-weight: bold;
-  
-    color: black;              
-    display: inline-block;     
+    background: #1f2937;
+    color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
 
-    padding: 4px 8px;           
-    margin: -3px 0 4px 0;          
-    width: 75%;       
-    border-radius: 4px;   
-    max-width: 100%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 5;
 }
-.CardRecipesItem{
+
+/* TIME COLUMN */
+.time-column {
+    background: #f3f4f6;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 6;
+}
+
+.time-slot {
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    background: #f9fafb;
+
+    position: sticky;
+    left: 0;
+    z-index: 4;
+}
+
+/* CELLS */
+.cell {
+    border: 1px solid #eee;
+    height: 60px;
+    position: relative;
+    overflow: visible;
+}
+
+/* MEAL BLOCK */
+.meal-block {
+    position: absolute;
+    z-index: 10;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+
+    background: #e6f4ea;
+    border: 1px solid #28a745;
+    border-left: 4px solid #28a745;
+    border-radius: 6px;
+    box-sizing: border-box;
+
+    padding: 4px;
+    padding-bottom: 25px;
+    font-size: 12px;
+}
+
+.meal-block:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+} 
+
+/* TEXT */
+.RecipeName {
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.MealTime {
+    color: #1b5e20;
+}
+
+/* Meal Actions - Edit/Delete buttons container */
+.MealActions {
     display: flex;
     gap: 8px;
-    margin-top: 4px;      /* space between items */
-    align-items: flex-start;
-    flex-wrap: nowrap;      /* allow items to wrap to the next line if needed */
+    margin-bottom: 8px;
 }
 
-.TypeMeal{
-    font-size: 10px;           
-    font-weight: bold;
-    background-color: #e0f7fa;
-    color: black;              
-    display: inline-block;     
-    padding: 4px 8px;           
-    margin: 0 0 10px 0;         
-    border-radius: 4px;   
-}
-.MealTime{
-
-    font-size: 10px;           
-    font-weight: bold;
-    background-color: #e0f7fa;
-    color: #d32f2f;              
-    padding: 4px 8px;           
-    margin: 0 0 10px 0;         
+.MealActions form {
     display: flex;
-    align-items: flex-start;
-    border-radius: 4px;   
-    white-space: nowrap;
-    flex-shrink: 1; /* Allow shrinking to fit the container */
+    margin: 0;
+    padding: 0;
+}
+
+/* Icon buttons for edit and delete */
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: black;
+}
+
+.icon-btn:hover {
+    transform: scale(1.2);
+}
+
+/* MEAL MODAL */
+.meal-modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.meal-modal.hidden {
+    display: none;
+}
+
+.meal-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.close-meal-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.card-top-actions {
+    position: absolute;
+    top: 8px;
+    right: 40px;
+    display: flex;
+}
+
+.card-top-actions form {
+    display: contents;
+}
+
+/* Ingredients list styling */
+.meal-modal ul {
+    text-align: left;
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.meal-modal li {
+    margin-bottom: 5px;
+}
+
+.ingredients-header {
+    text-align: left;
+}
+
+/* Flash Messages */
+.flash-message {
+    background-color: #e6ffed;
+    color: #1a7f37;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.flash-error {
+    background-color: #ffe6e6;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }

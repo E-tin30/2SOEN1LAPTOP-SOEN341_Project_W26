@@ -1,5 +1,77 @@
 [
   {
+    "id": "1744",
+    "username": "t@mail.n",
+    "name": "Garlic pasta",
+    "ingredients": [
+      "garlic",
+      "pasta"
+    ],
+    "prepTime": "23",
+    "prepSteps": "fgbhbn",
+    "cost": "$12",
+    "tag": "Vegan",
+    "difficulty": "medium",
+    "videoURL": "https://www.youtube.com/embed/WwSJhSpdnr0",
+    "videoURL_1": "https://www.youtube.com/embed/WwSJhSpdnr0",
+    "videoURL_2": "https://www.youtube.com/embed/mTySj6rw8-w",
+    "videoURL_3": "https://www.youtube.com/embed/AK0dcuydkiM"
+  },
+  {
+    "id": "6714",
+    "username": "t@mail.n",
+    "name": "Yassa chicken",
+    "ingredients": [
+      "Mustard",
+      "onion",
+      "garlic",
+      "rice"
+    ],
+    "prepTime": "60",
+    "prepSteps": "wertyhj",
+    "cost": "$12",
+    "tag": "Protein+",
+    "difficulty": "medium",
+    "videoURL": "https://www.youtube.com/embed/usf7222TKR8",
+    "videoURL_1": "https://www.youtube.com/embed/usf7222TKR8",
+    "videoURL_2": "https://www.youtube.com/embed/yT1mdPyiqdo",
+    "videoURL_3": "https://www.youtube.com/embed/lc-dDsHteKU"
+  },
+  {
+    "id": "7774",
+    "username": "t@mail.n",
+    "name": "Tomato chicken soup",
+    "ingredients": [
+      "tomato",
+      "chicken"
+    ],
+    "prepTime": "25",
+    "prepSteps": "qergthyjg",
+    "cost": "$15",
+    "tag": "Spicy",
+    "difficulty": "hard",
+    "videoURL_1": "https://www.youtube.com/embed/HvjtACSHH1M",
+    "videoURL_2": "https://www.youtube.com/embed/nXVEfiSpgW0",
+    "videoURL_3": "https://www.youtube.com/embed/bVvcNVS4xFQ"
+  },
+  {
+    "id": "4986",
+    "username": "t@mail.n",
+    "name": "Fried rice",
+    "ingredients": [
+      "rice",
+      "egg"
+    ],
+    "prepTime": "2",
+    "prepSteps": "rftgyhujikl",
+    "cost": "$12",
+    "tag": "Vegetarian",
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/ZjEL_bLSRlY",
+    "videoURL_2": "https://www.youtube.com/embed/_m6mFdYA_Bk",
+    "videoURL_3": "https://www.youtube.com/embed/8ILZMMTpRug"
+  },
+  {
     "id": "1001",
     "username": "test@gmail.com",
     "name": "Creamy Garlic Chicken Pasta",
@@ -17,7 +89,10 @@
     "prepSteps": "Cook pasta. Sauté chicken with garlic. Add cream and parmesan. Combine with pasta and simmer.",
     "cost": "$12",
     "tag": "Protein+",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/qI1OOGZ4AuA",
+    "videoURL_2": "https://www.youtube.com/embed/Ang9BXfKVX0",
+    "videoURL_3": "https://www.youtube.com/embed/5x3NBix4mic"
   },
   {
     "id": "1711",
@@ -34,7 +109,10 @@
     "prepTime": "15 mins",
     "cost": "$",
     "tag": "Dinner",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/WwSJhSpdnr0",
+    "videoURL_2": "https://www.youtube.com/embed/Gdv82vmzSFU",
+    "videoURL_3": "https://www.youtube.com/embed/KLdZ8FyZ8Ho"
   },
   {
     "id": "1712",
@@ -52,7 +130,10 @@
     "prepTime": "20 mins",
     "cost": "$20",
     "tag": "Healthy",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/h6EaCv-lLQY",
+    "videoURL_2": "https://www.youtube.com/embed/rR8Nm5aok0Y",
+    "videoURL_3": "https://www.youtube.com/embed/nY4VaHXvruk"
   },
   {
     "id": "1713",
@@ -69,7 +150,10 @@
     "prepTime": "30 mins",
     "cost": "$10",
     "tag": "Lunch",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/xVVlMYavOYw",
+    "videoURL_2": "https://www.youtube.com/embed/GMg1HmOe-FU",
+    "videoURL_3": "https://www.youtube.com/embed/VR9rItYFOtY"
   },
   {
     "id": "1714",
@@ -87,7 +171,10 @@
     "prepTime": "15 mins",
     "cost": "$5",
     "tag": "Dinner",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/X5WTx_aWv5A",
+    "videoURL_2": "https://www.youtube.com/embed/PEDmYKhI-VI",
+    "videoURL_3": "https://www.youtube.com/embed/dwwqoU7nN-E"
   },
   {
     "id": "1715",
@@ -104,7 +191,10 @@
     "prepTime": "10 mins",
     "cost": "$",
     "tag": "Breakfast",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/GeVFpgEDjCg",
+    "videoURL_2": "https://www.youtube.com/embed/NbGPOTDf6Jc",
+    "videoURL_3": "https://www.youtube.com/embed/CjbMzuo04n4"
   },
   {
     "id": "1958",
@@ -117,7 +207,10 @@
     "prepSteps": "Slice Apple",
     "cost": "$2",
     "tag": "vegan",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/KhsozGAECz4",
+    "videoURL_2": "https://www.youtube.com/embed/jtwSAd4La2Q",
+    "videoURL_3": "https://www.youtube.com/embed/YZU2pNtT9kw"
   },
   {
     "id": "4827",
@@ -134,7 +227,10 @@
     "prepSteps": "Cook rice. Sauté chicken. Add vegetables and teriyaki sauce. Serve over rice.",
     "cost": "$11",
     "tag": "Dinner",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/bES0cdB29XY",
+    "videoURL_2": "https://www.youtube.com/embed/ldzxXhFas_s",
+    "videoURL_3": "https://www.youtube.com/embed/SQDYGYvQNoc"
   },
   {
     "id": "7394",
@@ -150,8 +246,11 @@
     "prepTime": "8 mins",
     "prepSteps": "Slice tomatoes and mozzarella. Layer with basil. Drizzle olive oil and season.",
     "cost": "$9",
-    "tag": "Vegan",
-    "difficulty": "easy"
+    "tag": "Healthy",
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/gOcfUgd4ekA",
+    "videoURL_2": "https://www.youtube.com/embed/V4Cv_hVwT00",
+    "videoURL_3": "https://www.youtube.com/embed/UUSr5luQDcY"
   },
   {
     "id": "6152",
@@ -168,7 +267,10 @@
     "prepSteps": "Cook pasta. Sauté chicken and garlic. Add cream and cheese. Mix together.",
     "cost": "$14",
     "tag": "Dinner",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/EU3MpMxvH7Y",
+    "videoURL_2": "https://www.youtube.com/embed/CgTcs0kz8ek",
+    "videoURL_3": "https://www.youtube.com/embed/F7CU0qBdj04"
   },
   {
     "id": "9036",
@@ -185,7 +287,10 @@
     "prepSteps": "Sauté vegetables. Add to tortilla with cheese. Cook until crispy.",
     "cost": "$6",
     "tag": "Lunch",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/hSJaA9tm1QE",
+    "videoURL_2": "https://www.youtube.com/embed/LjhUhkhrH8M",
+    "videoURL_3": "https://www.youtube.com/embed/PhykOkbntHY"
   },
   {
     "id": "2841",
@@ -202,7 +307,10 @@
     "prepSteps": "Mix honey garlic sauce. Bake salmon and brush with sauce.",
     "cost": "$18",
     "tag": "Healthy",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/P4xuyEq37nE",
+    "videoURL_2": "https://www.youtube.com/embed/vAziD9FWF08",
+    "videoURL_3": "https://www.youtube.com/embed/x-eH2VBzjlc"
   },
   {
     "id": "5578",
@@ -219,7 +327,10 @@
     "prepSteps": "Fill tortilla with chicken, rice, beans, and cheese. Wrap tightly.",
     "cost": "$10",
     "tag": "Dinner",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/sY7ZcIS6Njk",
+    "videoURL_2": "https://www.youtube.com/embed/dxZgcuxQTFs",
+    "videoURL_3": "https://www.youtube.com/embed/2Zyo51F_iMI"
   },
   {
     "id": "7613",
@@ -236,7 +347,10 @@
     "prepSteps": "Cook bacon. Assemble sandwich with lettuce, tomato, and mayo.",
     "cost": "$7",
     "tag": "Lunch",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/9JBCShzrWhI",
+    "videoURL_2": "https://www.youtube.com/embed/VFE28sFcD8M",
+    "videoURL_3": "https://www.youtube.com/embed/KTV2VzFaXsg"
   },
   {
     "id": "4329",
@@ -252,7 +366,10 @@
     "prepSteps": "Blend all ingredients until smooth.",
     "cost": "$5",
     "tag": "Protein+",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "videoURL_1": "https://www.youtube.com/embed/F3KMMtA0rB0",
+    "videoURL_2": "https://www.youtube.com/embed/TMXZO4REf0M",
+    "videoURL_3": "https://www.youtube.com/embed/opXustyrkqQ"
   },
   {
     "id": "6895",
@@ -269,7 +386,10 @@
     "prepSteps": "Cook eggs. Stir fry rice with garlic and soy sauce. Mix together.",
     "cost": "$6",
     "tag": "Dinner",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "videoURL_1": "https://www.youtube.com/embed/ZjEL_bLSRlY",
+    "videoURL_2": "https://www.youtube.com/embed/_m6mFdYA_Bk",
+    "videoURL_3": "https://www.youtube.com/embed/CJauy8hpANQ"
   },
   {
     "id": "9482",
@@ -286,6 +406,9 @@
     "prepSteps": "Brown turkey. Add beans and sauce. Simmer with spices.",
     "cost": "$12",
     "tag": "Healthy",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "videoURL_1": "https://www.youtube.com/embed/msChF4tLnsI",
+    "videoURL_2": "https://www.youtube.com/embed/SRV89xGUmaA",
+    "videoURL_3": "https://www.youtube.com/embed/1g7stN3Oy70"
   }
 ]

@@ -10,6 +10,8 @@ const profileRoutes = require('./routes/profileRoutes'); // routes for profile
 const recipeRoutes = require('./routes/recipeRoutes'); // routes for recipes (CRUD)
 const mealPlannerRoutes = require('./routes/mealPlannerRoutes'); // routes for meal planner
 
+const { startRecipeWatcher } = require('./public/scripts/video.js');
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
@@ -34,11 +36,11 @@ app.use("/", profileRoutes);
 app.use("/", recipeRoutes);
 app.use("/", mealPlannerRoutes);
 
-
-module.exports = app;
-
+startRecipeWatcher();
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
+
+module.exports = app;
