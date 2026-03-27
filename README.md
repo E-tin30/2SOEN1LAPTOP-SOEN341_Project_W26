@@ -34,3 +34,14 @@ Team Members:
 - Paul-Philippe Ehui - Quality Assurance
 - Marc Urbano - Tester
 - Martin Miskovski - Project Manager
+
+Logs:
+- Backlog: https://docs.google.com/spreadsheets/d/19nyoOnyxjDlC09DkUDNmzfnAfoTsoWI66Jg28DF5yDc/edit?usp=sharing
+- Time Logs:
+   - Sprint 1: https://docs.google.com/spreadsheets/d/1b9PzG_Y6IkF75Kk-9qGGttu_zmzAqYlvYA0VqyPZarM/edit?usp=sharing
+   - Sprint 2: https://docs.google.com/spreadsheets/d/1ZE7JPHccUs39tjYqvfkqhB2QFpWboyF7q3MEfbG_ljI/edit?usp=sharing
+   - Sprint 3: https://docs.google.com/spreadsheets/d/1Gs_wDg4gBJKAljqLEFPmoyDG7oocTUfEWMKSaPNC0bw/edit?usp=sharing
+   - Sprint 4: TBD
+- Sprint Planning Document:
+   - Sprint 2: https://docs.google.com/document/d/1JwpAEbxm_GfPl8BNeWyWNqS_YO-nmvzFFreqm28Sg8g/edit?usp=sharing
+   - Sprint 3: https://docs.google.com/document/d/1ZcLZZ12JUQTl2GUy1f4P6cCHF3zp5GqDriOi-14PGnM/edit?usp=sharing
