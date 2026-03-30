@@ -200,7 +200,7 @@
 
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 20;
 }
 
 /* TIME COLUMN */
@@ -209,7 +209,7 @@
     position: sticky;
     top: 0;
     left: 0;
-    z-index: 6;
+    z-index: 21;
 }
 
 .time-slot {
@@ -220,7 +220,7 @@
 
     position: sticky;
     left: 0;
-    z-index: 4;
+    z-index: 20;
 }
 
 /* CELLS */
