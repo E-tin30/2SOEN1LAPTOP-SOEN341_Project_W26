@@ -7,7 +7,7 @@ const requireAuth = require('../middleware/requireAuth');
 
 const RECIPES_FILE = path.join(__dirname, "../data/recipes.json");
 
-const FAVORITES_FILE = path.join(__dirname, '../data/favorite_recipe.json');
+const FAVORITES_FILE = path.join(__dirname, '../data/favoriteRecipe.json');
 
 // Show all recipes
 router.get('/recipes', requireAuth, (req, res) => {

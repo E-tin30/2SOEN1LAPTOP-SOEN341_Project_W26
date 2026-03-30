@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const requireAuth = require('../middleware/requireAuth');
 
-const MEALPLAN_FILE = path.join(__dirname , '../data/MealPlans.json');
+const MEALPLAN_FILE = path.join(__dirname , '../data/mealPlans.json');
 const RECIPES_FILE = path.join(__dirname,'../data/recipes.json');
 
 // Showing the meal planner page
-router.get('/meal-planner', requireAuth , (req, res) => {
+router.get('/mealPlanner', requireAuth , (req, res) => {
 
   const flashError = req.session.flashError;
   delete req.session.flashError;
@@ -39,7 +39,7 @@ router.get('/meal-planner', requireAuth , (req, res) => {
   : new Date();
 
   if (isNaN(selectedDate.getTime())) {
-    return res.redirect('/meal-planner'); // fall back to current week
+    return res.redirect('/mealPlanner'); // fall back to current week
   }
 
   let weekStart = new Date(selectedDate);
@@ -56,9 +56,9 @@ router.get('/meal-planner', requireAuth , (req, res) => {
     return mealDate >= weekStart && mealDate <= weekEnd;
   });
 
-  res.render('meal-planner', {
+  res.render('mealPlanner', {
     title: 'Meal Planner',
-    currentPage: 'meal-planner',
+    currentPage: 'mealPlanner',
     recipes: userRecipes,
     username: req.session.username,
     meals: mealsForWeek,
@@ -70,7 +70,7 @@ router.get('/meal-planner', requireAuth , (req, res) => {
 
 
 // Handling the form submission
-router.post('/meal-planner', requireAuth , (req, res) => {
+router.post('/mealPlanner', requireAuth , (req, res) => {
   const {recipeID,date,startTime,endTime} = req.body;
 
   if (!recipeID || recipeID === "none" || 
@@ -78,12 +78,12 @@ router.post('/meal-planner', requireAuth , (req, res) => {
       !startTime || 
       !endTime) {
     req.session.flashError = "Validation Failed: Missing required fields.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   if (timeToMinutes(startTime) >= timeToMinutes(endTime)) {
     req.session.flashError = "Validation Failed: Start time must be before End time.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const allPlans = getMealPlans();
@@ -117,19 +117,19 @@ router.post('/meal-planner', requireAuth , (req, res) => {
 
   if (alreadyExists) {
     req.session.flashError = "This recipe is already scheduled in this week.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   if (hasTimeConflict(userPlan.meals, { date, startTime, endTime })) {
     req.session.flashError = "Time conflict with another meal.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const duration = timeToMinutes(endTime) - timeToMinutes(startTime);
 
   if (duration > 180) {
     req.session.flashError = "Meal cannot exceed 3 hours.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   insertMealSorted(userPlan.meals, {
@@ -141,11 +141,11 @@ router.post('/meal-planner', requireAuth , (req, res) => {
 
   SaveMealPlans(allPlans);
 
-  res.redirect('/meal-planner');
+  res.redirect('/mealPlanner');
 });
 
 // Edit a meal in the user's plan
-router.post('/meal-planner/edit', requireAuth, (req, res) => {
+router.post('/mealPlanner/edit', requireAuth, (req, res) => {
   const { originalName, originalDate, originalStartTime, originalEndTime, recipeID, date, startTime, endTime } = req.body;
 
   if (!recipeID || recipeID === "none" || 
@@ -153,12 +153,12 @@ router.post('/meal-planner/edit', requireAuth, (req, res) => {
       !startTime || 
       !endTime) {
     req.session.flashError = "Validation Failed: Missing required fields.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   if (timeToMinutes(startTime) >= timeToMinutes(endTime)) {
     req.session.flashError = "Validation Failed: Start time must be before End time.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const allPlans = getMealPlans();
@@ -166,7 +166,7 @@ router.post('/meal-planner/edit', requireAuth, (req, res) => {
 
   if (!userPlan || !userPlan.meals) {
     req.session.flashError = "Meal plan not found.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const mealIndex = userPlan.meals.findIndex(meal =>
@@ -178,7 +178,7 @@ router.post('/meal-planner/edit', requireAuth, (req, res) => {
 
   if (mealIndex === -1) {
     req.session.flashError = "Meal not found.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const selectedDate = new Date(date + "T00:00:00");
@@ -203,19 +203,19 @@ router.post('/meal-planner/edit', requireAuth, (req, res) => {
 
   if (alreadyExists) {
     req.session.flashError = "This recipe is already scheduled in this week.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   // Check for conflicts, excluding the current meal
   if (hasTimeConflict(otherMeals, { date, startTime, endTime })) {
     req.session.flashError = "Time conflict with another meal.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const duration = timeToMinutes(endTime) - timeToMinutes(startTime);
   if (duration > 180) {
     req.session.flashError = "Meal cannot exceed 3 hours.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   // Update the meal
@@ -228,16 +228,16 @@ router.post('/meal-planner/edit', requireAuth, (req, res) => {
 
   SaveMealPlans(allPlans);
   req.session.flashMessage = "Meal updated successfully!";
-  res.redirect('/meal-planner');
+  res.redirect('/mealPlanner');
 });
 
 // Delete a meal from the user's plan
-router.post('/meal-planner/delete', requireAuth, (req, res) => {
+router.post('/mealPlanner/delete', requireAuth, (req, res) => {
   const { mealName, mealDate, mealStartTime, mealEndTime } = req.body;
 
   if (!mealName || !mealDate || !mealStartTime || !mealEndTime) {
     req.session.flashError = "Validation Failed: Missing required fields.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const allPlans = getMealPlans();
@@ -245,7 +245,7 @@ router.post('/meal-planner/delete', requireAuth, (req, res) => {
 
   if (!userPlan || !userPlan.meals) {
     req.session.flashError = "Meal plan not found.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   const mealIndex = userPlan.meals.findIndex(meal =>
@@ -257,13 +257,13 @@ router.post('/meal-planner/delete', requireAuth, (req, res) => {
 
   if (mealIndex === -1) {
     req.session.flashError = "Meal not found.";
-    return res.redirect('/meal-planner');
+    return res.redirect('/mealPlanner');
   }
 
   userPlan.meals.splice(mealIndex, 1);
   SaveMealPlans(allPlans);
   req.session.flashMessage = "Meal deleted successfully!";
-  res.redirect('/meal-planner');
+  res.redirect('/mealPlanner');
 });
 
 /* END OF MEAL PLANNER LOGIC */

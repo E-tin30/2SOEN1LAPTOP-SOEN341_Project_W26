@@ -12,7 +12,7 @@ router.get("/profile", requireAuth, (req, res) => {
     const allPrefs = getPreferences();
     const userPref = allPrefs.find(p => p.username === req.session.username);
 
-    res.render('profile-management', {
+    res.render('profileManagement', {
         title: 'Profile Management',
         currentPage: 'profile',
         username: req.session.username,

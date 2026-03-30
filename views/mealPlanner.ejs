@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
     <link rel="stylesheet" href="/css/layout.css" />
-    <link rel="stylesheet" href="/css/MealPlanner.css" />
+    <link rel="stylesheet" href="/css/mealPlanner.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="/scripts/MealPlanner.js" defer></script>
+    <script src="/scripts/mealPlanner.js" defer></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -45,7 +45,7 @@
 
       <!-- WEEK NAVIGATION -->
       <div class="week-nav">
-        <a href="/meal-planner?week=<%= prevWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Previous week">
+        <a href="/mealPlanner?week=<%= prevWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Previous week">
             <i data-lucide="chevron-left"></i>
         </a>
         <h2 class="week-range">
@@ -53,7 +53,7 @@
           –
           <%= weekEnd.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %>
         </h2>
-        <a href="/meal-planner?week=<%= nextWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Next week">
+        <a href="/mealPlanner?week=<%= nextWeek.toISOString().split('T')[0] %>" class="week-btn icon-btn" title="Next week">
             <i data-lucide="chevron-right"></i>
         </a>
       </div>
@@ -63,7 +63,7 @@
           <span class="closeAddMealPlanOverlay" onclick="toggleAddMealPlanOverlay('close')">&times;</span>
           <h2 class="AddMealPlanTitle" id="modalTitle">Add Recipes to Schedule</h2>
                
-          <form class="addMealPlanForm" action="/meal-planner" method="post" id="mealPlanForm">
+          <form class="addMealPlanForm" action="/mealPlanner" method="post" id="mealPlanForm">
 
             <input type="hidden" name="originalName" id="originalName">
             <input type="hidden" name="originalDate" id="originalDate">
@@ -116,7 +116,7 @@
             <button type="button" id="editMealBtn" class="icon-btn edit-icon">
               <i class="fa-solid fa-pen"></i>
             </button>
-            <form action="/meal-planner/delete" method="POST" style="display:inline;">
+            <form action="/mealPlanner/delete" method="POST" style="display:inline;">
               <input type="hidden" name="mealName" id="deleteMealName">
               <input type="hidden" name="mealDate" id="deleteMealDate">
               <input type="hidden" name="mealStartTime" id="deleteMealStartTime">

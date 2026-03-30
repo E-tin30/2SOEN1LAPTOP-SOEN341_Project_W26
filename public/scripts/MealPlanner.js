@@ -208,7 +208,7 @@ function openEditMealOverlay(name, date, start, end) {
   document.getElementById('originalEndTime').value = end;
 
   // Change action to edit
-  document.getElementById('mealPlanForm').action = '/meal-planner/edit';
+  document.getElementById('mealPlanForm').action = '/mealPlanner/edit';
 
   // Update title and button
   document.getElementById('modalTitle').textContent = 'Edit Meal Plan';
@@ -232,7 +232,7 @@ document.getElementById('add-meal-plan-btn').addEventListener('click', () => {
 
 // Delete confirmation for meal
 window.addEventListener('load', () => {
-  const mealDeleteForm = document.querySelector('form[action="/meal-planner/delete"]');
+  const mealDeleteForm = document.querySelector('form[action="/mealPlanner/delete"]');
   if (mealDeleteForm) {
     const deleteBtn = mealDeleteForm.querySelector('button[type="submit"]');
     if (deleteBtn) {
