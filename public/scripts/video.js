@@ -1,11 +1,13 @@
 
 const fs = require('fs').promises;
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const RECIPES_FILE = path.join(__dirname, '../../data/recipes.json');
 
 
-const YOUTUBE_API_KEY = "AIzaSyDKvaxbMqEGr7zPTM_O3UV91vU7o9jiHZA";
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
 // simple guard to avoid overlapping runs
 let isRunning = false;
