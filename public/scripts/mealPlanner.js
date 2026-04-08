@@ -13,11 +13,6 @@ function toggleAddMealPlanOverlay(action) {
     }
 }
 
-function CloseMealEditUI() {
-    const popup = document.getElementById("MealEditUIPopUp");
-    if (!popup) return;
-    popup.classList.remove("active");
-}
 window.addEventListener("click", (e) => {
     const overlay = document.getElementById("AddMealPlanOverlay");
 
