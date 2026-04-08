@@ -13,13 +13,6 @@ function toggleAddMealPlanOverlay(action) {
     }
 }
 
-// Meal creation popup helpers (mirror the recipe "Create" modal behavior)
-function OpenMealCreationUI() {
-    const popup = document.getElementById("MealCreationUIPopUp");
-    if (!popup) return;
-    popup.classList.add("active");
-}
-
 function CloseMealCreationUI() {
     const popup = document.getElementById("MealCreationUIPopUp");
     if (!popup) return;
