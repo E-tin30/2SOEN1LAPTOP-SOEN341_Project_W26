@@ -115,7 +115,6 @@ document.addEventListener('click', (e) => {
     openMealModal(name, date, start, end);
   }
 });
-
 function openMealModal(name, date, start, end) {
   // Find the recipe
   const recipe = recipes.find(r => r.name === name);
