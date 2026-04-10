@@ -514,3 +514,276 @@ describe("POST /recipes/:id/video/favorites", () => {
     });
 
 });
+
+// ! GET /favorites/check/:id — Check if a video is favorited
+describe("GET /favorites/check/:id", () => {
+
+    test("Should return isFavorite: true when video is already favorited", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const testRecipe = {
+            id: "check-fav-1",
+            username: "jesttest@gmail.com",
+            name: "Check Fav Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/checkfav",
+            videoURL_2: null,
+            videoURL_3: null
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        // Favorite the video first
+        await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/checkfav"
+        });
+
+        // Check if the video is favorited
+        const res = await agent.get(`/favorites/check/${testRecipe.id}`)
+            .query({ videoURL: "https://www.youtube.com/embed/checkfav" });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("isFavorite", true);
+    });
+
+    test("Should return isFavorite: false when video is not favorited", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.get("/favorites/check/some-id")
+            .query({ videoURL: "https://www.youtube.com/embed/notfav" });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("isFavorite", false);
+    });
+
+    test("Should return 400 if videoURL query param is missing", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.get("/favorites/check/some-id");
+
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty("error", "Missing or invalid videoURL.");
+    });
+
+});
+
+// ! GET /favorites — Get user's favorite videos
+describe("GET /favorites", () => {
+
+    test("Should return an empty array when user has no favorites", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.get("/favorites");
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("favorites");
+        expect(res.body.favorites).toEqual([]);
+    });
+
+    test("Should return only the logged-in user's favorites", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const testRecipe = {
+            id: "fav-list-1",
+            username: "jesttest@gmail.com",
+            name: "Fav List Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/favlist1",
+            videoURL_2: "https://www.youtube.com/embed/favlist2",
+            videoURL_3: null
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        // Add two favorites
+        await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/favlist1"
+        });
+        await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/favlist2"
+        });
+
+        // Also seed a favorite from another user directly in the file
+        const currentFavs = JSON.parse(fs.readFileSync(FAVORITES_FILE_PATH, "utf8"));
+        currentFavs.push({ username: "otheruser@gmail.com", id: "fav-list-1", videoURL: "https://www.youtube.com/embed/other" });
+        fs.writeFileSync(FAVORITES_FILE_PATH, JSON.stringify(currentFavs, null, 2));
+
+        const res = await agent.get("/favorites");
+
+        expect(res.status).toBe(200);
+        expect(res.body.favorites).toHaveLength(2);
+        expect(res.body.favorites.every(f => f.username === "jesttest@gmail.com")).toBe(true);
+    });
+
+});
+
+// ! DELETE /favorites/:id — Unfavorite a video
+describe("DELETE /favorites/:id", () => {
+
+    test("Should remove a favorited video successfully", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const testRecipe = {
+            id: "del-fav-1",
+            username: "jesttest@gmail.com",
+            name: "Del Fav Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/delfav",
+            videoURL_2: null,
+            videoURL_3: null
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        // Add favorite
+        await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/delfav"
+        });
+
+        // Remove favorite
+        const res = await agent.delete(`/favorites/${testRecipe.id}`).send({
+            videoURL: "https://www.youtube.com/embed/delfav"
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+
+        // Verify it's gone from the file
+        const favorites = JSON.parse(fs.readFileSync(FAVORITES_FILE_PATH, "utf8"));
+        const found = favorites.some(f => f.username === "jesttest@gmail.com" && f.videoURL === "https://www.youtube.com/embed/delfav");
+        expect(found).toBe(false);
+    });
+
+    test("Should return 400 if videoURL is missing in delete request", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.delete("/favorites/some-id").send({});
+
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty("error", "Missing or invalid videoURL.");
+    });
+
+    test("Should not affect other users' favorites when deleting", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        // Seed favorites for two users directly
+        const seedFavs = [
+            { username: "jesttest@gmail.com", id: "shared-1", videoURL: "https://www.youtube.com/embed/shared" },
+            { username: "otheruser@gmail.com", id: "shared-1", videoURL: "https://www.youtube.com/embed/shared" }
+        ];
+        fs.writeFileSync(FAVORITES_FILE_PATH, JSON.stringify(seedFavs, null, 2));
+
+        // Delete only the logged-in user's favorite
+        const res = await agent.delete("/favorites/shared-1").send({
+            videoURL: "https://www.youtube.com/embed/shared"
+        });
+
+        expect(res.status).toBe(200);
+
+        const favorites = JSON.parse(fs.readFileSync(FAVORITES_FILE_PATH, "utf8"));
+        // Other user's favorite should still exist
+        expect(favorites).toHaveLength(1);
+        expect(favorites[0].username).toBe("otheruser@gmail.com");
+    });
+
+});
