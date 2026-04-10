@@ -239,7 +239,6 @@ router.post('/recipes', (req, res) => {
 });
 
 router.get('/recipes/:id/video', (req, res) => {
-    console.log("GETTING VIDEO URL");
     const id = req.params.id;
     const recipe = getRecipes().find(r => r.id === id);
     if (!recipe) {
@@ -289,11 +288,9 @@ router.post('/recipes/:id/video/favorites', requireAuth, (req, res) => {
 });
 
 router.get('/favorites/check/:id', requireAuth, (req, res) => {
-    console.log("CHECKING IF VIDEO IS FAVORITE");
     const id = req.params.id;
     const videoURL = req.query.videoURL;
     const username = req.session.username;
-    console.log("Received check for recipe ID:", id, "videoURL:", videoURL, "user:", username);
 
     if (!videoURL || typeof videoURL !== 'string' || !videoURL.trim()) {
         return res.status(400).json({ error: "Missing or invalid videoURL." });
@@ -334,11 +331,9 @@ router.get('/favorites', requireAuth, (req, res) => {
 });
 
 router.delete('/favorites/:id', requireAuth, (req, res) => {
-    console.log("REMOVING VIDEO FROM FAVORITES");
     const username = req.session.username;
     const id = req.params.id;
     const { videoURL } = req.body;
-    console.log("Received unfavorite request for recipe ID:", id, "videoURL:", videoURL, "user:", username);
     if (!videoURL || typeof videoURL !== 'string' || !videoURL.trim()) {
         return res.status(400).json({ error: "Missing or invalid videoURL." });
     }

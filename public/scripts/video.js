@@ -27,7 +27,6 @@ async function checkAndUpdateRecipes() {
         recipe.videoURL_3 = null;
       }
       if (recipe.videoURL_1) continue;
-      console.log("Updating the URL for ", recipe)
       const videoUrls = await getYoutubeUrl(recipe.name);
       recipe.videoURL_1 = videoUrls[0];
       recipe.videoURL_2 = videoUrls[1];
@@ -45,7 +44,6 @@ async function checkAndUpdateRecipes() {
 
 function startRecipeWatcher() {
   // run once on startup
-  console.log("Getting recipe video")
   checkAndUpdateRecipes();
 
   // run every minute (60 * 1000 ms)
