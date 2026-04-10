@@ -158,3 +158,99 @@ describe("Watch Video Endpoint", () => {
 
     
 });
+
+
+
+// ! Task 13.2 — YouTube redirect logic
+describe("Task 13.2 - YouTube redirect logic", () => { 
+
+    test("Video URLs returned are valid YouTube embed URLs", async () => {
+        const testRecipe = {
+            id: "yt-test-1",
+            username: "test@gmail.com",
+            name: "Embed Test Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            videoURL_2: "https://www.youtube.com/embed/abc123",
+            videoURL_3: "https://www.youtube.com/embed/xyz789"
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        const response = await request(app).get(`/recipes/${testRecipe.id}/video`);
+
+        expect(response.status).toBe(200);
+        response.body.videoURLs.forEach(url => {
+            if (url !== null) {
+                expect(url).toMatch(/^https:\/\/www\.youtube\.com\/embed\/.+/);
+            }
+        });
+    });
+
+    test("Each recipe returns its own video URLs, not another recipe's", async () => {
+        const recipe1 = {
+            id: "yt-recipe-1",
+            username: "test@gmail.com",
+            name: "Recipe One",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/video1a",
+            videoURL_2: "https://www.youtube.com/embed/video1b",
+            videoURL_3: "https://www.youtube.com/embed/video1c"
+        };
+        const recipe2 = {
+            id: "yt-recipe-2",
+            username: "test@gmail.com",
+            name: "Recipe Two",
+            ingredients: ["b"],
+            prepTime: "20 min",
+            prepSteps: "Steps",
+            cost: "$10",
+            tag: "dinner",
+            difficulty: "medium",
+            videoURL_1: "https://www.youtube.com/embed/video2a",
+            videoURL_2: "https://www.youtube.com/embed/video2b",
+            videoURL_3: "https://www.youtube.com/embed/video2c"
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([recipe1, recipe2], null, 2));
+
+        const res1 = await request(app).get(`/recipes/${recipe1.id}/video`);
+        const res2 = await request(app).get(`/recipes/${recipe2.id}/video`);
+
+        expect(res1.body.videoURLs).toEqual([recipe1.videoURL_1, recipe1.videoURL_2, recipe1.videoURL_3]);
+        expect(res2.body.videoURLs).toEqual([recipe2.videoURL_1, recipe2.videoURL_2, recipe2.videoURL_3]);
+    });
+
+    test("Video endpoint returns exactly 3 URLs in the array", async () => {
+        const testRecipe = {
+            id: "yt-count-test",
+            username: "test@gmail.com",
+            name: "Count Test",
+            ingredients: ["a"],
+            prepTime: "5 min",
+            prepSteps: "Steps",
+            cost: "$3",
+            tag: "snack",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/aaa",
+            videoURL_2: null,
+            videoURL_3: "https://www.youtube.com/embed/ccc"
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        const response = await request(app).get(`/recipes/${testRecipe.id}/video`);
+
+        expect(response.status).toBe(200);
+        expect(response.body.videoURLs).toHaveLength(3);
+    });
+
+});
+
