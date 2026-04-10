@@ -28,7 +28,8 @@ describe("Watch Video Endpoint", () => {
 
     test("should return the video URLs for a given recipe ID", async () => {
         // Write a recipe with video URLs directly to the JSON file
-        const testRecipe = {
+        const testRecipe = 
+        {
             id: "test-video-123",
             username: "test@gmail.com",
             name: "Test Recipe",
@@ -55,6 +56,105 @@ describe("Watch Video Endpoint", () => {
             testRecipe.videoURL_2,
             testRecipe.videoURL_3
         ]);
+
     });
 
+    // Test for a recipe that does not exist. No video URLs should be returned, and a 404 status code should be sent.
+    test("should return 404 if the recipe is not found", async () => {
+       
+        const response = await request(app).get("/recipes/123/video");
+        expect(response.status).toBe(404);
+        expect(response.body).toHaveProperty("error", "Recipe not found");
+    });
+
+    test("should return an empty array if the recipe has no video URLs", async () => {
+         const testRecipe = 
+         {
+            id: "test-video-123",
+            username: "test@gmail.com",
+            name: "Test Recipe",
+            ingredients: ["ingredient1", "ingredient2"],
+            prepTime: "30 min",
+            prepSteps: "Test instructions",
+            cost: "$5",
+            tag: "dinner",
+            difficulty: "easy",
+                videoURL_1: null,
+                videoURL_2: null,
+                videoURL_3: null
+        };
+
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        // Request the video URLs for the created recipe
+        const response = await request(app).get(`/recipes/${testRecipe.id}/video`);
+        // Assert that the response is successful and contains an empty array
+        expect(response.status).toBe(200);
+        // Expect no video URLs to be returned
+        expect(response.body).toHaveProperty("videoURLs");
+        expect(response.body.videoURLs).toEqual([null, null, null]);
+    });
+
+    test("Recipe modal contains the Watch Tutorial (showVideoBtn) button", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.get("/recipes");
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain('id="showVideoBtn"');
+    });
+
+    test("Recipe modal contains the video container (hidden by default)", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        // Check that the video container is present and hidden by default
+        const res = await agent.get("/recipes");
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain('id="recipeVideoContainer"');
+        expect(res.text).toContain('display: none');
+    });
+
+    test("Recipe modal contains video iframes", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.get("/recipes");
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain('id="recipeVideoIframe1"');
+        expect(res.text).toContain('id="recipeVideoIframe2"');
+        expect(res.text).toContain('id="recipeVideoIframe3"');
+    });
+
+    
 });

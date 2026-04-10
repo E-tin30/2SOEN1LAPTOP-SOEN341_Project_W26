@@ -242,6 +242,9 @@ router.get('/recipes/:id/video', (req, res) => {
     console.log("GETTING VIDEO URL");
     const id = req.params.id;
     const recipe = getRecipes().find(r => r.id === id);
+    if (!recipe) {
+        return res.status(404).json({ error: "Recipe not found" });
+    }
     res.json({ videoURLs: [recipe.videoURL_1, recipe.videoURL_2, recipe.videoURL_3] });
 });
 
