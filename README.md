@@ -41,7 +41,8 @@ Logs:
    - Sprint 1: https://docs.google.com/spreadsheets/d/1b9PzG_Y6IkF75Kk-9qGGttu_zmzAqYlvYA0VqyPZarM/edit?usp=sharing
    - Sprint 2: https://docs.google.com/spreadsheets/d/1ZE7JPHccUs39tjYqvfkqhB2QFpWboyF7q3MEfbG_ljI/edit?usp=sharing
    - Sprint 3: https://docs.google.com/spreadsheets/d/1Gs_wDg4gBJKAljqLEFPmoyDG7oocTUfEWMKSaPNC0bw/edit?usp=sharing
-   - Sprint 4: TBD
+   - Sprint 4: https://docs.google.com/spreadsheets/d/1SajuaPQ-b8ba46csTaBrSYNeLt-vBh4Z9VXZWqiidBo/edit?usp=sharing
 - Sprint Planning Document:
    - Sprint 2: https://docs.google.com/document/d/1JwpAEbxm_GfPl8BNeWyWNqS_YO-nmvzFFreqm28Sg8g/edit?usp=sharing
    - Sprint 3: https://docs.google.com/document/d/1ZcLZZ12JUQTl2GUy1f4P6cCHF3zp5GqDriOi-14PGnM/edit?usp=sharing
+   - Sprint 4: https://docs.google.com/document/d/1PjloSvWYmjKtzpUB8u42kzI2Ac2Cjox44eJ3DgYeORs/edit?usp=sharing
