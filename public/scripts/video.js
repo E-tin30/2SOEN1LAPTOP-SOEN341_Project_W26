@@ -73,4 +73,4 @@ async function getYoutubeUrl(title) {
     return [`https://www.youtube.com/embed/${videoId1}`, `https://www.youtube.com/embed/${videoId2}`, `https://www.youtube.com/embed/${videoId3}`];
   }
 
-module.exports = { startRecipeWatcher };
+module.exports = { startRecipeWatcher, getYoutubeUrl };
