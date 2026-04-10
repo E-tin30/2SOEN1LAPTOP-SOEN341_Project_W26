@@ -1,37 +1,16 @@
 import js from "@eslint/js";
 import globals from "globals";
-import jest from "eslint-plugin-jest";
+import { defineConfig } from "eslint/config";
 
-export default [
-  js.configs.recommended,
-
-  // Ignore EJS
+export default defineConfig([
   {
-    ignores: ["views/**/*.ejs"],
+    files: ["**/*.{js,mjs,cjs}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
-
-  // Backend (Node)
-  {
-    files: ["**/*.js"],
-    languageOptions: {
-      globals: globals.node,
-    },
-  },
-
-  // Frontend scripts (browser)
-  {
-    files: ["public/scripts/**/*.js"],
-    languageOptions: {
-      globals: globals.browser,
-    },
-  },
-
-  // Jest tests
   {
     files: ["__tests__/**/*.js"],
-    plugins: { jest },
-    languageOptions: {
-      globals: globals.jest,
-    },
+    languageOptions: { globals: globals.jest },
   },
-];
+]);
