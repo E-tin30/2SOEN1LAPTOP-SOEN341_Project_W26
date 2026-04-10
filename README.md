@@ -47,5 +47,6 @@ Logs:
    - Sprint 3: https://docs.google.com/document/d/1ZcLZZ12JUQTl2GUy1f4P6cCHF3zp5GqDriOi-14PGnM/edit?usp=sharing
    - Sprint 4: https://docs.google.com/document/d/1PjloSvWYmjKtzpUB8u42kzI2Ac2Cjox44eJ3DgYeORs/edit?usp=sharing
 
-Code Conventions
+Code Conventions:
+
 The MealMajor project enforces a consistent and well-defined set of coding standards to ensure readability, maintainability, and team-wide collaboration. All file names, variables, and functions follow the camelCase naming convention across both frontend and backend components. Functions are written using clear, descriptive verb-based names to reflect their behavior, while variables use concise yet meaningful identifiers to improve code clarity. The codebase follows a modular structure, separating concerns such as routes, views, and data handling, in line with best practices for Node.js and Express applications. Additionally, consistent formatting, indentation, and validation practices are applied throughout the project to maintain uniformity. These conventions are communicated and enforced across the team to ensure high-quality, maintainable code.
