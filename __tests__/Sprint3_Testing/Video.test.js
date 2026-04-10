@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const request = require("supertest");
 const app = require("../../server.js");
-
+const { getYoutubeUrl } = require("../../public/scripts/video.js");
 
 const RECIPES_FILE_PATH = path.join(__dirname, "../../data/recipes.json");
 const USERS_FILE_PATH = path.join(__dirname, "../../data/users.json");
@@ -793,6 +793,90 @@ describe("DELETE /favorites/:id", () => {
         // Other user's favorite should still exist
         expect(favorites).toHaveLength(1);
         expect(favorites[0].username).toBe("otheruser@gmail.com");
+    });
+
+});
+
+// ! s  getYoutubeUrl (YouTube API helper function)
+
+describe("getYoutubeUrl - Unit Tests", () => {
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test("should return 3 embed URLs when YouTube API returns 3 results", async () => {
+        const mockResponse = {
+            items: [
+                { id: { videoId: "vid1" } },
+                { id: { videoId: "vid2" } },
+                { id: { videoId: "vid3" } }
+            ]
+        };
+        jest.spyOn(global, "fetch").mockResolvedValue({
+            json: async () => mockResponse
+        });
+
+        const result = await getYoutubeUrl("Pasta Carbonara");
+
+        expect(result).toEqual([
+            "https://www.youtube.com/embed/vid1",
+            "https://www.youtube.com/embed/vid2",
+            "https://www.youtube.com/embed/vid3"
+        ]);
+    });
+
+    test("should return [null, null, null] when YouTube API returns no items", async () => {
+        jest.spyOn(global, "fetch").mockResolvedValue({
+            json: async () => ({ items: [] })
+        });
+
+        const result = await getYoutubeUrl("Nonexistent Recipe");
+
+        expect(result).toEqual([null, null, null]);
+    });
+
+    test("should return [null, null, null] when YouTube API returns undefined items", async () => {
+        jest.spyOn(global, "fetch").mockResolvedValue({
+            json: async () => ({})
+        });
+
+        const result = await getYoutubeUrl("Bad Query");
+
+        expect(result).toEqual([null, null, null]);
+    });
+
+    test("should return embed URLs with null for missing results when API returns fewer than 3", async () => {
+        const mockResponse = {
+            items: [
+                { id: { videoId: "onlyOne" } }
+            ]
+        };
+        jest.spyOn(global, "fetch").mockResolvedValue({
+            json: async () => mockResponse
+        });
+
+        const result = await getYoutubeUrl("Rare Recipe");
+
+        expect(result).toEqual([
+            "https://www.youtube.com/embed/onlyOne",
+            "https://www.youtube.com/embed/null",
+            "https://www.youtube.com/embed/null"
+        ]);
+    });
+
+    test("should call fetch with the correct YouTube API URL", async () => {
+        const fetchSpy = jest.spyOn(global, "fetch").mockResolvedValue({
+            json: async () => ({ items: [] })
+        });
+
+        await getYoutubeUrl("Grilled Chicken");
+
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        const calledUrl = fetchSpy.mock.calls[0][0];
+        expect(calledUrl).toContain("https://www.googleapis.com/youtube/v3/search");
+        expect(calledUrl).toContain("Grilled%20Chicken%20recipe");
+        expect(calledUrl).toContain("maxResults=3");
     });
 
 });
