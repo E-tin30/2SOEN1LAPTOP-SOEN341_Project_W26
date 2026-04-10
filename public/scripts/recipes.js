@@ -33,11 +33,6 @@ const close = document.querySelector(".CloseBtn");
 
 
 /* This script handles the opening and closing of the recipe creation modal on the recipes page. */
-function OpenRecipeCreationUI()
-{
-    document.getElementById("RecipeCreationUIPopUp").classList.add("active"); // Activate the Popup 
-}
-
 function CloseRecipeCreationUI()
 {
     document.getElementById("RecipeCreationUIPopUp").classList.remove("active");
