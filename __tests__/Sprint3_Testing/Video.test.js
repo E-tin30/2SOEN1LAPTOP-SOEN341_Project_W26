@@ -292,6 +292,8 @@ describe("Task 13.3 - Pass recipe name dynamically", () => {
         expect(created.name).toBe("Pasta Carbonara");
     });
 
+    // * This test checks that the rendered recipe card in the /recipes page includes a data-name attribute with the correct recipe name, 
+    // * which is essential for the frontend JavaScript to fetch the correct videos when the "Watch Tutorial" button is clicked.
     test("Recipe card includes the recipe name in data-name attribute", async () => {
         const agent = request.agent(app);
 
@@ -362,6 +364,8 @@ describe("Task 13.3 - Pass recipe name dynamically", () => {
         expect(videoRes.body).toHaveProperty("videoURLs");
     });
 
+    // * This test ensures that when multiple recipes exist, 
+    // * each recipe's video endpoint returns the correct set of video URLs based on the recipe name.
     test("Video endpoint returns correct URLs for the right recipe by name", async () => {
         const recipeA = {
             id: "name-test-1",
@@ -407,6 +411,7 @@ describe("Task 13.3 - Pass recipe name dynamically", () => {
 // ! POST — Favorite video endpoint
 describe("POST /recipes/:id/video/favorites", () => {
 
+   
     test("Logged-in user can favorite a video", async () => {
         const agent = request.agent(app);
 
@@ -435,6 +440,7 @@ describe("POST /recipes/:id/video/favorites", () => {
             videoURL_2: null,
             videoURL_3: null
         };
+        // Seed the recipe directly in the file so we have a known ID to test against
         fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
 
         const res = await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
@@ -448,6 +454,7 @@ describe("POST /recipes/:id/video/favorites", () => {
         expect(favorites.length).toBe(1);
         expect(favorites[0].videoURL).toBe("https://www.youtube.com/embed/abc");
     });
+
 
     test("Should reject duplicate favorite", async () => {
         const agent = request.agent(app);
@@ -682,7 +689,7 @@ describe("GET /favorites", () => {
 
 // ! DELETE /favorites/:id — Unfavorite a video
 describe("DELETE /favorites/:id", () => {
-
+    
     test("Should remove a favorited video successfully", async () => {
         const agent = request.agent(app);
 
@@ -752,6 +759,8 @@ describe("DELETE /favorites/:id", () => {
         expect(res.body).toHaveProperty("error", "Missing or invalid videoURL.");
     });
 
+    // * This test ensures that when a user deletes a favorite video, 
+    // * it only removes that specific entry for the logged-in user and does not affect any other user's favorites, even if they have the same videoURL favorited.
     test("Should not affect other users' favorites when deleting", async () => {
         const agent = request.agent(app);
 
