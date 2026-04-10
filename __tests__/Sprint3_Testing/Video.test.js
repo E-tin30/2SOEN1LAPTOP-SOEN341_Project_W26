@@ -7,20 +7,24 @@ const app = require("../../server.js");
 
 const RECIPES_FILE_PATH = path.join(__dirname, "../../data/recipes.json");
 const USERS_FILE_PATH = path.join(__dirname, "../../data/users.json");
+const FAVORITES_FILE_PATH = path.join(__dirname, "../../data/favoriteRecipe.json");
 
 const originalRecipesData = fs.readFileSync(RECIPES_FILE_PATH, "utf-8");
 const originalUsersData = fs.readFileSync(USERS_FILE_PATH, "utf-8");
+const originalFavoritesData = fs.readFileSync(FAVORITES_FILE_PATH, "utf-8");
 
 // Reset the data files before each test to ensure test isolation
 beforeEach(() => {
   fs.writeFileSync(RECIPES_FILE_PATH, "[]");
   fs.writeFileSync(USERS_FILE_PATH, "[]");
+  fs.writeFileSync(FAVORITES_FILE_PATH, "[]");
 }
 );
 // Restore the original data files after all tests have run
 afterAll(() => {
     fs.writeFileSync(RECIPES_FILE_PATH, originalRecipesData);
     fs.writeFileSync(USERS_FILE_PATH, originalUsersData);
+    fs.writeFileSync(FAVORITES_FILE_PATH, originalFavoritesData);
 });
 
 // ! Task 13.1 — "Watch Tutorial" button in modal
@@ -254,3 +258,259 @@ describe("Task 13.2 - YouTube redirect logic", () => {
 
 });
 
+// ! Task 13.3 — Pass recipe name dynamically
+
+describe("Task 13.3 - Pass recipe name dynamically", () => {
+
+    test("Created recipe stores the correct name in recipes.json", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Pasta Carbonara",
+            ingredients: JSON.stringify(["pasta", "egg", "bacon"]),
+            time: "25 mins",
+            Steps: "Cook pasta. Mix egg and cheese. Combine.",
+            cost: "$15",
+            tags: "Dinner",
+            difficulty: "medium"
+        });
+
+        const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
+        const created = recipes.find(r => r.name === "Pasta Carbonara");
+        expect(created).toBeDefined();
+        expect(created.name).toBe("Pasta Carbonara");
+    });
+
+    test("Recipe card includes the recipe name in data-name attribute", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Spicy Tacos",
+            ingredients: JSON.stringify(["tortilla", "beef", "salsa"]),
+            time: "20 mins",
+            Steps: "Cook beef. Assemble tacos.",
+            cost: "$12",
+            tags: "Spicy",
+            difficulty: "easy"
+        });
+
+        const res = await agent.get("/recipes");
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain('data-name="Spicy Tacos"');
+    });
+
+    test("Recipe card passes both data-id and data-name so modal can fetch videos for the correct recipe", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        await agent.post("/recipes").send({
+            name: "Lemon Chicken",
+            ingredients: JSON.stringify(["chicken", "lemon"]),
+            time: "30 mins",
+            Steps: "Marinate chicken. Bake.",
+            cost: "$14",
+            tags: "Dinner",
+            difficulty: "medium"
+        });
+
+        // Get the ID that was assigned
+        const recipes = JSON.parse(fs.readFileSync(RECIPES_FILE_PATH, "utf8"));
+        const created = recipes.find(r => r.name === "Lemon Chicken");
+        expect(created).toBeDefined();
+
+        // Verify the rendered page has a card with both the correct id and name
+        const res = await agent.get("/recipes");
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain(`data-id="${created.id}"`);
+        expect(res.text).toContain('data-name="Lemon Chicken"');
+
+        // Verify the video endpoint for that ID is reachable (name -> id -> video link)
+        const videoRes = await request(app).get(`/recipes/${created.id}/video`);
+        expect(videoRes.status).toBe(200);
+        expect(videoRes.body).toHaveProperty("videoURLs");
+    });
+
+    test("Video endpoint returns correct URLs for the right recipe by name", async () => {
+        const recipeA = {
+            id: "name-test-1",
+            username: "test@gmail.com",
+            name: "Banana Smoothie",
+            ingredients: ["banana", "milk"],
+            prepTime: "5 min",
+            prepSteps: "Blend all.",
+            cost: "$3",
+            tag: "Breakfast",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/smoothie1",
+            videoURL_2: "https://www.youtube.com/embed/smoothie2",
+            videoURL_3: null
+        };
+        const recipeB = {
+            id: "name-test-2",
+            username: "test@gmail.com",
+            name: "Grilled Salmon",
+            ingredients: ["salmon", "lemon"],
+            prepTime: "30 min",
+            prepSteps: "Grill salmon.",
+            cost: "$20",
+            tag: "Dinner",
+            difficulty: "hard",
+            videoURL_1: "https://www.youtube.com/embed/salmon1",
+            videoURL_2: "https://www.youtube.com/embed/salmon2",
+            videoURL_3: "https://www.youtube.com/embed/salmon3"
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([recipeA, recipeB], null, 2));
+
+        const resA = await request(app).get(`/recipes/${recipeA.id}/video`);
+        const resB = await request(app).get(`/recipes/${recipeB.id}/video`);
+
+        // Banana Smoothie gets its own URLs
+        expect(resA.body.videoURLs).toEqual([recipeA.videoURL_1, recipeA.videoURL_2, recipeA.videoURL_3]);
+        // Grilled Salmon gets its own URLs
+        expect(resB.body.videoURLs).toEqual([recipeB.videoURL_1, recipeB.videoURL_2, recipeB.videoURL_3]);
+    });
+
+});
+
+// ! POST — Favorite video endpoint
+describe("POST /recipes/:id/video/favorites", () => {
+
+    test("Logged-in user can favorite a video", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const testRecipe = {
+            id: "fav-test-1",
+            username: "jesttest@gmail.com",
+            name: "Fav Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/abc",
+            videoURL_2: null,
+            videoURL_3: null
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        const res = await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/abc"
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+
+        const favorites = JSON.parse(fs.readFileSync(FAVORITES_FILE_PATH, "utf8"));
+        expect(favorites.length).toBe(1);
+        expect(favorites[0].videoURL).toBe("https://www.youtube.com/embed/abc");
+    });
+
+    test("Should reject duplicate favorite", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const testRecipe = {
+            id: "fav-dup-1",
+            username: "jesttest@gmail.com",
+            name: "Dup Recipe",
+            ingredients: ["a"],
+            prepTime: "10 min",
+            prepSteps: "Steps",
+            cost: "$5",
+            tag: "lunch",
+            difficulty: "easy",
+            videoURL_1: "https://www.youtube.com/embed/dup",
+            videoURL_2: null,
+            videoURL_3: null
+        };
+        fs.writeFileSync(RECIPES_FILE_PATH, JSON.stringify([testRecipe], null, 2));
+
+        // Favorite once
+        await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/dup"
+        });
+
+        // Try to favorite again
+        const res = await agent.post(`/recipes/${testRecipe.id}/video/favorites`).send({
+            videoURL: "https://www.youtube.com/embed/dup"
+        });
+
+        expect(res.status).toBe(409);
+        expect(res.body).toHaveProperty("error", "Video already in favorites.");
+    });
+
+    test("Should reject favorite with missing videoURL", async () => {
+        const agent = request.agent(app);
+
+        await agent.post("/register").send({
+            username: "jesttest@gmail.com",
+            password: "test12345",
+            confirmPassword: "test12345"
+        });
+
+        await agent.post("/login").send({
+            username: "jesttest@gmail.com",
+            password: "test12345"
+        });
+
+        const res = await agent.post("/recipes/fav-test-1/video/favorites").send({});
+
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty("error", "Missing or invalid videoURL.");
+    });
+
+});
