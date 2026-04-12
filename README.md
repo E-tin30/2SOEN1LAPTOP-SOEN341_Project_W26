@@ -28,12 +28,12 @@ Baseline features:
 
 
 Team Members: 
-- Ethan Elkaim - Scrum Master
-- Chrisjan Alejandro - Backend Developper
-- Kepler Paul-Emile - Frontend Developper
-- Paul-Philippe Ehui - Quality Assurance
-- Marc Urbano - Tester
-- Martin Miskovski - Project Manager
+- Ethan Elkaim / E-tin30 (40311428) - Scrum Master
+- Chrisjan Alejandro / Alertify123 (40309216) - Backend Developper
+- Kepler Paul-Emile / Kepler-paule (40313171) - Frontend Developper
+- Paul-Philippe Ehui / paul-sans-I (40269547) - Quality Assurance
+- Marc Urbano / Azzossi (40305993) - Tester
+- Martin Miskovski / Mart2455 (40298894) - Project Manager
 
 Logs:
 - Backlog: https://docs.google.com/spreadsheets/d/19nyoOnyxjDlC09DkUDNmzfnAfoTsoWI66Jg28DF5yDc/edit?usp=sharing
