@@ -46,6 +46,7 @@ Logs:
    - Sprint 2: https://docs.google.com/document/d/1JwpAEbxm_GfPl8BNeWyWNqS_YO-nmvzFFreqm28Sg8g/edit?usp=sharing
    - Sprint 3: https://docs.google.com/document/d/1ZcLZZ12JUQTl2GUy1f4P6cCHF3zp5GqDriOi-14PGnM/edit?usp=sharing
    - Sprint 4: https://docs.google.com/document/d/1PjloSvWYmjKtzpUB8u42kzI2Ac2Cjox44eJ3DgYeORs/edit?usp=sharing
+- Bug Fixes: https://docs.google.com/document/d/1mGQWtxUrzmNzyyBZttBnUoJKG-IYFGPgOmWK-CVIMj8/edit?usp=sharing
 
 ## Code Conventions:
 
@@ -56,3 +57,14 @@ The MealMajor project enforces a consistent and well-defined set of coding stand
 The project follows a modular structure based on separation of concerns. 
 Routes, views (EJS), and data are organized into dedicated folders to improve readability and maintainability. 
 Static assets (CSS/JS) are stored in the public directory, while server logic is handled through Express route modules.
+
+## Static Analysis (ESLint)
+
+We use ESLint to analyze our JavaScript code.
+
+To run ESLint:
+npx eslint .
+
+This command scans the entire codebase for potential bugs and code quality issues.
+
+Configuration is defined in eslint.config.mjs, which excludes non-JavaScript files such as EJS and CSS.
